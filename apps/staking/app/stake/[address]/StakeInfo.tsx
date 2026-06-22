@@ -1,0 +1,316 @@
+import { ActionModuleRow } from '@/components/ActionModule';
+import { AddressLink } from '@/components/AddressLink';
+import { NodeContributorList } from '@/components/NodeCard';
+import { ReservedStakesTable } from '@/components/ReservedStakesTable';
+import type { ReservedContributorStruct } from '@/hooks/useCreateOpenNodeRegistration';
+import { SESSION_NODE_FULL_STAKE_AMOUNT } from '@/lib/constants';
+import { formatPercentage } from '@/lib/locale-client';
+import { getContributionRangeFromContributorsIgnoreAddress, getTotalStaked } from '@/lib/maths';
+import { useUser } from '@/providers/user-provider';
+import { ButtonDataTestId } from '@/testing/data-test-ids';
+import { TOKEN } from '@session/contracts';
+import { formatSENTBigInt } from '@session/contracts/hooks/Token';
+import { CONTRIBUTION_CONTRACT_STATUS } from '@session/staking-api-js/enums';
+import type { ContributionContract } from '@session/staking-api-js/schema';
+import { EditButton } from '@session/ui/components/EditButton';
+import { PubKey } from '@session/ui/components/PubKey';
+import { Tooltip } from '@session/ui/ui/tooltip';
+import type { EthereumAddress } from '@session/util-crypto/keys';
+import { bigIntMax } from '@session/util-crypto/maths';
+import { areEthereumAddressesEqual } from '@session/util-crypto/string';
+import { PubkeyWithEns } from '@session/wallet/components/PubkeyWithEns';
+import { useTranslations } from 'next-intl';
+import { type ReactNode, forwardRef, useMemo } from 'react';
+import { isAddress } from 'viem';
+
+export function getReservedSlots(contract: ContributionContract): Array<ReservedContributorStruct> {
+  return contract.contributors
+    .filter(({ address, reserved }) => reserved && isAddress(address))
+    .map(({ address, reserved }) => {
+      return {
+        addr: address,
+        amount: reserved,
+      };
+    })
+    .sort((a, b) => {
+      const isAOperator = areEthereumAddressesEqual(a.addr, contract.operator_address);
+      const isBOperator = areEthereumAddressesEqual(b.addr, contract.operator_address);
+      return isAOperator ? -1 : isBOperator ? 1 : 0;
+    });
+}
+
+export function getContributedContributor(
+  contract: ContributionContract,
+  address?: EthereumAddress
+) {
+  if (!address) return undefined;
+  return contract.contributors.find(
+    ({ address: contributorAddress, amount }) =>
+      amount > 0n && areEthereumAddressesEqual(contributorAddress, address)
+  );
+}
+
+export function getReservedContributor(contract: ContributionContract, address?: EthereumAddress) {
+  if (!address) return undefined;
+  return contract.contributors.find(
+    ({ address: contributorAddress, reserved }) =>
+      reserved > 0n && areEthereumAddressesEqual(contributorAddress, address)
+  );
+}
+
+export function getReservedContributorNonContributed(
+  contract: ContributionContract,
+  address?: EthereumAddress
+) {
+  if (!address) return undefined;
+  return contract.contributors.find(
+    ({ address: contributorAddress, reserved, amount }) =>
+      reserved > 0n && amount === 0n && areEthereumAddressesEqual(contributorAddress, address)
+  );
+}
+
+export const getContributionRangeForWallet = (
+  contract: ContributionContract,
+  address?: EthereumAddress
+) => {
+  const reservedContributor = getReservedContributor(contract, address);
+
+  const { minStake: minStakeCalculated, maxStake } =
+    getContributionRangeFromContributorsIgnoreAddress(contract.contributors, address);
+
+  const minStake = bigIntMax(reservedContributor?.reserved, minStakeCalculated);
+
+  return {
+    minStake,
+    maxStake,
+  };
+};
+
+type EditableField = 'stakeAmount' | 'rewardsAddress' | 'operatorFee' | 'autoActivate';
+
+type FieldProps = {
+  editOnClick?: () => void;
+  disabled?: boolean;
+  disabledTooltipContent?: string;
+};
+
+export type StakeInfoProps = {
+  contract: ContributionContract;
+  totalStaked?: bigint;
+  isSubmitting: boolean;
+  editableFields?: Partial<Record<EditableField, FieldProps>>;
+  children?: ReactNode;
+};
+
+export const StakeInfo = forwardRef<HTMLDivElement, StakeInfoProps>(
+  ({ contract, totalStaked, editableFields, isSubmitting, children, ...props }, ref) => {
+    const { activeAddress } = useUser();
+
+    const dictionaryRegistrationShared = useTranslations('actionModules.registration.shared');
+    const dictShared = useTranslations('actionModules.shared');
+    const sessionNodeDictionary = useTranslations('sessionNodes.general');
+    const actionModuleDictionary = useTranslations('actionModules');
+    const dictGeneral = useTranslations('general');
+
+    const isOperator = useMemo(
+      () => areEthereumAddressesEqual(contract.operator_address, activeAddress),
+      [contract.operator_address, activeAddress]
+    );
+    const contributor = useMemo(
+      () =>
+        contract.contributors.find(
+          ({ address: contributorAddress, amount }) =>
+            areEthereumAddressesEqual(contributorAddress, activeAddress) && amount > 0n
+        ),
+      [contract.contributors, activeAddress]
+    );
+
+    const haveOtherContributorsContributed = contract.contributors.length > 1;
+    const isFinalized = contract.status === CONTRIBUTION_CONTRACT_STATUS.Finalized;
+
+    const reservedContributors = useMemo(() => getReservedSlots(contract), [contract]);
+    const hasReservedContributors = reservedContributors.length > 1;
+
+    return (
+      <div className="flex w-full flex-col gap-3.5" {...props} ref={ref}>
+        <ActionModuleRow
+          label={actionModuleDictionary('node.contributors')}
+          tooltip={actionModuleDictionary('node.contributorsTooltip')}
+        >
+          <span className="flex flex-row flex-wrap items-center gap-2 align-middle">
+            <NodeContributorList
+              contributors={contract.contributors}
+              operatorAddress={contract.operator_address}
+              userAddress={activeAddress}
+              forceExpand
+              showEmptySlots
+            />
+          </span>
+        </ActionModuleRow>
+        {contributor ? (
+          <ActionModuleRow
+            label={dictShared('yourStake')}
+            tooltip={dictShared('yourStakeDescription')}
+          >
+            {formatSENTBigInt(contributor.amount)}
+            <EditButton
+              aria-label={dictShared('buttonEditField.aria', { field: dictShared('yourStake') })}
+              data-testid={ButtonDataTestId.Stake_Edit_Stake_Amount}
+              disabled={
+                isSubmitting ||
+                isFinalized ||
+                editableFields?.stakeAmount?.disabled ||
+                !editableFields?.stakeAmount?.editOnClick
+              }
+              onClick={editableFields?.stakeAmount?.editOnClick}
+            />
+          </ActionModuleRow>
+        ) : null}
+        <ActionModuleRow
+          label={dictShared('totalStaked')}
+          tooltip={dictShared('totalStakedDescription')}
+        >
+          {`${formatSENTBigInt(totalStaked ?? getTotalStaked(contract.contributors), TOKEN.DECIMALS, true)} / ${formatSENTBigInt(SESSION_NODE_FULL_STAKE_AMOUNT)}`}
+        </ActionModuleRow>
+        <ActionModuleRow
+          label={sessionNodeDictionary('publicKeyShort')}
+          tooltip={sessionNodeDictionary('publicKeyDescription')}
+        >
+          <PubKey
+            pubKey={contract.service_node_pubkey}
+            force="collapse"
+            alwaysShowCopyButton
+            leadingChars={8}
+            trailingChars={4}
+          />
+        </ActionModuleRow>
+        <ActionModuleRow
+          label={sessionNodeDictionary('blsKey')}
+          tooltip={sessionNodeDictionary('blsKeyDescription')}
+        >
+          <PubKey
+            pubKey={contract.pubkey_bls ?? dictGeneral('notFound')}
+            force="collapse"
+            alwaysShowCopyButton
+            leadingChars={8}
+            trailingChars={4}
+          />
+        </ActionModuleRow>
+        <ActionModuleRow
+          label={dictShared('autoActivate')}
+          tooltip={dictShared('autoActivateDescription')}
+        >
+          <span className="font-semibold">
+            {dictShared(!contract.manual_finalize ? 'enabled' : 'disabled')}
+          </span>
+          {isOperator ? (
+            <Tooltip tooltipContent="Editing this field is not yet supported">
+              <EditButton
+                aria-label={dictShared('buttonEditField.aria', {
+                  field: dictShared('autoActivate'),
+                })}
+                data-testid={ButtonDataTestId.Stake_Edit_Auto_Activate}
+                disabled={
+                  // TODO: Implement auto activation field changing
+                  true ||
+                  isSubmitting ||
+                  isFinalized ||
+                  editableFields?.autoActivate?.disabled ||
+                  !editableFields?.autoActivate?.editOnClick
+                }
+                onClick={editableFields?.autoActivate?.editOnClick}
+              />
+            </Tooltip>
+          ) : null}
+        </ActionModuleRow>
+        <ActionModuleRow
+          label={dictShared('operatorAddress')}
+          tooltip={dictShared('operatorAddressDescription')}
+        >
+          <PubkeyWithEns
+            pubKey={contract.operator_address}
+            force="collapse"
+            alwaysShowCopyButton
+            leadingChars={8}
+            trailingChars={4}
+            className="font-semibold"
+          />
+          <AddressLink address={contract.operator_address} iconOnly />
+        </ActionModuleRow>
+        <ActionModuleRow
+          label={dictShared('operatorFee')}
+          tooltip={dictShared('operatorFeeDescription')}
+        >
+          <span className="font-semibold">
+            {contract.fee !== null
+              ? formatPercentage(contract.fee / 10000)
+              : dictGeneral('notFound')}
+          </span>
+          {isOperator ? (
+            <Tooltip tooltipContent="Editing this field is not yet supported">
+              <EditButton
+                disabled={
+                  // TODO: Implement operator fee field changing
+                  true ||
+                  haveOtherContributorsContributed ||
+                  isSubmitting ||
+                  isFinalized ||
+                  editableFields?.operatorFee?.disabled ||
+                  !editableFields?.operatorFee?.editOnClick
+                }
+                onClick={editableFields?.operatorFee?.editOnClick}
+                aria-label={dictShared('buttonEditField.aria', {
+                  field: dictShared('operatorFee'),
+                })}
+                data-testid={ButtonDataTestId.Stake_Edit_Operator_Fee}
+              />
+            </Tooltip>
+          ) : null}
+        </ActionModuleRow>
+        {contributor ? (
+          <ActionModuleRow
+            label={dictShared('rewardsAddress')}
+            tooltip={dictShared('rewardsAddressDescription')}
+          >
+            <PubkeyWithEns
+              pubKey={contributor.beneficiary_address ?? contributor.address ?? dictGeneral('none')}
+              force="collapse"
+              alwaysShowCopyButton
+              leadingChars={8}
+              trailingChars={4}
+              className="font-semibold"
+            />
+            <EditButton
+              disabled={
+                isSubmitting ||
+                isFinalized ||
+                editableFields?.rewardsAddress?.disabled ||
+                !editableFields?.rewardsAddress?.editOnClick
+              }
+              onClick={editableFields?.rewardsAddress?.editOnClick}
+              aria-label={dictionaryRegistrationShared('buttonEditField.aria')}
+              data-testid={ButtonDataTestId.Stake_Edit_Rewards_Address}
+            />
+          </ActionModuleRow>
+        ) : null}
+        <ActionModuleRow
+          label={dictShared('reserveSlots')}
+          tooltip={dictShared('reserveSlotsDescription')}
+          parentClassName={
+            hasReservedContributors ? 'flex flex-col gap-2 justify-start items-start w-full' : ''
+          }
+          containerClassName={hasReservedContributors ? 'w-full' : ''}
+          last={hasReservedContributors}
+        >
+          {/* reservedContributors length 1 means only the operator, so we treat it as no reserved slots*/}
+          {hasReservedContributors ? (
+            <ReservedStakesTable reservedStakes={reservedContributors} className="my-2 w-full" />
+          ) : (
+            <span className="font-semibold">{dictGeneral('none')}</span>
+          )}
+        </ActionModuleRow>
+        {children}
+      </div>
+    );
+  }
+);

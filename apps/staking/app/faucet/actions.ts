@@ -1,0 +1,514 @@
+'use server';
+
+import { COMMUNITY_DATE, FAUCET, FAUCET_ERROR, TICKER } from '@/lib/constants';
+import { TOKEN, addresses } from '@session/contracts';
+import { SENTAbi } from '@session/contracts/abis';
+import { formatSENTBigInt } from '@session/contracts/hooks/Token';
+import { ETH } from '@session/wallet/lib/eth';
+import { createPublicWalletClient, createServerWallet } from '@session/wallet/lib/server-wallet';
+import type * as BetterSql3 from 'better-sqlite3-multiple-ciphers';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { type Address, type Chain, formatEther, isAddress as isAddressViem } from 'viem';
+import { arbitrumSepolia } from 'viem/chains';
+import type { FaucetFormSchema } from './AuthModule';
+import {
+  TABLE,
+  type TransactionHistory,
+  codeExists,
+  getCodeUseTransactionHistory,
+  getReferralCodeDetails,
+  getTransactionHistory,
+  hasRecentTransaction,
+  idIsInTable,
+  openDatabase,
+  setupDatababse,
+} from './utils';
+
+class FaucetError extends Error {
+  faucetError: FAUCET_ERROR;
+  history?: Array<TransactionHistory>;
+
+  constructor(faucetError: FAUCET_ERROR, message: string, history?: Array<TransactionHistory>) {
+    super(message);
+    this.name = 'FaucetError';
+    this.faucetError = faucetError;
+    this.history = history;
+  }
+}
+
+class FaucetResult {
+  hash?: Address;
+  tokenAmount?: string;
+  ethTopupHash?: Address;
+  ethTopupAmount?: string;
+  error?: string;
+  faucetError?: FAUCET_ERROR;
+  history?: Array<TransactionHistory>;
+
+  constructor({
+    hash,
+    tokenAmount,
+    ethTopupHash,
+    ethTopupAmount,
+    error,
+    faucetError,
+    history,
+  }: {
+    hash?: Address;
+    tokenAmount?: string;
+    ethTopupHash?: Address;
+    ethTopupAmount?: string;
+    error?: string;
+    faucetError?: FAUCET_ERROR;
+    history?: Array<TransactionHistory>;
+  }) {
+    this.hash = hash;
+    this.tokenAmount = tokenAmount;
+    this.ethTopupHash = ethTopupHash;
+    this.ethTopupAmount = ethTopupAmount;
+    this.error = error;
+    this.faucetError = faucetError;
+    this.history = history;
+  }
+}
+
+const faucetTokenWarning = BigInt(20000 * Math.pow(10, TOKEN.DECIMALS));
+const faucetGasWarning = BigInt(0.01 * Math.pow(10, ETH.DECIMALS));
+
+const minTargetEthBalance = BigInt(FAUCET.MIN_ETH_BALANCE * Math.pow(10, ETH.DECIMALS));
+
+const hoursBetweenTransactions = Number.parseInt(process.env.FAUCET_HOURS_BETWEEN_USES ?? '0');
+
+const isAddress = (address?: string): address is Address => {
+  return !!address && isAddressViem(address, { strict: false });
+};
+
+const isPrivateKey = (key?: string): key is Address => {
+  return !!key && key.startsWith('0x');
+};
+
+export async function getEthBalance({ address, chain }: { address?: Address; chain: Chain }) {
+  if (!isAddress(address)) {
+    throw new Error('Address is required');
+  }
+
+  const client = createPublicWalletClient(chain);
+
+  return client.getBalance({
+    address,
+  });
+}
+
+export async function getSessionTokenBalance({
+  address,
+  chain,
+}: {
+  address?: Address;
+  chain: Chain;
+}) {
+  if (!isAddress(address)) {
+    throw new Error('Address is required');
+  }
+
+  const client = createPublicWalletClient(chain);
+
+  return client.readContract({
+    address: addresses.Token[arbitrumSepolia.id],
+    abi: SENTAbi,
+    functionName: 'balanceOf',
+    args: [address],
+  });
+}
+
+setupDatababse();
+
+/**
+ * NOTE: discord and telegram functionality is disabled, the code will stay here and be set
+ *   to null in case it's needed in the future
+ */
+export async function transferTestTokens({
+  walletAddress: targetAddress,
+  // discordId,
+  // telegramId,
+  code,
+}: FaucetFormSchema) {
+  if (process.env.NEXT_PUBLIC_ENABLE_FAUCET?.toLowerCase() !== 'true') {
+    return;
+  }
+
+  const dictionary = await getTranslations('faucet.form.error');
+  const locale = await getLocale();
+
+  const discordId = null;
+  const telegramId = null;
+
+  let result: FaucetResult = new FaucetResult({});
+  let db: BetterSql3.Database | undefined;
+  let faucetTokenDrip = BigInt(FAUCET.DRIP * Math.pow(10, TOKEN.DECIMALS));
+
+  try {
+    if (!isAddress(targetAddress)) {
+      throw new FaucetError(
+        FAUCET_ERROR.INVALID_ADDRESS,
+        dictionary(FAUCET_ERROR.INVALID_ADDRESS, { example: '0x...' })
+      );
+    }
+
+    const chain = arbitrumSepolia;
+
+    const { faucetAddress, faucetWallet } = await connectFaucetWallet();
+
+    const [targetEthBalance, faucetEthBalance, faucetTokenBalance] = await Promise.all([
+      getEthBalance({ address: targetAddress, chain }),
+      getEthBalance({ address: faucetAddress, chain }),
+      getSessionTokenBalance({ address: faucetAddress, chain }),
+    ]);
+
+    /**
+     * If the faucet wallet has less than the required token balance, the transaction will fail.
+     */
+    if (faucetTokenBalance < faucetTokenDrip) {
+      throw new FaucetError(
+        FAUCET_ERROR.FAUCET_OUT_OF_TOKENS,
+        dictionary('faucetOutOfTokensTextOnly')
+      );
+    }
+
+    /**
+     * If the faucet wallet has less than the warning ETH balance, a warning will be logged.
+     */
+    if (faucetEthBalance < faucetGasWarning) {
+      console.warn(
+        `Faucet wallet ${TICKER.ETH} balance (${formatEther(faucetEthBalance)} ${TICKER.ETH}) is below the warning threshold (${formatEther(faucetGasWarning)})`
+      );
+    }
+
+    /**
+     * If the faucet wallet has less than the warning token balance, a warning will be logged.
+     */
+    if (faucetTokenBalance < faucetTokenWarning) {
+      console.warn(
+        `Faucet wallet ${TOKEN.SYMBOL} balance (${formatSENTBigInt(faucetTokenBalance)}) is below the warning threshold (${formatSENTBigInt(faucetTokenWarning)})`
+      );
+    }
+
+    db = openDatabase();
+
+    let usedOperatorAddress = false;
+    let usedWalletListAddress = false;
+    let usedCode = false;
+
+    /**
+     * If the user provided a referral code, check only the referral code to determine eligibility
+     */
+    if (code) {
+      if (!codeExists({ db, code })) {
+        throw new FaucetError(
+          FAUCET_ERROR.INVALID_REFERRAL_CODE,
+          dictionary(FAUCET_ERROR.INVALID_REFERRAL_CODE)
+        );
+      }
+
+      const details = getReferralCodeDetails({ db, code });
+
+      if (!details) {
+        throw new FaucetError(
+          FAUCET_ERROR.INVALID_REFERRAL_CODE,
+          dictionary(FAUCET_ERROR.INVALID_REFERRAL_CODE)
+        );
+      }
+
+      const { wallet, maxuses: maxUses, drip: codeDrip } = details;
+
+      if (wallet === targetAddress) {
+        throw new FaucetError(
+          FAUCET_ERROR.REFERRAL_CODE_CANT_BE_USED_BY_CREATOR,
+          dictionary(FAUCET_ERROR.REFERRAL_CODE_CANT_BE_USED_BY_CREATOR)
+        );
+      }
+
+      const codeTransactionHistory = getCodeUseTransactionHistory({ db, code });
+
+      if (codeTransactionHistory.length >= (maxUses ?? 1)) {
+        throw new FaucetError(
+          FAUCET_ERROR.REFERRAL_CODE_OUT_OF_USES,
+          dictionary(FAUCET_ERROR.REFERRAL_CODE_OUT_OF_USES)
+        );
+      }
+
+      if (codeTransactionHistory.some((transaction) => transaction.target === targetAddress)) {
+        throw new FaucetError(
+          FAUCET_ERROR.REFERRAL_CODE_ALREADY_USED,
+          dictionary(FAUCET_ERROR.REFERRAL_CODE_ALREADY_USED)
+        );
+      }
+
+      if (codeDrip) {
+        faucetTokenDrip = BigInt(codeDrip);
+      }
+
+      usedCode = true;
+    } else if (!discordId && !telegramId) {
+      /**
+       * If the user has not provided a Discord or Telegram ID, they must be an operator.
+       */
+      const idIsOxenOperator = idIsInTable({
+        db,
+        source: TABLE.OPERATOR,
+        id: targetAddress.toUpperCase(),
+      });
+
+      const idIsInWalletList = idIsInTable({
+        db,
+        source: TABLE.WALLET,
+        id: targetAddress.toUpperCase(),
+      });
+
+      if (!idIsOxenOperator && !idIsInWalletList) {
+        throw new FaucetError(
+          FAUCET_ERROR.INVALID_OXEN_ADDRESS,
+          dictionary(FAUCET_ERROR.INVALID_OXEN_ADDRESS, {
+            oxenRegistrationDate: new Intl.DateTimeFormat(locale, {
+              dateStyle: 'long',
+            }).format(new Date(COMMUNITY_DATE.OXEN_SERVICE_NODE_BONUS_PROGRAM)),
+          })
+        );
+      }
+
+      if (
+        (idIsOxenOperator &&
+          hasRecentTransaction({
+            db,
+            source: TABLE.OPERATOR,
+            id: targetAddress,
+            hoursBetweenTransactions,
+          })) ||
+        (idIsInWalletList &&
+          hasRecentTransaction({
+            db,
+            source: TABLE.WALLET,
+            id: targetAddress,
+            hoursBetweenTransactions,
+          }))
+      ) {
+        const transactionHistory = getTransactionHistory({ db, address: targetAddress });
+        throw new FaucetError(
+          FAUCET_ERROR.ALREADY_USED,
+          dictionary(FAUCET_ERROR.ALREADY_USED),
+          transactionHistory
+        );
+      }
+
+      if (idIsOxenOperator) usedOperatorAddress = true;
+      else if (idIsInWalletList) usedWalletListAddress = true;
+
+      /**
+       * If the user has provided a Discord ID they must be in the approved list of Discord IDs and not have used the faucet recently.
+       */
+    } else if (discordId) {
+      if (
+        !idIsInTable({
+          db,
+          source: TABLE.DISCORD,
+          id: discordId,
+        })
+      ) {
+        throw new FaucetError(
+          FAUCET_ERROR.INVALID_SERVICE,
+          dictionary(FAUCET_ERROR.INVALID_SERVICE, {
+            service: 'Discord',
+            snapshotDate: new Intl.DateTimeFormat(locale, {
+              dateStyle: 'long',
+            }).format(new Date(COMMUNITY_DATE.SESSION_TOKEN_COMMUNITY_SNAPSHOT)),
+          })
+        );
+      }
+
+      if (
+        hasRecentTransaction({ db, source: TABLE.DISCORD, id: discordId, hoursBetweenTransactions })
+      ) {
+        throw new FaucetError(
+          FAUCET_ERROR.ALREADY_USED_SERVICE,
+          dictionary(FAUCET_ERROR.ALREADY_USED_SERVICE, {
+            service: 'Discord',
+          })
+        );
+      }
+
+      /**
+       * If the user has provided a Telegram ID they must be in the approved list of Telegram IDs and not have used the faucet recently.
+       */
+    } else if (telegramId) {
+      if (
+        !idIsInTable({
+          db,
+          source: TABLE.TELEGRAM,
+          id: telegramId,
+        })
+      ) {
+        throw new FaucetError(
+          FAUCET_ERROR.INVALID_SERVICE,
+          dictionary(FAUCET_ERROR.INVALID_SERVICE, {
+            service: 'Telegram',
+            snapshotDate: new Intl.DateTimeFormat(locale, {
+              dateStyle: 'long',
+            }).format(new Date(COMMUNITY_DATE.SESSION_TOKEN_COMMUNITY_SNAPSHOT)),
+          })
+        );
+      }
+
+      if (
+        hasRecentTransaction({
+          db,
+          source: TABLE.TELEGRAM,
+          id: telegramId,
+          hoursBetweenTransactions,
+        })
+      ) {
+        throw new FaucetError(
+          FAUCET_ERROR.ALREADY_USED_SERVICE,
+          dictionary(FAUCET_ERROR.ALREADY_USED_SERVICE, {
+            service: 'Telegram',
+          })
+        );
+      }
+    }
+
+    // TODO: extract the simulate -> write logic into a separate reusable library
+    const sessionTokenTxHash = await faucetWallet.writeContract({
+      address: addresses.Token[arbitrumSepolia.id],
+      abi: SENTAbi,
+      functionName: 'transfer',
+      args: [targetAddress, faucetTokenDrip],
+    });
+
+    /**
+     * If the target wallet has less than the minimum target ETH balance, the wallet will be topped up with test ETH.
+     */
+    let ethTxHash: Address | undefined;
+    const ethTopupValue = minTargetEthBalance - targetEthBalance;
+    // TODO: fix this
+    // if (ethTopupValue > 0) {
+    //   const request = await faucetWallet.prepareTransactionRequest({
+    //     to: targetAddress,
+    //     value: ethTopupValue,
+    //     chain: chains[chain],
+    //   });
+    //
+    //   const serializedTransaction = await faucetWallet.signTransaction(request);
+    //   ethTxHash = await faucetWallet.sendRawTransaction({ serializedTransaction });
+    // }
+
+    const timestamp = Date.now();
+    const writeTransactionResult = db
+      .prepare(
+        `INSERT INTO ${TABLE.TRANSACTIONS} (hash, target, amount, timestamp, discord, telegram, operator, wallet, code, ethhash, ethamount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .run(
+        sessionTokenTxHash,
+        targetAddress,
+        faucetTokenDrip.toString(),
+        timestamp,
+        discordId,
+        telegramId,
+        usedOperatorAddress ? targetAddress : undefined,
+        usedWalletListAddress ? targetAddress : undefined,
+        usedCode ? code : undefined,
+        ethTxHash ?? null,
+        ethTopupValue.toString()
+      );
+
+    if (writeTransactionResult.changes !== 1) {
+      console.warn('Failed to write transaction to database');
+    }
+
+    const transactionHistory = getTransactionHistory({ db, address: targetAddress });
+
+    result = new FaucetResult({
+      hash: sessionTokenTxHash,
+      tokenAmount: faucetTokenDrip.toString(),
+      ethTopupHash: ethTxHash,
+      ethTopupAmount: ethTopupValue.toString(),
+      history: transactionHistory,
+    });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof FaucetError) {
+      result = new FaucetResult({
+        error: error.message,
+        faucetError: error.faucetError,
+        history: error.history,
+      });
+    } else if (error instanceof Error) {
+      result = new FaucetResult({ error: error.message });
+    } else {
+      result = new FaucetResult({ error: 'An unknown error occurred' });
+    }
+  } finally {
+    if (db) {
+      db.close();
+    }
+
+    // eslint-disable-next-line no-unsafe-finally -- this is the only return so its fine
+    return {
+      hash: result.hash,
+      tokenAmount: result.tokenAmount,
+      ethTopupHash: result.ethTopupHash,
+      ethTopupAmount: result.ethTopupAmount,
+      error: result.error,
+      faucetError: result.faucetError,
+      history: result.history,
+    };
+  }
+}
+
+async function connectFaucetWallet() {
+  const privateKey = process.env.FAUCET_WALLET_PRIVATE_KEY;
+  if (!privateKey) {
+    throw new Error('Faucet wallet private key is required');
+  }
+
+  if (!isPrivateKey(privateKey)) {
+    throw new Error('Invalid faucet wallet private key');
+  }
+
+  const faucetWallet = createServerWallet(privateKey, arbitrumSepolia);
+  const faucetAddress = (await faucetWallet.getAddresses())[0];
+
+  if (!isAddress(faucetAddress)) {
+    throw new Error('Faucet wallet address is required');
+  }
+  return { faucetAddress, faucetWallet };
+}
+
+export async function getReferralCodeInfo({ code }: { code: string }) {
+  let db: BetterSql3.Database | undefined;
+  try {
+    const db = openDatabase();
+    const details = getReferralCodeDetails({ db, code });
+
+    if (!details) {
+      return null;
+    }
+
+    const { maxuses: maxUses, drip } = details;
+
+    const codeTransactionHistory = getCodeUseTransactionHistory({ db, code });
+
+    const outOfUses = codeTransactionHistory.length >= (maxUses ?? 1);
+
+    return {
+      maxUses,
+      uses: codeTransactionHistory.length,
+      drip,
+      outOfUses,
+    };
+  } catch (error) {
+    console.error('Error getting referral code info:', error);
+    return null;
+  } finally {
+    if (db) {
+      db.close();
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@session/contracts",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./index.ts",
+    "./abis": "./abis/index.ts",
+    "./chains": "./chains.ts",
+    "./hooks/*": "./hooks/*.tsx"
+  },
+  "scripts": {
+    "generate": "tsx ./scripts/generate-abis.ts",
+    "generate:debug": "tsx ./scripts/generate-abis.ts --debug",
+    "check-types": "tsc --noEmit",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write",
+    "format": "biome format --write",
+    "check": "biome check",
+    "check:fix": "biome check --write",
+    "tsc": "pnpm generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@session/util-js": "workspace:*",
+    "@session/util-crypto": "workspace:*",
+    "@tanstack/react-query": "5.61.5",
+    "@session/wallet": "workspace:*",
+    "viem": "2.21.54",
+    "wagmi": "2.13.5"
+  },
+  "devDependencies": {
+    "@session/typescript-config": "workspace:*",
+    "@session/testing": "workspace:*",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "react": "19.0.0",
+    "tsx": "^4.10.5",
+    "yarn": "^1.22.22"
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10",
+    "yarn": "use pnpm",
+    "npm": "use pnpm"
+  }
+}

@@ -1,0 +1,246 @@
+'use client';
+
+import { PubKey } from '@session/ui/components/PubKey';
+import { ArrowDownIcon } from '@session/ui/icons/ArrowDownIcon';
+import { cn } from '@session/ui/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@session/ui/ui/avatar';
+import { Button, type ButtonProps } from '@session/ui/ui/button';
+import { Input } from '@session/ui/ui/input';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetOverlay,
+  SheetTitle,
+} from '@session/ui/ui/sheet';
+import { Switch } from '@session/ui/ui/switch';
+import { Tooltip } from '@session/ui/ui/tooltip';
+import {
+  QueryProvider,
+  WalletProvider,
+  type WalletProviderProps,
+  createWeb3WalletConfig,
+} from '@web3sheet/core';
+import type { DynamicTokenRowProps } from '@web3sheet/core/hooks/useWallet';
+import type { Web3WalletComponentLibrary } from '@web3sheet/ui/lib/library';
+import { type ReactNode, forwardRef, useState } from 'react';
+import { http } from 'viem';
+import { arbitrum, arbitrumSepolia, mainnet, sepolia } from 'viem/chains';
+
+const TabFullWidthButton = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, children, ...props }, ref) => (
+    <Button {...props} className={cn('w-full', className)} variant="outline" ref={ref}>
+      {children}
+    </Button>
+  )
+);
+
+const ButtonWithIconSrc = forwardRef<HTMLButtonElement, ButtonProps & { src: string }>(
+  ({ src, children, className, ...props }, ref) => (
+    <TabFullWidthButton {...props} ref={ref} className={cn('relative', className)}>
+      <div className="absolute h-6 w-6" style={{ left: '6px' }}>
+        <Avatar className="h-6 w-6">
+          <AvatarImage src={src} />
+          <AvatarFallback className="bg-black" />
+        </Avatar>
+      </div>
+      {children}
+    </TabFullWidthButton>
+  )
+);
+
+const ButtonWithIconReactNode = forwardRef<HTMLButtonElement, ButtonProps & { icon: ReactNode }>(
+  ({ icon, children, className, ...props }, ref) => (
+    <TabFullWidthButton {...props} ref={ref} className={cn('relative', className)}>
+      <div className="absolute h-6 w-6" style={{ left: '6px' }}>
+        {icon}
+      </div>
+      {children}
+    </TabFullWidthButton>
+  )
+);
+
+const BackButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => (
+  <Button {...props} ref={ref} variant="ghost" size="icon">
+    <ArrowDownIcon className="mt-0.5 h-3 w-3 rotate-90 fill-session-text" />
+  </Button>
+));
+
+const componentLibrary: Web3WalletComponentLibrary = {
+  // @ts-expect-error -- TODO: deal with data test ids
+  TabFullWidthButton,
+  // @ts-expect-error -- TODO: deal with data test ids
+  ButtonWithIconReactNode,
+  // @ts-expect-error -- TODO: deal with data test ids
+  ButtonWithIconSrc,
+  // @ts-expect-error -- TODO: deal with data test ids
+  BackButton,
+  Switch,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetOverlay,
+  Input,
+  PubKey,
+  Tooltip,
+};
+
+function TokenActionButton({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer">
+      <Button
+        size="xs"
+        className="h-4 px-1.5"
+        variant="outline"
+        rounded="md"
+        data-testid="button:token-action"
+      >
+        {children}
+      </Button>
+    </a>
+  );
+}
+
+const sessionTokenOptions = {
+  name: 'XPNT',
+  iconSrc: '/images/xpoint-logo-256.png',
+  tokenAddress: '0x10Ea9E5303670331Bdddfa66A4cEA47dae4fcF3b',
+  showAddTokenButton: true,
+} as const;
+
+const xpntTokenOptions = {
+  name: 'XPNT',
+  iconSrc: '/images/xpoint-logo-256.png',
+  tokenAddress: '0x992E6EA54d74e79cd2CEC8D9fBD101a9a105ace5',
+  showAddTokenButton: true,
+} as const;
+
+const tokenDetailsArbitrum: DynamicTokenRowProps = {
+  ...sessionTokenOptions,
+  network: {
+    id: arbitrum.id,
+    name: 'Arbitrum One',
+    iconSrc: '/images/arbitrum.svg',
+  },
+  children: <TokenActionButton href="/stake">Stake</TokenActionButton>,
+};
+
+const tokenDetailsEthereum: DynamicTokenRowProps = {
+  ...sessionTokenOptions,
+  network: {
+    id: mainnet.id,
+    name: 'Ethereum',
+    iconSrc: '/images/eth.svg',
+    className: 'bg-session-white',
+  },
+  children: <TokenActionButton href="/bridge/arbitrum">Bridge</TokenActionButton>,
+};
+
+const tokenDetailsArbitrumSepolia: DynamicTokenRowProps = {
+  ...xpntTokenOptions,
+  network: {
+    id: arbitrumSepolia.id,
+    name: 'Arbitrum Sepolia',
+    iconSrc: '/images/arbitrum.svg',
+  },
+  children: <TokenActionButton href="/stake">Stake</TokenActionButton>,
+};
+
+const tokenDetailsWOXENEthereum: DynamicTokenRowProps = {
+  tokenAddress: '0xd1e2d5085b39B80C9948AeB1b9aA83AF6756bcc5',
+  name: 'Wrapped OXEN',
+  iconSrc: '/images/woxen.svg',
+  network: {
+    id: mainnet.id,
+    name: 'Ethereum',
+    iconSrc: '/images/eth.svg',
+    className: 'bg-session-white',
+  },
+  hideIfZero: true,
+  children: <TokenActionButton href="https://claim.oxen.io">Migrate</TokenActionButton>,
+};
+
+export type ConfigParams = {
+  projectId: string;
+  testnet?: boolean;
+  arbRpcUrl?: string;
+  arbRpcBatchCalls?: boolean;
+  ethRpcUrl?: string;
+  ethRpcBatchCalls?: boolean;
+};
+
+const batchConfig = { batch: { batchSize: 100, wait: 500 } } as const;
+
+const createConfig = ({
+  ethRpcUrl,
+  arbRpcUrl,
+  ethRpcBatchCalls,
+  arbRpcBatchCalls,
+  testnet,
+  projectId,
+}: ConfigParams) => {
+  const arb = testnet ? arbitrumSepolia : arbitrum;
+  const eth = testnet ? sepolia : mainnet;
+
+  const transports = {
+    [arb.id]: http(
+      arbRpcUrl ?? arb.rpcUrls.default.http[0],
+      arbRpcBatchCalls ? batchConfig : undefined
+    ),
+    [eth.id]: http(
+      ethRpcUrl ?? eth.rpcUrls.default.http[0],
+      ethRpcBatchCalls ? batchConfig : undefined
+    ),
+  };
+
+  const config = createWeb3WalletConfig({
+    wagmiConfig: {
+      chains: [arb, eth],
+      transports,
+    },
+    walletConnectConfig: {
+      projectId,
+    },
+    metaMaskConfig: {
+      dappMetadata: {
+        name: 'XPoint Staking Portal',
+        url: 'https://xpoint.network',
+      },
+    },
+  });
+
+  config.componentLibrary = componentLibrary;
+
+  config.tokens = testnet
+    ? [tokenDetailsArbitrumSepolia]
+    : [tokenDetailsArbitrum, tokenDetailsEthereum, tokenDetailsWOXENEthereum];
+
+  return config;
+};
+
+export type Web3WalletProviderProps = Omit<WalletProviderProps, 'config'> & {
+  walletSheetConfig: ConfigParams;
+  children: ReactNode;
+};
+
+export function Web3WalletProvider({
+  children,
+  wagmiCookie,
+  settingsPreferenceStorage,
+  walletSheetConfig,
+}: Web3WalletProviderProps) {
+  const [config] = useState(createConfig(walletSheetConfig));
+
+  return (
+    <WalletProvider
+      settingsPreferenceStorage={settingsPreferenceStorage}
+      config={config}
+      wagmiCookie={wagmiCookie}
+    >
+      <QueryProvider>{children}</QueryProvider>
+    </WalletProvider>
+  );
+}

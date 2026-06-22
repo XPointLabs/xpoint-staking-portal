@@ -1,0 +1,251 @@
+import { ErrorMessage } from '@/components/ErrorMessage';
+import NodeActionModuleInfo from '@/components/StakedNode/NodeActionModuleInfo';
+import { NodeExitButton } from '@/components/StakedNode/NodeExitButton';
+import { WalletInteractionButtonWithLocales } from '@/components/WalletInteractionButtonWithLocales';
+import useExitNode from '@/hooks/useExitNode';
+import { SOCIALS } from '@/lib/constants';
+import { REMOTE_FEATURE_FLAG } from '@/lib/feature-flags';
+import { useRemoteFeatureFlagQuery } from '@/lib/feature-flags-client';
+import { getNodeExitSignatures } from '@/lib/queries/getNodeExitSignatures';
+import { useStakingBackendQueryWithParams } from '@/lib/staking-api-client';
+import { ButtonDataTestId } from '@/testing/data-test-ids';
+import type { Stake } from '@session/staking-api-js/schema';
+import { Social } from '@session/ui/components/SocialLinkList';
+import { Loading } from '@session/ui/components/loading';
+import { PROGRESS_STATUS, Progress } from '@session/ui/motion/progress';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTrigger,
+} from '@session/ui/ui/alert-dialog';
+import { useMount } from '@session/util-react/hooks/useMount';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { type ReactNode, useMemo, useState } from 'react';
+
+export function NodeExitButtonDialog({
+  node,
+  forceExpanded,
+  buttonContainerClassName,
+}: { node: Stake; forceExpanded?: boolean; buttonContainerClassName?: string }) {
+  const dictionary = useTranslations('nodeCard.staked.exit');
+  const { enabled: isNodeExitDisabled, isLoading: isRemoteFlagLoading } = useRemoteFeatureFlagQuery(
+    REMOTE_FEATURE_FLAG.DISABLE_NODE_EXIT
+  );
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <NodeExitButton forceExpanded={forceExpanded} className={buttonContainerClassName} />
+      </AlertDialogTrigger>
+      <AlertDialogContent dialogTitle={dictionary('dialog.title')} className="text-center">
+        {isRemoteFlagLoading ? (
+          <Loading />
+        ) : isNodeExitDisabled ? (
+          <NodeExitDisabled />
+        ) : (
+          <NodeExitDialog node={node} />
+        )}
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+function NodeExitDisabled() {
+  const dictionary = useTranslations('nodeCard.staked.exit');
+  return (
+    <p>
+      {dictionary.rich('disabledInfo', {
+        link: (children: ReactNode) => (
+          <Link
+            className="font-medium text-session-green underline"
+            href={SOCIALS[Social.Discord].link}
+            referrerPolicy="no-referrer"
+            target="_blank"
+          >
+            {children}
+          </Link>
+        ),
+      })}
+    </p>
+  );
+}
+
+function NodeExitDialog({ node }: { node: Stake }) {
+  const dictionary = useTranslations('nodeCard.staked.exit');
+  const { data, isLoading, isError, isSuccess, refetch } = useStakingBackendQueryWithParams(
+    getNodeExitSignatures,
+    { nodePubKey: node.pubkey_bls }
+  );
+
+  return (
+    <>
+      {isSuccess && data ? (
+        <NodeExitContractWriteDialog
+          node={node}
+          blsPubKey={data.result.bls_pubkey}
+          timestamp={data.result.timestamp}
+          blsSignature={data.result.signature}
+          excludedSigners={data.result.non_signer_indices}
+        />
+      ) : isLoading ? (
+        <ExitLoading />
+      ) : isError ? (
+        <ErrorMessage
+          refetch={refetch}
+          message={dictionary.rich('error')}
+          buttonText={dictionary('errorButton')}
+          buttonDataTestId={ButtonDataTestId.Exit_Node_Error_Retry}
+        />
+      ) : null}
+    </>
+  );
+}
+
+function NodeExitContractWriteDialog({
+  node,
+  blsPubKey,
+  timestamp,
+  blsSignature,
+  excludedSigners,
+}: {
+  node: Stake;
+  blsPubKey: string;
+  timestamp: number;
+  blsSignature: string;
+  excludedSigners?: Array<bigint>;
+}) {
+  const dictionary = useTranslations('nodeCard.staked.exit.dialog');
+  const stageDictKey = 'nodeCard.staked.exit.stage' as const;
+  const dictionaryStage = useTranslations(stageDictKey);
+
+  const removeBlsPublicKeyWithSignatureArgs = useMemo(
+    () => ({
+      blsPubKey,
+      timestamp,
+      blsSignature,
+      excludedSigners,
+    }),
+    [blsPubKey, timestamp, blsSignature, excludedSigners]
+  );
+
+  const {
+    removeBLSPublicKeyWithSignature,
+    fee,
+    gasAmount,
+    gasPrice,
+    simulateEnabled,
+    resetContract,
+    status,
+    errorMessage,
+  } = useExitNode(removeBlsPublicKeyWithSignatureArgs);
+
+  const handleClick = () => {
+    if (simulateEnabled) {
+      resetContract();
+    }
+    removeBLSPublicKeyWithSignature();
+  };
+
+  const isDisabled = !blsPubKey || !timestamp || !blsSignature;
+
+  return (
+    <>
+      <NodeActionModuleInfo node={node} fee={fee} gasAmount={gasAmount} gasPrice={gasPrice} />
+      <AlertDialogFooter className="mt-4 flex flex-col gap-8 sm:flex-col">
+        <WalletInteractionButtonWithLocales
+          variant="destructive"
+          rounded="md"
+          size="lg"
+          aria-label={dictionary('buttons.submitAria')}
+          className="w-full"
+          data-testid={ButtonDataTestId.Staked_Node_Exit_Dialog_Submit}
+          disabled={isDisabled || simulateEnabled}
+          onClick={handleClick}
+        >
+          {dictionary('buttons.submit')}
+        </WalletInteractionButtonWithLocales>
+        {simulateEnabled ? (
+          <Progress
+            steps={[
+              {
+                text: {
+                  [PROGRESS_STATUS.IDLE]: dictionaryStage('arbitrum.idle'),
+                  [PROGRESS_STATUS.PENDING]: dictionaryStage('arbitrum.pending'),
+                  [PROGRESS_STATUS.SUCCESS]: dictionaryStage('arbitrum.success'),
+                  [PROGRESS_STATUS.ERROR]: errorMessage,
+                },
+                status,
+              },
+              {
+                text: {
+                  [PROGRESS_STATUS.IDLE]: dictionaryStage('network.idle'),
+                  [PROGRESS_STATUS.PENDING]: dictionaryStage('network.pending'),
+                  [PROGRESS_STATUS.SUCCESS]: dictionaryStage('network.success'),
+                  [PROGRESS_STATUS.ERROR]: errorMessage,
+                },
+                status:
+                  status === PROGRESS_STATUS.SUCCESS
+                    ? PROGRESS_STATUS.SUCCESS
+                    : PROGRESS_STATUS.IDLE,
+              },
+            ]}
+          />
+        ) : null}
+      </AlertDialogFooter>
+    </>
+  );
+}
+
+// TODO: make this its own component once we have more intelligent data on step progress
+const estimatedTimeSeconds = 5;
+const steps = 3;
+const timePerStep = Math.ceil((estimatedTimeSeconds / steps) * 1000);
+
+const makeText = (text: string) => ({
+  [PROGRESS_STATUS.IDLE]: text,
+  [PROGRESS_STATUS.PENDING]: text,
+  [PROGRESS_STATUS.SUCCESS]: text,
+  [PROGRESS_STATUS.ERROR]: text,
+});
+
+function parseStatus(step: number, currentStep: number) {
+  if (currentStep > step) {
+    return PROGRESS_STATUS.SUCCESS;
+  }
+  if (currentStep === step) {
+    return PROGRESS_STATUS.PENDING;
+  }
+  return PROGRESS_STATUS.IDLE;
+}
+
+function ExitLoading() {
+  const [step, setStep] = useState<number>(0);
+
+  useMount(() => {
+    const id = setInterval(() => setStep((p) => p + 1), timePerStep);
+    return () => clearInterval(id);
+  });
+
+  return (
+    <div className="flex h-full min-h-40 w-full flex-col items-center align-middle">
+      <Progress
+        steps={[
+          {
+            status: parseStatus(0, step),
+            text: makeText('Requesting Exit Signature from the XPoint Network'),
+          },
+          {
+            status: parseStatus(1, step),
+            text: makeText('Waiting for Network Signature'),
+          },
+          {
+            status: step < 2 ? parseStatus(2, step) : PROGRESS_STATUS.PENDING,
+            text: makeText('Requesting Exit Transaction'),
+          },
+        ]}
+      />
+    </div>
+  );
+}

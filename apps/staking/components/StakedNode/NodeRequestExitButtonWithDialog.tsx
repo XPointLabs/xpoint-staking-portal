@@ -1,0 +1,278 @@
+import NodeActionModuleInfo from '@/components/StakedNode/NodeActionModuleInfo';
+import {
+  type ImplementedNodeCardActionButtonProps,
+  NodeCardActionButton,
+} from '@/components/StakedNode/NodeCardActionButton';
+import { WalletInteractionButtonWithLocales } from '@/components/WalletInteractionButtonWithLocales';
+import { WizardSectionDescription } from '@/components/Wizard';
+import useRequestNodeExit from '@/hooks/useRequestNodeExit';
+import { SESSION_NODE_TIME, SOCIALS } from '@/lib/constants';
+import { REMOTE_FEATURE_FLAG } from '@/lib/feature-flags';
+import { useRemoteFeatureFlagQuery } from '@/lib/feature-flags-client';
+import { formatEnglishTimeDistance, formatLocalizedTimeFromSeconds } from '@/lib/locale-client';
+import { ButtonDataTestId } from '@/testing/data-test-ids';
+import type { Stake } from '@session/staking-api-js/schema';
+import { Social } from '@session/ui/components/SocialLinkList';
+import { Loading } from '@session/ui/components/loading';
+import { ChevronsDownIcon } from '@session/ui/icons/ChevronsDownIcon';
+import { PROGRESS_STATUS, Progress } from '@session/ui/motion/progress';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogTrigger,
+} from '@session/ui/ui/alert-dialog';
+import { Button } from '@session/ui/ui/button';
+import { useWallet } from '@session/wallet/hooks/useWallet';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { type ReactNode, forwardRef, useState } from 'react';
+
+enum EXIT_REQUEST_STATE {
+  ALERT = 0,
+  PENDING = 1,
+}
+
+export const NodeRequestExitButton = forwardRef<
+  HTMLSpanElement,
+  ImplementedNodeCardActionButtonProps
+>((props, ref) => {
+  const dictionary = useTranslations('nodeCard.staked.requestExit');
+
+  return (
+    <NodeCardActionButton
+      {...props}
+      ref={ref}
+      variant="destructive-outline"
+      aria-label={dictionary('buttonAria')}
+      data-testid={ButtonDataTestId.Staked_Node_Request_Exit}
+    >
+      {dictionary('buttonText')}
+    </NodeCardActionButton>
+  );
+});
+
+export const NodeExitRequestedButton = forwardRef<
+  HTMLSpanElement,
+  ImplementedNodeCardActionButtonProps
+>((props, ref) => {
+  const dictionary = useTranslations('nodeCard.staked.requestExit');
+
+  return (
+    <NodeCardActionButton
+      {...props}
+      ref={ref}
+      variant="destructive-outline"
+      aria-label={dictionary('requestedButtonAria')}
+      data-testid={ButtonDataTestId.Staked_Node_Request_Exit}
+    >
+      {dictionary('requestedButtonText')}
+    </NodeCardActionButton>
+  );
+});
+
+export function NodeRequestExitButtonWithDialog({
+  node,
+  disabled,
+  forceExpanded,
+}: { node: Stake; disabled?: boolean; forceExpanded?: boolean }) {
+  const [exitRequestState, setExitRequestState] = useState<EXIT_REQUEST_STATE>(
+    EXIT_REQUEST_STATE.ALERT
+  );
+  const dictionary = useTranslations('nodeCard.staked.requestExit');
+  const { enabled: isNodeExitRequestDisabled, isLoading: isRemoteFlagLoading } =
+    useRemoteFeatureFlagQuery(REMOTE_FEATURE_FLAG.DISABLE_REQUEST_NODE_EXIT);
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <NodeRequestExitButton disabled={disabled} forceExpanded={forceExpanded} />
+      </AlertDialogTrigger>
+      <AlertDialogContent
+        dialogTitle={
+          <>
+            {exitRequestState !== EXIT_REQUEST_STATE.ALERT ? (
+              <ChevronsDownIcon
+                className="absolute left-8 mt-1.5 rotate-90 cursor-pointer rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+                onClick={() => setExitRequestState(EXIT_REQUEST_STATE.ALERT)}
+              />
+            ) : null}
+            {dictionary('dialog.title')}
+          </>
+        }
+        className="text-center"
+      >
+        {isRemoteFlagLoading ? (
+          <Loading />
+        ) : isNodeExitRequestDisabled ? (
+          <RequestNodeExitDisabled />
+        ) : exitRequestState === EXIT_REQUEST_STATE.PENDING ? (
+          <RequestNodeExitContractWriteDialog node={node} />
+        ) : (
+          <RequestNodeExitDialog
+            node={node}
+            onSubmit={() => setExitRequestState(EXIT_REQUEST_STATE.PENDING)}
+          />
+        )}
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+function RequestNodeExitDisabled() {
+  const dictionary = useTranslations('nodeCard.staked.requestExit');
+  return (
+    <p>
+      {dictionary.rich('disabledInfo', {
+        link: (children: ReactNode) => (
+          <Link
+            className="font-medium text-session-green underline"
+            href={SOCIALS[Social.Discord].link}
+            referrerPolicy="no-referrer"
+            target="_blank"
+          >
+            {children}
+          </Link>
+        ),
+      })}
+    </p>
+  );
+}
+
+function RequestNodeExitDialog({ node, onSubmit }: { node: Stake; onSubmit: () => void }) {
+  const { chainId } = useWallet();
+  const dictionary = useTranslations('nodeCard.staked.requestExit.dialog');
+  const dictInfoNotice = useTranslations('infoNotice');
+
+  return (
+    <>
+      <WizardSectionDescription
+        className="text-base md:text-base"
+        description={dictInfoNotice.rich('requestExit1', {
+          relativeRequestTime: formatLocalizedTimeFromSeconds(
+            SESSION_NODE_TIME(chainId).EXIT_REQUEST_TIME_SECONDS,
+            {
+              addSuffix: true,
+            }
+          ),
+          requestTime: formatEnglishTimeDistance(
+            SESSION_NODE_TIME(chainId).EXIT_REQUEST_TIME_SECONDS,
+            '-'
+          ),
+          exitTime: formatEnglishTimeDistance(
+            SESSION_NODE_TIME(chainId).EXIT_GRACE_TIME_SECONDS,
+            '-'
+          ),
+          linkOut: '',
+        })}
+        href="https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#liquidation-penalty"
+      />
+      <br />
+      <p>{dictInfoNotice.rich('requestExit2')}</p>
+      <AlertDialogFooter className="mt-4 flex w-full flex-col font-medium sm:flex-row">
+        <Button
+          variant="destructive-ghost"
+          rounded="md"
+          size="lg"
+          aria-label={dictionary('buttons.submitAria', {
+            pubKey: node.service_node_pubkey,
+          })}
+          className="w-full"
+          data-testid={ButtonDataTestId.Staked_Node_Request_Exit_Dialog_Submit}
+          onClick={onSubmit}
+          type="submit"
+        >
+          {dictionary('buttons.submit')}
+        </Button>
+        <AlertDialogCancel asChild>
+          <Button
+            variant="ghost"
+            rounded="md"
+            size="lg"
+            className="w-full"
+            aria-label={dictionary('buttons.cancelAria')}
+            data-testid={ButtonDataTestId.Staked_Node_Request_Exit_Dialog_Cancel}
+          >
+            {dictionary('buttons.cancel')}
+          </Button>
+        </AlertDialogCancel>
+      </AlertDialogFooter>
+    </>
+  );
+}
+
+function RequestNodeExitContractWriteDialog({ node }: { node: Stake }) {
+  const stageDictKey = 'nodeCard.staked.requestExit.dialog.stage' as const;
+  const dictionary = useTranslations('nodeCard.staked.requestExit.dialog.write');
+  const dictionaryStage = useTranslations(stageDictKey);
+
+  const {
+    initiateRemoveBLSPublicKey,
+    fee,
+    gasAmount,
+    gasPrice,
+    simulateEnabled,
+    resetContract,
+    status,
+    errorMessage,
+  } = useRequestNodeExit({
+    contractId: node.contract_id,
+  });
+
+  const handleClick = () => {
+    if (simulateEnabled) {
+      resetContract();
+    }
+    initiateRemoveBLSPublicKey();
+  };
+
+  const isDisabled = !node.contract_id;
+
+  return (
+    <>
+      <NodeActionModuleInfo node={node} fee={fee} gasAmount={gasAmount} gasPrice={gasPrice} />
+      <AlertDialogFooter className="mt-4 flex flex-col gap-8 sm:flex-col">
+        <WalletInteractionButtonWithLocales
+          variant="destructive"
+          rounded="md"
+          size="lg"
+          aria-label={dictionary('buttons.submitAria')}
+          className="w-full"
+          data-testid={ButtonDataTestId.Staked_Node_Request_Exit_Write_Dialog_Submit}
+          disabled={isDisabled || (simulateEnabled && status !== PROGRESS_STATUS.ERROR)}
+          onClick={handleClick}
+        >
+          {dictionary('buttons.submit')}
+        </WalletInteractionButtonWithLocales>
+        {simulateEnabled ? (
+          <Progress
+            steps={[
+              {
+                text: {
+                  [PROGRESS_STATUS.IDLE]: dictionaryStage('arbitrum.idle'),
+                  [PROGRESS_STATUS.PENDING]: dictionaryStage('arbitrum.pending'),
+                  [PROGRESS_STATUS.SUCCESS]: dictionaryStage('arbitrum.success'),
+                  [PROGRESS_STATUS.ERROR]: errorMessage,
+                },
+                status,
+              },
+              {
+                text: {
+                  [PROGRESS_STATUS.IDLE]: dictionaryStage('network.idle'),
+                  [PROGRESS_STATUS.PENDING]: dictionaryStage('network.pending'),
+                  [PROGRESS_STATUS.SUCCESS]: dictionaryStage('network.success'),
+                  [PROGRESS_STATUS.ERROR]: errorMessage,
+                },
+                status:
+                  status === PROGRESS_STATUS.SUCCESS
+                    ? PROGRESS_STATUS.SUCCESS
+                    : PROGRESS_STATUS.IDLE,
+              },
+            ]}
+          />
+        ) : null}
+      </AlertDialogFooter>
+    </>
+  );
+}

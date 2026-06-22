@@ -1,0 +1,30 @@
+'use client';
+
+import { DropdownHamburgerMenu } from '@/components/DropdownHamburgerMenu';
+import DynamicHeaderNavLinks from '@/components/DynamicHeaderNavLinks';
+import WalletButtonWithLocales from '@/components/WalletButtonWithLocales';
+import { cn } from '@session/ui/lib/utils';
+import dynamic from 'next/dynamic';
+import type { ReactNode } from 'react';
+
+// TODO: implement dynamic imports for these hydration issue components and build skeletons for them
+// const DynamicHeaderNavLinks = dynamic(() => import('./DynamicHeaderNavLinks'), { ssr: false, loading: () => <LoadingText /> })
+const DynamicWalletButton = dynamic(() => import('./DynamicWalletButton'), {
+  ssr: false,
+  loading: () => <WalletButtonWithLocales />,
+});
+
+export default function HeaderClient({ children }: { children?: ReactNode }) {
+  return (
+    <>
+      <div className={cn('flex h-11 flex-row items-center gap-8 pr-4')}>
+        {children}
+        <DynamicHeaderNavLinks />
+      </div>
+      <div className="flex h-11 flex-row items-center justify-end gap-3">
+        <DynamicWalletButton />
+        <DropdownHamburgerMenu />
+      </div>
+    </>
+  );
+}

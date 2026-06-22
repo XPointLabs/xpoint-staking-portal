@@ -1,0 +1,234 @@
+import { ARBITRUM_EVENT, CONTRIBUTION_CONTRACT_STATUS } from '@session/staking-api-js/enums';
+import {
+  type ContributionContract,
+  contributionContractSchema,
+} from '@session/staking-api-js/schema';
+import type { Ed25519PublicKey, EthereumAddress } from '@session/util-crypto/keys';
+import { areEthereumAddressesEqual } from '@session/util-crypto/string';
+import { DEBUG_ASSERT } from '@session/util-js/assert';
+import { getTotalStakedAmountForAddress } from '../components/getTotalStakedAmountForAddress';
+import logger from '../lib/logger';
+import { isEventArraySorted } from './parseEvents';
+import { sortingReservedContractsDesc, sortingTotalStakedDesc } from './parseStakes';
+
+const contractStateSortOrderIfOperator = {
+  [CONTRIBUTION_CONTRACT_STATUS.WaitForFinalized]: 1,
+  [CONTRIBUTION_CONTRACT_STATUS.WaitForOperatorContrib]: 2,
+  [CONTRIBUTION_CONTRACT_STATUS.OpenForPublicContrib]: 3,
+  [CONTRIBUTION_CONTRACT_STATUS.Finalized]: 4,
+};
+
+/**
+ * If the connected wallet is the contract operator, then the contracts are sorted by {@link contractStateSortOrderIfOperator}
+ *
+ * If the state is the same OR the connected wallet isn't the contract operator, then the contract are sorted by the total staked amount descending
+ * then by the operator fee ascending
+ */
+export function sortContracts(
+  a: ContributionContract,
+  b: ContributionContract,
+  address?: EthereumAddress
+) {
+  const operatorA = areEthereumAddressesEqual(a.operator_address, address);
+  const operatorB = areEthereumAddressesEqual(b.operator_address, address);
+
+  const priorityA = operatorA
+    ? (contractStateSortOrderIfOperator[a.status] ?? Number.POSITIVE_INFINITY)
+    : Number.POSITIVE_INFINITY;
+  const priorityB = operatorB
+    ? (contractStateSortOrderIfOperator[b.status] ?? Number.POSITIVE_INFINITY)
+    : Number.POSITIVE_INFINITY;
+
+  if (priorityA !== priorityB) {
+    // Priority ascending
+    return priorityA - priorityB;
+  }
+
+  const reservedSort = sortingReservedContractsDesc(a, b, address);
+
+  if (reservedSort !== 0) {
+    return -reservedSort;
+  }
+
+  const stakeSort = sortingTotalStakedDesc(a, b, address);
+  if (stakeSort !== 0) {
+    return -stakeSort;
+  }
+
+  if (a.fee !== b.fee) {
+    return a.fee - b.fee;
+  }
+
+  const openForContributionBlockA =
+    a.events.find(({ name }) => name === ARBITRUM_EVENT.OpenForPublicContribution)?.block ??
+    Number.POSITIVE_INFINITY;
+  const openForContributionBlockB =
+    b.events.find(({ name }) => name === ARBITRUM_EVENT.OpenForPublicContribution)?.block ??
+    Number.POSITIVE_INFINITY;
+
+  return openForContributionBlockA - openForContributionBlockB;
+}
+
+export type ParseStakesParams = {
+  contracts: Array<ContributionContract>;
+  address?: EthereumAddress;
+  blockHeight: number;
+  contractBlsKeys: Set<string>;
+  contractEd25519Keys: Set<Ed25519PublicKey>;
+  nodeMinLifespanArbBlocks: number;
+  runningAddedStakesBlsKeysSet: Set<string>;
+  runningAddedStakesEd25519KeysSet: Set<Ed25519PublicKey>;
+};
+
+/**
+ * Sorts contracts by deploy block descending.
+ * @param contracts - The contracts to sort.
+ * @returns The sorted contracts.
+ */
+export function sortContractByDeployBlockDesc(contracts: Array<ContributionContract>) {
+  const deployBlockMap = new Map<EthereumAddress, number>();
+  const _contracts: Array<ContributionContract> = [];
+
+  for (const contract of contracts) {
+    DEBUG_ASSERT(() => isEventArraySorted(contract.events), 'Contract events are not pre-sorted');
+    const deployEventBlock = contract.events.find(
+      (event) => event.name === ARBITRUM_EVENT.NewServiceNodeContributionContract
+    )?.block;
+    if (deployEventBlock) {
+      deployBlockMap.set(contract.address, deployEventBlock);
+    }
+    _contracts.push(contract);
+  }
+
+  /**
+   * Sort contracts by the block number they were deployed at
+   * The nullish coalescing operator will never get called, but this is required to satisfy the transpiler
+   */
+  _contracts.sort(
+    (a, b) => (deployBlockMap.get(b.address) ?? 0) - (deployBlockMap.get(a.address) ?? 0)
+  );
+
+  return _contracts;
+}
+
+/**
+ * Parses the stakes and contracts.
+ * @param contracts - The contracts to parse.
+ * @param address - The address to filter by.
+ * @param runningStakesBlsKeysSet - The running stakes BLS keys set.
+ * @param nodeMinLifespanArbBlocks - The node min lifespan in Arbitrum blocks.
+ * @returns The parsed stakes and contracts.
+ */
+
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: simplify the logic
+export function parseContracts({
+  contracts,
+  address,
+  contractBlsKeys,
+  contractEd25519Keys,
+  runningAddedStakesEd25519KeysSet,
+  runningAddedStakesBlsKeysSet,
+  nodeMinLifespanArbBlocks,
+}: ParseStakesParams) {
+  const _contracts = sortContractByDeployBlockDesc(contracts);
+
+  const addedContractBlsKeys = new Set();
+  const addedContractEd25519Keys = new Set();
+  const hiddenContractsWithStakes: Array<ContributionContract> = [];
+  const visibleContracts: Array<ContributionContract> = [];
+  const joiningContracts: Array<ContributionContract> = [];
+  const awaitingOperatorContracts: Array<ContributionContract> = [];
+
+  /**
+   * The contract array is pre-sorted in descending order by the block number it was deployed at.
+   * The "latest" of each contract is added to the visible contracts array, any future duplicate
+   * contracts are hidden unless the wallet has a stake for that contract.
+   */
+  for (const contract of _contracts) {
+    const { pubkey_bls, service_node_pubkey, status, events, contributors } = contract;
+
+    const alreadyAddedBlsKey =
+      addedContractBlsKeys.has(pubkey_bls) ||
+      runningAddedStakesBlsKeysSet.has(pubkey_bls) ||
+      contractBlsKeys.has(pubkey_bls);
+    const alreadyAddedEd25519Key =
+      addedContractEd25519Keys.has(service_node_pubkey) ||
+      runningAddedStakesEd25519KeysSet.has(service_node_pubkey) ||
+      contractEd25519Keys.has(service_node_pubkey);
+
+    if (alreadyAddedBlsKey || alreadyAddedEd25519Key) {
+      const keyInfo = alreadyAddedEd25519Key
+        ? `(Ed25519) ${service_node_pubkey}`
+        : `(BLS) ${pubkey_bls}`;
+      if (
+        status !== CONTRIBUTION_CONTRACT_STATUS.Finalized &&
+        address &&
+        getTotalStakedAmountForAddress(contributors, address) > 0n
+      ) {
+        logger.debug(
+          `Contract has duplicate pubkey, but has stakes, showing with warning: ${keyInfo}`
+        );
+        hiddenContractsWithStakes.push(contract);
+      } else {
+        logger.debug(`Contract has duplicate pubkey, hiding: ${keyInfo}`);
+      }
+      continue;
+    }
+
+    if (status === CONTRIBUTION_CONTRACT_STATUS.Finalized) {
+      const lastFinalized = events.filter((event) => event.name === 'Finalized')[0];
+      if (!lastFinalized) {
+        logger.warn(`Contract is finalized, but no Finalized event, showing: ${pubkey_bls}`);
+      } else if (lastFinalized.block > nodeMinLifespanArbBlocks) {
+        logger.debug(
+          `Contract was finalized at block ${lastFinalized.block}, this is within the minimum lifespan (${nodeMinLifespanArbBlocks}), showing: ${service_node_pubkey}`
+        );
+        joiningContracts.push(contract);
+        addedContractBlsKeys.add(pubkey_bls);
+        continue;
+      } else {
+        logger.debug(
+          `Contract was finalized at block ${lastFinalized.block}, this is greater than the lifespan limit (${nodeMinLifespanArbBlocks}), hiding: ${service_node_pubkey}`
+        );
+        continue;
+      }
+    }
+
+    if (contract.status === CONTRIBUTION_CONTRACT_STATUS.WaitForOperatorContrib) {
+      awaitingOperatorContracts.push(contract);
+      addedContractBlsKeys.add(pubkey_bls);
+      addedContractEd25519Keys.add(service_node_pubkey);
+      continue;
+    }
+
+    visibleContracts.push(contract);
+    addedContractBlsKeys.add(pubkey_bls);
+    addedContractEd25519Keys.add(service_node_pubkey);
+  }
+  hiddenContractsWithStakes.sort((a, b) => sortContracts(a, b, address));
+  visibleContracts.sort((a, b) => sortContracts(a, b, address));
+  joiningContracts.sort((a, b) => sortContracts(a, b, address));
+
+  return {
+    visibleContracts,
+    joiningContracts,
+    hiddenContractsWithStakes,
+    awaitingOperatorContracts,
+  };
+}
+
+/**
+ * Filters out the contracts that are not ready to be used.
+ * @param contracts - The contracts to filter.
+ * @returns The filtered contracts.
+ */
+export function getReadyContracts(contracts: Array<object>) {
+  const readyContracts: Array<ContributionContract> = [];
+  for (const contract of contracts) {
+    if (contributionContractSchema.safeParse(contract).success) {
+      // the safeParse assets the type, so we can safely cast
+      readyContracts.push(contract as ContributionContract);
+    }
+  }
+  return readyContracts;
+}

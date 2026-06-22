@@ -1,0 +1,790 @@
+﻿{
+  "general": {
+    "comingSoon": "Скоро",
+    "loading": "Загрузка...",
+    "or": "или",
+    "and": "и",
+    "unknownError": "неизвестная ошибка",
+    "viewOnExplorer": "Открыть в обозревателе",
+    "viewOnExplorerShort": "Открыть",
+    "you": "Вы",
+    "emptySlot": "Свободное место участника",
+    "notFound": "Не найдено",
+    "nodeNotFound": "Нода не найдена",
+    "soon": "Скоро",
+    "now": "сейчас",
+    "none": "Нет",
+    "error": {
+      "UserRejectedRequest": "запрос отклонён пользователем",
+      "InvalidBLSSignature": "некорректная BLS-подпись, попробуйте позже",
+      "InvalidBLSProofOfPossession": "доказательство владения BLS-ключом некорректно",
+      "SignatureExpired": "срок действия подписи истёк, попробуйте позже",
+      "InsufficientBalance": "недостаточно {tokenSymbol} для транзакции"
+    },
+    "reserved": "Зарезервировано",
+    "staked": "В стейкинге"
+  },
+  "metadata": {
+    "root": {
+      "title": "Портал стейкинга XPoint",
+      "description": "Размещайте XPNT в стейкинге и получайте награды за поддержку XPoint Network."
+    },
+    "notFound": {
+      "title": "Страница не найдена",
+      "description": "Страница, которую вы ищете, не найдена."
+    },
+    "stake": {
+      "title": "Стейкинг",
+      "description": "Выберите доступную ноду XPoint для стейкинга."
+    },
+    "register": {
+      "title": "Регистрация ноды XPoint",
+      "description": "Зарегистрируйте ноду XPoint и внесите стейк."
+    },
+    "myStakes": {
+      "title": "Мои стейки",
+      "description": "Просматривайте свои стейки и получайте награды."
+    },
+    "vestedStakes": {
+      "title": "Вестинговые стейки",
+      "description": "Просматривайте стейки из вестинговых контрактов."
+    }
+  },
+  "maintenance": {
+    "title": "Технические работы",
+    "description": "Портал стейкинга временно недоступен. Пожалуйста, зайдите позже."
+  },
+  "fee": {
+    "networkFee": "Сетевая комиссия",
+    "networkFeeTooltip": "Оценка количества {gasTokenSymbol}, необходимого для выполнения транзакции в сети {mainNetworkChain}. {linkOut}",
+    "missingFees": "Не удалось получить оценку комиссии для всех транзакций. Итоговая оценка может быть неточной.",
+    "gasHigh": "Комиссия в сети {mainNetworkChain} выше обычной из-за высокой нагрузки. {linkOut}"
+  },
+  "clipboard": {
+    "copyToClipboard": "Скопировать",
+    "copyToClipboardSuccessToast": "Скопировано в буфер обмена."
+  },
+  "navigation": {
+    "home": "Главная",
+    "stake": "Стейкинг",
+    "myStakes": "Мои стейки",
+    "vestedStakes": "Вестинг",
+    "docs": "Документация",
+    "tokenSite": "XPoint",
+    "support": "Поддержка",
+    "register": "Регистрация",
+    "faucet": "Кран",
+    "explorer": "Обозреватель Appchain",
+    "leaderboard": "Рейтинг",
+    "hamburgerDropdown": {
+      "ariaLabel": "Открыть меню навигации",
+      "language": "Язык",
+      "ariaLanguage": "Открыть выбор языка",
+      "support": "Поддержка",
+      "ariaSupport": "Перейти на страницу поддержки",
+      "faucet": "Кран",
+      "ariaFaucet": "Перейти на страницу крана",
+      "explorer": "Обозреватель Appchain",
+      "ariaExplorer": "Перейти в обозреватель Appchain"
+    },
+    "managedBy": "",
+    "swap": "Миграция",
+    "bridgeArbitrum": "Мост Arbitrum",
+    "getToken": "Получить {tokenSymbol}"
+  },
+  "wallet": {
+    "modalButton": {
+      "connect": "Подключить кошелёк",
+      "connected": "Открыть кошелёк",
+      "connecting": "Подключение...",
+      "reconnecting": "Повторное подключение...",
+      "ariaConnected": "Открыть окно аккаунта кошелька",
+      "ariaDisconnected": "Открыть окно подключения кошелька",
+      "balance": "Баланс",
+      "address": "Адрес",
+      "fallbackName": "Без имени"
+    },
+    "watchTokenButton": {
+      "importText": "Добавить токен",
+      "ariaImport": "Добавить {tokenSymbol} в кошелёк",
+      "changeNetwork": "Сменить сеть",
+      "ariaChangeNetwork": "Переключиться на поддерживаемую сеть",
+      "pending": "Выполняется",
+      "ariaPending": "Добавление {tokenSymbol} в кошелёк",
+      "failError": "Ваш кошелёк не поддерживает добавление токенов"
+    },
+    "walletInteractionButton": {
+      "connectWallet": "Подключить кошелёк",
+      "switchNetwork": "Сменить сеть"
+    },
+    "networkDropdown": {
+      "invalid": "Неподдерживаемая сеть",
+      "ariaMainnet": "Переключиться на {mainnetName}",
+      "ariaTestnet": "Переключиться на {testnetName}",
+      "ariaDropdown": "Открыть выбор сети",
+      "errorNotSupported": "Похоже, ваш кошелёк не поддерживает тестовую сеть Arbitrum Sepolia. Попробуйте подключить другой кошелёк."
+    }
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "description": "Страница, которую вы ищете, не найдена.",
+    "homeButton": "На главную"
+  },
+  "home": {
+    "title": "Стейкинг <text-semibold>{tokenSymbol}</text-semibold>",
+    "titleDescription": "Поддерживайте сеть",
+    "buttons": {
+      "primary": "Перейти к стейкингу",
+      "secondary": "Как запустить ноду XPoint"
+    },
+    "heroImageAlt": "Стеклянный куб с голубой подсветкой"
+  },
+  "faucet": {
+    "information": {
+      "title": "Получение тестовых {tokenSymbol}",
+      "referralTitle": "Реферальные коды",
+      "referralDescription": "Если вы получили действительный реферальный код от участника сообщества XPoint, вы можете получить тестовые {tokenSymbol}.",
+      "communityTitle": "Участники сообщества XPoint",
+      "walletRequirementTitle": "Требования к кошельку:",
+      "walletRequirementDescription": "Для транзакций с тестовыми {tokenSymbol} вам понадобятся тестовые {gasTokenSymbol} в сети {testNetworkChain} для оплаты <gas-info-link>газа</gas-info-link>. Получить их можно через <gas-faucet-link>кран {testNetworkChain}</gas-faucet-link>."
+    },
+    "addTokenInfo": "Чтобы {tokenSymbol} отображался в кошельке, импортируйте токен вручную.",
+    "transactions": {
+      "tableCaption": "Список ваших транзакций крана.",
+      "when": "Когда",
+      "hash": "Хеш",
+      "amount": "Сумма"
+    },
+    "form": {
+      "back": "Назад",
+      "inputPlaceholder": "Адрес кошелька",
+      "inputAria": "Введите адрес кошелька для получения тестовых {tokenSymbol} из крана.",
+      "connectWalletButtonText": "Подключить кошелёк",
+      "disconnectWalletButtonText": "Отключить",
+      "connectedWalletButtonText": "Подключено",
+      "swapToTestnet": "Переключиться на {testnetName}",
+      "submit": {
+        "continueText": "Продолжить",
+        "getTestTokensText": "Получить тестовые {tokenSymbol}",
+        "checkingEligibilityText": "Проверяем доступ...",
+        "sendingTokensText": "Отправляем тестовые {tokenSymbol}...",
+        "transactionSuccess": "Транзакция выполнена",
+        "transactionSuccessDescription": "Тестовые {tokenSymbol} отправлены на ваш адрес.",
+        "transactionError": "Транзакция не выполнена"
+      },
+      "error": {
+        "invalidAddress": "Некорректный адрес кошелька. Нужен действительный адрес {ethTokenSymbol}: {example}",
+        "insufficientEth": "Похоже, у вас недостаточно тестовых {gasTokenSymbol} в сети {testNetworkChain}. Получите их через <recommended-gas-faucet-link></recommended-gas-faucet-link>. Сейчас у вас {gasAmount} тестовых {gasTokenSymbol}.",
+        "incorrectChain": "Кран работает только в {testnetName}. Переключитесь на сеть {testNetworkChain}.",
+        "faucetOutOfTokens": "В кране закончились {tokenSymbol}. Обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+        "alreadyUsed": "Этот адрес уже использовался для получения тестовых {tokenSymbol}.",
+        "authFailed": "Не удалось авторизоваться через {service}. Обновите страницу и попробуйте ещё раз.",
+        "invalidReferralCode": "Недействительный реферальный код.",
+        "referralCodeOutOfUses": "У реферального кода закончились использования.",
+        "referralCodeAlreadyUsed": "Вы уже использовали этот реферальный код."
+      },
+      "transactionHash": "Хеш транзакции: {hash}",
+      "copyTransactionHash": "Скопировать хеш транзакции",
+      "copyTransactionHashSuccessToast": "Хеш транзакции скопирован."
+    }
+  },
+  "chainBanner": {
+    "unsupportedChain": "Вы подключены к неподдерживаемой сети. <link>Нажмите, чтобы переключиться</link>",
+    "mainnetNotLive": "{mainnetName} пока не запущена. <link>Нажмите, чтобы перейти в {testnetName}</link>",
+    "testnet": "Вы подключены к {testnetName}."
+  },
+  "banner": {
+    "registrationPaused": "Регистрация нод временно отключена. Следите за обновлениями в <discord-link>поддержке XPoint</discord-link>.",
+    "claimRewardsDisabled": "Получение наград временно отключено. Функция будет включена позже. Следите за обновлениями в <link>поддержке XPoint</link>.",
+    "newTokenContract": "Контракт XPoint обновлён. <remove-token-link>Удалите старый токен</remove-token-link> и <watch-token>добавьте новый контракт токена</watch-token> в кошелёк, чтобы продолжить пользоваться порталом стейкинга.",
+    "hardFork": "В XPoint Network выполняется хардфорк <text-medium>{relativeTime}</text-medium>. Все ноды должны быть обновлены, чтобы остаться в сети. {linkOut}"
+  },
+  "modules": {
+    "title": {
+      "format": "{title}:"
+    },
+    "shared": {
+      "error": "Ошибка"
+    },
+    "nodes": {
+      "title": "Ноды XPoint"
+    },
+    "openNodes": {
+      "title": "Доступные ноды",
+      "description": "Ноды, доступные для стейкинга.",
+      "noNodesP1": "Сейчас нет нод XPoint, доступных для стейкинга.",
+      "noNodesP2": "Откройте <link>документацию</link>, чтобы узнать, как настроить и зарегистрировать свою ноду XPoint.",
+      "landingP1": "Разместите {tokenSymbol} в мульти-стейкинговых нодах и помогите защищать сеть.",
+      "landingP2": "Вы также можете запустить собственную ноду, чтобы другие участники могли внести в неё стейк.",
+      "landingP1Mainnet": "Выберите доступную ноду XPoint, внесите {tokenSymbol} и получайте награды за поддержку сети.",
+      "landingP2Mainnet": "Хотите запустить собственную ноду XPoint?",
+      "learnMoreButtonText": "Подробнее",
+      "learnMoreButtonAria": "Открыть документацию по нодам XPoint.",
+      "showHiddenPendingNodesText": "Показать ожидающие ноды",
+      "error": "Не удалось загрузить доступные ноды. Попробуйте ещё раз. Если проблема повторится, обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+      "errorButton": "Повторить",
+      "stakingDisabled": "Стейкинг в мульти-стейкинговые ноды временно отключён. Следите за обновлениями в <discord-link>поддержке XPoint</discord-link>."
+    },
+    "nodeRegistrations": {
+      "title": "Подготовленные регистрации",
+      "showHiddenText": "Показать скрытые",
+      "landingP1": "Выберите ноду, чтобы завершить регистрацию и начать стейкинг.",
+      "noWalletP1": "Подключите кошелёк, чтобы увидеть подготовленные регистрации нод XPoint.",
+      "noNodesP1": "У вас нет подготовленных регистраций нод XPoint.",
+      "noNodesP2": "Узнать, как подготовить регистрацию ноды XPoint, можно <link>здесь</link>.",
+      "learnMoreButtonText": "Подробнее",
+      "error": "Не удалось загрузить подготовленные регистрации. Попробуйте ещё раз. Если проблема повторится, обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+      "errorButton": "Повторить"
+    },
+    "stakedNodes": {
+      "title": "Мои стейки",
+      "showHiddenText": "Показать скрытые",
+      "noWalletP1": "Кошелёк не подключён.",
+      "noWalletP2": "Нажмите «Подключить», чтобы увидеть свои стейки.",
+      "noNodesP1": "У вас пока нет стейков в нодах XPoint.",
+      "noNodesP2": "Нажмите <link>Стейкинг</link>, чтобы внести стейк в доступную ноду или зарегистрировать новую ноду XPoint.",
+      "stakeNowButtonText": "Стейкинг",
+      "stakeNowButtonAria": "Перейти к стейкингу в доступную ноду.",
+      "error": "Не удалось загрузить ваши стейки. Попробуйте ещё раз. Если проблема повторится, обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+      "errorButton": "Повторить",
+      "settings": {
+        "simple": "Кратко",
+        "detailed": "Подробно"
+      }
+    },
+    "toast": {
+      "error": "Не удалось загрузить {module}.",
+      "refetching": "Пробуем ещё раз...",
+      "retryButton": "Повторить",
+      "refetchSuccess": "{module} обновлён."
+    },
+    "balance": {
+      "title": "Всего в стейкинге",
+      "description": "Общее количество {tokenSymbol}, размещённое вами в нодах."
+    },
+    "totalRewards": {
+      "title": "Всего наград получено",
+      "titleShort": "Всего наград",
+      "description": "Общее количество наград, полученных за весь период стейкинга."
+    },
+    "unlockingStakes": {
+      "title": "Разблокируемые стейки",
+      "titleShort": "Разблокировка",
+      "description": "Общая сумма стейков из нод, которые вышли из сети или были разрегистрированы."
+    },
+    "unclaimedTokens": {
+      "title": "Неполученные токены",
+      "description": "Награды, которые ещё не были получены."
+    },
+    "unclaimedStakes": {
+      "title": "Неполученные стейки",
+      "description": "Стейки, которые ещё нужно вернуть."
+    },
+    "unclaimedRewards": {
+      "title": "Неполученные награды",
+      "description": "Награды, которые ещё не были получены."
+    },
+    "totalNodes": {
+      "title": "Всего нод",
+      "description": "Количество нод, в которых у вас сейчас есть стейк."
+    },
+    "claim": {
+      "title": "Получить",
+      "dialog": {
+        "title": "Получить токены",
+        "updateBalanceCost": "Комиссия обновления баланса:",
+        "updateBalanceCostExemptionReason": "Баланс наград уже обновлён.",
+        "claimRewardsCost": "Комиссия получения:",
+        "amountClaimable": "Доступно к получению",
+        "amountClaimableTooltip": "Количество разблокированных {tokenSymbol}, доступное к получению.",
+        "buttons": {
+          "submit": "Получить {tokenSymbol}",
+          "submitAria": "Получить {tokenSymbol} с комиссией {gasAmount} {gasTokenSymbol}"
+        },
+        "alert": {
+          "gasFetchFailedUpdateBalance": "Не удалось оценить комиссию обновления баланса наград. Оценка может быть неточной.",
+          "gasFetchFailedClaimRewards": "Не удалось оценить комиссию получения наград. Оценка может быть неточной.",
+          "highGas": "Комиссия сети выше обычной."
+        },
+        "successToast": "Получено {tokenAmount} в Arbitrum"
+      },
+      "error": "Не удалось получить подпись для неполученных наград. Попробуйте ещё раз. Если проблема повторится, обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+      "errorButton": "Повторить",
+      "stage": {
+        "balance": {
+          "idle": "Обновляем сумму наград в Arbitrum",
+          "pending": "Обновляем сумму наград в Arbitrum",
+          "success": "Сумма наград обновлена в Arbitrum",
+          "errorTemplate": "Не удалось обновить сумму наград в Arbitrum: {reason}",
+          "errors": {
+            "NullAddress": "некорректный адрес получателя",
+            "RecipientRewardsTooLow": "сумма получения уже обновлена",
+            "InvalidBLSSignature": "некорректная BLS-подпись, попробуйте позже",
+            "InsufficientBLSSignatures": "недостаточно BLS-подписей, попробуйте позже"
+          }
+        },
+        "claim": {
+          "idle": "Получаем {tokenAmount} в Arbitrum",
+          "pending": "Получаем {tokenAmount} в Arbitrum",
+          "success": "Получено {tokenAmount} в Arbitrum",
+          "errorTemplate": "Не удалось получить награды в Arbitrum: {reason}"
+        }
+      }
+    },
+    "price": {
+      "title": "Цена {tokenSymbol}",
+      "description": "Данные цены из пула XPNT/USDC Uniswap V3<br></br>Последнее обновление: {date_time}"
+    },
+    "points": {
+      "title": "Баллы тестовой сети",
+      "description": "Эти баллы определяют вашу будущую долю XPNT в программе стимулирования тестовой сети. {linkOut}"
+    },
+    "comingSoon": {
+      "title": "Скоро",
+      "description": "Скоро"
+    },
+    "notice": {
+      "title": "Добро пожаловать в XPoint Network",
+      "description": "XPoint Network — децентрализованная инфраструктурная сеть для Deep. Запуская ноду или размещая стейк, вы помогаете защищать сеть, маршрутизировать и хранить сообщения. {linkOut}",
+      "description2": "Операторы и стейкеры, переходящие в XPoint Network, могут мигрировать оставшиеся токены в {tokenSymbol} <bridge-link>здесь</bridge-link>"
+    },
+    "referral": {
+      "title": "Реферальная программа",
+      "description1": "Помогайте развивать {sessionNetwork}: приглашайте участников в тестовую сеть, делитесь своей ссылкой и давайте новичкам возможность получить тестовые XPNT и внести стейк в мульти-стейкинговые ноды.",
+      "description2": "Подробнее <link>здесь</link>.",
+      "description3": "Участвуя в реферальной программе тестовой сети, вы принимаете эти <link>условия</link>.",
+      "showButton": "Показать реферальную ссылку"
+    },
+    "networkDailyRewards": {
+      "title": "Оценка дневной награды",
+      "titleShort": "Дневная награда",
+      "description": "Оценка награды для одной ноды по последним данным. Фактические протокольные награды могут отличаться. {linkOut}"
+    },
+    "addressDailyRewards": {
+      "title": "Награды за 24 часа",
+      "titleShort": "24ч награды",
+      "description": "Награды за последние 24 часа. С {startDate} по {endDate}"
+    }
+  },
+  "sessionNodes": {
+    "general": {
+      "publicKeyShort": "Ключ ноды",
+      "publicKeyLong": "Публичный ключ ноды XPoint",
+      "publicKeyDescription": "Уникальный публичный идентификатор этой ноды в {sessionNetwork}.",
+      "blsKey": "BLS-ключ",
+      "blsKeyDescription": "Публичный криптографический ключ ноды для взаимодействия со смарт-контрактами XPoint.",
+      "operatorAddress": "Адрес оператора",
+      "operatorAddressTooltip": "Адрес кошелька оператора ноды.",
+      "beneficiaryAddress": "Адрес получателя",
+      "beneficiaryAddressTooltip": "Адрес кошелька, на который отправляются награды.",
+      "operatorFee": "Комиссия оператора",
+      "operatorFeeShort": "Комиссия",
+      "operatorFeeDescription": "Оператор мульти-стейкинговой ноды может установить комиссию для покрытия расходов. После её удержания оставшиеся награды распределяются между участниками пропорционально их стейку.",
+      "rawData": "Исходные данные"
+    }
+  },
+  "actionModules": {
+    "shared": {
+      "notEnoughTokensAlert": "У вас недостаточно {tokenSymbol} для стейкинга в эту ноду. На кошельке сейчас {walletAmount}. Перед стейкингом убедитесь, что у вас есть минимум {tokenAmount}.",
+      "stakeAmount": "Сумма стейка",
+      "stakeAmountDescription": "Количество {tokenSymbol}, которое вы размещаете в этой ноде.",
+      "totalStaked": "Всего в стейкинге",
+      "totalStakedDescription": "Количество {tokenSymbol}, размещённое в этой ноде с учётом вашего стейка.",
+      "yourStake": "Ваш стейк",
+      "yourStakeDescription": "Количество {tokenSymbol}, которое вы разместили в этой ноде.",
+      "operatorAddress": "Адрес оператора",
+      "operatorAddressTooltip": "Адрес оператора ноды.",
+      "operatorAddressDescription": "Адрес кошелька оператора ноды.",
+      "autoActivate": "Автоматическая активация",
+      "autoActivateDescription": "Если включено, нода автоматически войдёт в сеть после полного набора стейка.",
+      "rewardsAddress": "Адрес наград",
+      "rewardsAddressDescription": "Адрес кошелька, на который вы будете получать награды.",
+      "operatorFee": "Комиссия оператора",
+      "operatorFeeDescription": "Процент наград ноды, который получает оператор. Оставшиеся награды распределяются между участниками пропорционально сумме стейка.",
+      "reserveSlots": "Зарезервированные стейки",
+      "reserveSlotsDescription": "Вы можете зарезервировать места в своей ноде для конкретных участников.",
+      "enabled": "Включено",
+      "disabled": "Отключено",
+      "progress": "Прогресс",
+      "retry": "Повторить",
+      "proxyApprovalCost": "Комиссия разрешения proxy:"
+    },
+    "stakeAmount": {
+      "validation": {
+        "underMinOperator": "Оператор ноды должен внести минимум {min} (25%)",
+        "underMin": "Минимальный стейк: {min}",
+        "overMax": "Нельзя внести больше {max}",
+        "incorrectFormat": "Не удалось распознать сумму стейка. Введите значение заново.",
+        "reduceForbidden": "Нельзя уменьшить сумму стейка. Её можно только увеличить или удалить полностью."
+      }
+    },
+    "operatorFee": {
+      "validation": {
+        "underMin": "Комиссия оператора должна быть не меньше {min}",
+        "overMax": "Комиссия оператора не может быть больше {max}",
+        "incorrectFormat": "Не удалось распознать комиссию оператора. Введите значение заново."
+      }
+    },
+    "ethAddress": {
+      "validation": {
+        "invalidAddress": "Некорректный адрес Ethereum"
+      }
+    },
+    "rewardsAddress": {
+      "validation": {
+        "invalidAddress": "Некорректный адрес наград. Введите адрес заново.",
+        "bannedSessionContract": "Некорректный адрес наград. Этот смарт-контракт XPoint не может получать награды.",
+        "bannedVestingContract": "Некорректный адрес наград. Вестинговые контракты не могут получать награды."
+      }
+    },
+    "staking": {
+      "titleNewStake": "Стейкинг в ноду",
+      "titleManageStake": "Управление стейком",
+      "rewardsAddress": "Указать отдельный адрес наград (необязательно)",
+      "rewardsAddressDescription": "Награды можно будет получить на кошелёк, с которым вы регистрируетесь, или на другой адрес.",
+      "rewardsAddressVesting": "Адрес наград",
+      "rewardsAddressVestingDescription": "Награды будут доступны к получению на указанный здесь адрес.",
+      "manage": {
+        "stakeAmountAdditional": "Дополнительный стейк",
+        "stakeAmountAdditionalDescription": "Дополнительная сумма, которую нужно добавить к текущему стейку.",
+        "buttonRemoveStake": {
+          "text": "Удалить стейк",
+          "aria": "Удалить стейк из ноды"
+        },
+        "buttonRemoveStakeAndRegistration": {
+          "text": "Удалить стейк и регистрацию",
+          "aria": "Удалить стейк из ноды и удалить регистрацию"
+        }
+      },
+      "buttonStake": {
+        "text": "Внести стейк",
+        "aria": "Внести стейк в ноду"
+      },
+      "error": {
+        "specialTitle": "Что-то пошло не так",
+        "specialDescription": "Не удалось внести стейк в ноду. Обратитесь в <discord-link>поддержку XPoint</discord-link>."
+      },
+      "disabledReason": {
+        "alreadyFinalized": "Данные ноды уже финализированы и не могут быть изменены.",
+        "alreadyContributedOperatorFee": "Комиссию оператора нельзя изменить после того, как другой адрес внёс вклад в ноду.",
+        "alreadyContributedReservedSlots": "Зарезервированные места нельзя изменить после того, как другой адрес внёс вклад в ноду.",
+        "pastTimeLimitStakeAmountRemove": "Нельзя удалить стейк из ноды после {timeLimitAmount} с момента предыдущего стейка в эту ноду."
+      }
+    },
+    "registration": {
+      "shared": {
+        "buttonContinue": {
+          "text": "Продолжить",
+          "aria": "Перейти к следующему шагу регистрации"
+        },
+        "buttonConfirm": {
+          "text": "Подтвердить",
+          "aria": "Подтвердить ввод и перейти к следующему шагу регистрации"
+        },
+        "buttonBack": {
+          "text": "Назад",
+          "aria": "Вернуться к предыдущему шагу регистрации"
+        },
+        "buttonConfirmAndStake": {
+          "text": "Подтвердить и внести стейк",
+          "aria": "Подтвердить данные регистрации и внести стейк в ноду"
+        },
+        "buttonViewMyStakes": {
+          "text": "Мои стейки",
+          "aria": "Открыть ваши стейки"
+        },
+        "registerANewNode": "Зарегистрировать новую ноду",
+        "singleContributorNode": "Нода одного участника",
+        "multiContributorNode": "Мульти-стейкинговая нода",
+        "submit": {
+          "preparedAt": "Регистрация подготовлена",
+          "preparedAtDescription": "Сколько времени прошло с момента подготовки регистрации ноды"
+        },
+        "error": {
+          "errorMessage": "Сообщение об ошибке",
+          "copyToClipboardButtonAria": "Скопировать сообщение об ошибке"
+        },
+        "nodeNotFound": "Регистрация этой ноды не найдена. Проверьте, что подключён правильный кошелёк.",
+        "registrationDisabled": "Регистрация временно отключена. Обратитесь в <discord-link>поддержку XPoint</discord-link>."
+      },
+      "loading": {
+        "title": "Проверяем существующие регистрации",
+        "error": "Что-то пошло не так"
+      },
+      "start": {
+        "title": "Вы хотите внести стейк самостоятельно или вместе с другими участниками?",
+        "description": "Для самостоятельного стейкинга нужно внести {minStakeSolo}.",
+        "description2": "Чтобы управлять нодой вместе с другими участниками, нужно внести минимум {minStakeMulti}.",
+        "registrationDisabledSolo": "Регистрация нод одного участника временно отключена. Обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+        "registrationDisabledMulti": "Регистрация мульти-стейкинговых нод временно отключена. Обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+        "buttonSolo": {
+          "text": "Внести стейк самому",
+          "aria": "Продолжить регистрацию, внеся полный стейк {minStakeSolo} самостоятельно."
+        },
+        "buttonMulti": {
+          "text": "Внести стейк вместе с другими",
+          "aria": "Продолжить регистрацию, внеся минимум {minStakeMulti} самостоятельно."
+        },
+        "chooseMode": {
+          "title": "Выберите режим настройки:",
+          "express": {
+            "text": "Быстрый",
+            "tooltip": "Пропустить детальную настройку и использовать значения по умолчанию. Их можно изменить позже."
+          },
+          "guided": {
+            "text": "Пошаговый",
+            "tooltip": "Настроить параметры ноды по шагам."
+          }
+        }
+      },
+      "stakeAmount": {
+        "title": "Какую сумму вы хотите внести?",
+        "description": "Как оператор ноды вы должны внести минимум {minStakeMulti}.",
+        "min": "Мин.: {min}",
+        "max": "Макс.: {max}",
+        "errorUnderMin": "Нельзя внести меньше минимальной суммы {min}."
+      },
+      "operatorFee": {
+        "title": "Укажите комиссию оператора",
+        "description": "После удержания этой комиссии оставшиеся награды распределяются между вами и участниками пропорционально сумме стейка."
+      },
+      "rewardsAddress": {
+        "title": "Куда отправлять ваши награды?",
+        "description": "Адресом наград может быть кошелёк, с которым вы регистрируетесь, или другой адрес.",
+        "buttonSame": {
+          "text": "Тот же кошелёк",
+          "aria": "Использовать тот же адрес кошелька, с которым выполняется регистрация."
+        },
+        "buttonDifferent": {
+          "text": "Другой адрес",
+          "aria": "Использовать другой адрес."
+        }
+      },
+      "rewardsAddressInputSolo": {
+        "title": "На какой адрес отправлять награды?",
+        "description": "Полученные награды будут отправлены на этот адрес.",
+        "errorInvalidAddress": "Некорректный адрес Ethereum"
+      },
+      "rewardsAddressInputMulti": {
+        "title": "На какой адрес отправлять награды?",
+        "description": "Полученные награды будут отправлены на этот адрес.",
+        "errorInvalidAddress": "Некорректный адрес Ethereum"
+      }
+    }
+  },
+  "nodeCard": {
+    "shared": {
+      "stake": "Стейк",
+      "rewards": "Награды",
+      "operator": "Оператор",
+      "contributors": "Участники",
+      "status": "Статус"
+    },
+    "open": {
+      "stakeButton": "Внести стейк",
+      "registerButton": "Зарегистрировать",
+      "viewButton": "Открыть"
+    },
+    "staked": {
+      "operator": "Оператор",
+      "operatorTooltip": "Вы оператор этой ноды",
+      "operatorTooltipOther": "Это оператор этой ноды",
+      "versionLabel": "Версия ноды: {version}",
+      "versionTooltipOutOfDate": "Ноду нужно обновить до последней версии",
+      "versionTooltipPatch": "Для этой ноды доступно патч-обновление",
+      "versionTooltipUpToDate": "На этой ноде установлена последняя версия",
+      "versionUpdateAvailableNotification": "Доступно обновление ноды",
+      "versionUpdateAvailableNotificationDescription": "Доступна новая версия. Инструкция по обновлению находится <link>здесь</link>.",
+      "labelExpand": "Подробно",
+      "ariaExpand": "Показать подробный вид ноды",
+      "labelCollapse": "Кратко",
+      "ariaCollapse": "Показать краткий вид ноды",
+      "state": {
+        "exited": "Выведена",
+        "awaitingExit": "Готова к выходу",
+        "exitRequested": "Выход запрошен",
+        "deregistered": "Исключена из сети",
+        "running": "Работает",
+        "decommissioned": "Отключена",
+        "unknown": "Неизвестно"
+      },
+      "lastUptime": "Последний uptime: {relativeTime}",
+      "lastUptimeDescription": "Последнее подтверждение доступности ноды. Блок {blockNumber} ({date})",
+      "lastReward": "Последняя награда: {relativeTime}",
+      "lastRewardDescription": "Последний блок, в котором нода получила награду. Блок {blockNumber} ({date})",
+      "exitUnlockTimerProcessing": "Запрос выхода обрабатывается",
+      "exitUnlockTimerNotification": "Выход доступен <text-bold>{relativeTime}</text-bold> ({date})",
+      "exitUnlockTimerDescription": "До момента, когда ноду можно будет вывести из сети, осталось <text-bold>{relativeTime}</text-bold>. Вернитесь {date}, чтобы завершить выход.",
+      "exitTimerNotification": "Выход доступен. Завершите его в течение <text-bold>{relativeTimeNoSuffix}</text-bold>, чтобы избежать штрафа.",
+      "exitTimerNotificationNow": "Завершите выход сейчас, чтобы избежать штрафа.",
+      "exitTimerNotificationReadyDate": "Выход доступен с <text-bold>{date}</text-bold>",
+      "exitTimerDescription": "Нода готова к выходу. Если не завершить выход в течение <text-bold>{relativeTimeNoSuffix}</text-bold>, может быть применён небольшой штраф. {linkOut}",
+      "exitTimerDescriptionNow": "Нода готова к выходу. Если не завершить выход сейчас, может быть применён небольшой штраф. {linkOut}",
+      "deregistrationTimerNotification": "Исключение из сети <text-bold>{relativeTime}</text-bold>",
+      "deregistrationTimerDescription": "До исключения ноды из сети и блокировки средств на {lockedStakeTime} осталось <text-bold>{relativeTime}</text-bold> ({date}).",
+      "deregisteredProcessing": "Исключение из сети обрабатывается",
+      "deregisteredTimerNotification": "Стейк разблокируется <text-bold>{relativeTime}</text-bold>",
+      "deregisteredTimerDescription": "Осталось времени до разблокировки стейка ({date}).",
+      "liquidationNotification": "Ожидает ликвидации",
+      "liquidationDescription": "Нода неактивна и ожидает удаления сетью.",
+      "finalize": {
+        "buttonText": "Активировать",
+        "buttonAria": "Активировать ноду в сети",
+        "successToast": "Нода успешно активирована. Она появится в сети через несколько минут."
+      },
+      "exit": {
+        "buttonText": "Выйти",
+        "buttonAria": "Вывести ноду из сети",
+        "disabledButtonTooltipContent": "Вернитесь <text-bold>{relativeTime}</text-bold> ({date}), чтобы вывести ноду из сети.",
+        "disabledInfo": "Выход нод временно отключён. Следите за обновлениями в <discord-link>поддержке XPoint</discord-link>.",
+        "dialog": {
+          "title": "Выход ноды",
+          "requestFee": "Комиссия выхода",
+          "requestFeeTooltip": "Количество {gasTokenSymbol}, которое будет использовано этой транзакцией. {linkOut}",
+          "amountStaked": "Сумма стейка",
+          "amountStakedTooltip": "Количество {tokenSymbol}, внесённое в эту ноду.",
+          "buttons": {
+            "submit": "Вывести ноду",
+            "submitAria": "Вывести ноду из сети"
+          },
+          "alert": {
+            "gasFetchFailed": "Не удалось оценить комиссию выхода ноды. Оценка может быть неточной.",
+            "highGas": "Комиссия сети выше обычной."
+          }
+        },
+        "error": "Не удалось получить подпись для выхода ноды. Попробуйте ещё раз. Если проблема повторится, обратитесь в <discord-link>поддержку XPoint</discord-link>.",
+        "errorButton": "Повторить",
+        "stage": {
+          "arbitrum": {
+            "idle": "Отправляем выход ноды в Arbitrum",
+            "pending": "Отправляем выход ноды в Arbitrum",
+            "success": "Выход ноды отправлен в Arbitrum",
+            "errorTemplate": "Не удалось отправить выход ноды в Arbitrum: {reason}",
+            "errors": {
+              "BLSPubkeyDoesNotMatch": "BLS-ключ не совпадает"
+            }
+          },
+          "network": {
+            "idle": "Подтверждаем выход ноды в сети XPoint",
+            "pending": "Подтверждаем выход ноды в сети XPoint",
+            "success": "Выход ноды подтверждён сетью XPoint",
+            "errorTemplate": "Не удалось подтвердить выход ноды в {sessionNetwork}: {reason}",
+            "errors": {
+              "UnableToReachNetwork": "не удалось связаться с {sessionNetwork}"
+            }
+          }
+        }
+      },
+      "requestExit": {
+        "button": "Запросить выход",
+        "buttonText": "Запросить выход",
+        "buttonAria": "Запросить выход ноды",
+        "requestedButtonText": "Выход запрошен",
+        "requestedButtonAria": "Выход этой ноды уже запрошен",
+        "disabledInfo": "Запросы выхода нод временно приостановлены. Следите за обновлениями в <discord-link>поддержке XPoint</discord-link>.",
+        "dialog": {
+          "title": "Запросить выход ноды",
+          "submitAria": "Запросить выход ноды {pubKey}",
+          "description": {
+            "title": "Вы уверены?",
+            "content1": "Нода будет готова выйти из сети {request_time}.<br></br><br></br>После периода ожидания {request_time} у вас будет окно {exit_time}, чтобы подтвердить выход и вернуть стейк. Если не подтвердить выход в течение {exit_time}, может быть применён небольшой штраф. {linkOut}",
+            "content2": "После выхода ноды из сети вы сможете вернуть свой стейк через портал стейкинга."
+          },
+          "buttons": {
+            "submit": "Запросить выход",
+            "submitAria": "Запросить выход для {pubKey}",
+            "cancel": "Отмена",
+            "cancelAria": "Отменить запрос выхода"
+          },
+          "write": {
+            "requestFee": "Комиссия запроса выхода",
+            "requestFeeTooltip": "Количество {gasTokenSymbol}, которое будет использовано этой транзакцией. {linkOut}",
+            "amountStaked": "Сумма стейка",
+            "amountStakedTooltip": "Количество {tokenSymbol}, внесённое вами в эту ноду.",
+            "buttons": {
+              "submit": "Запросить выход",
+              "submitAria": "Запросить выход ноды"
+            },
+            "alert": {
+              "gasFetchFailed": "Не удалось оценить комиссию запроса выхода ноды. Оценка может быть неточной.",
+              "highGas": "Комиссия сети выше обычной."
+            }
+          },
+          "stage": {
+            "arbitrum": {
+              "idle": "Отправляем запрос выхода ноды в Arbitrum",
+              "pending": "Отправляем запрос выхода ноды в Arbitrum",
+              "success": "Запрос выхода ноды отправлен в Arbitrum",
+              "errorTemplate": "Не удалось отправить запрос выхода ноды в Arbitrum: {reason}",
+              "errors": {
+                "CallerNotContributor": "вызывающий адрес не является участником ноды",
+                "EarlierLeaveRequestMade": "запрос выхода для этой ноды уже создан",
+                "SmallContributorLeaveTooEarly": "малые участники могут запрашивать выход только после 30 дней работы ноды."
+              }
+            },
+            "network": {
+              "idle": "Подтверждаем запрос выхода ноды",
+              "pending": "Подтверждаем запрос выхода ноды",
+              "success": "Запрос выхода ноды подтверждён",
+              "errorTemplate": "Не удалось подтвердить отправку запроса выхода в {sessionNetwork}: {reason}",
+              "errors": {
+                "UnableToReachNetwork": "не удалось связаться с {sessionNetwork}"
+              }
+            }
+          }
+        }
+      },
+      "joiningNetworkNotification": "Нода войдёт в сеть примерно {relativeTime}",
+      "joiningNetworkDescription": "Нода войдёт в сеть после подтверждения регистрации сетью. ({confirmations}/{requiredConfirmations} подтверждений)",
+      "exitRequestor": "Инициатор выхода",
+      "exitRequestorTooltip": "Вы запросили выход этой ноды",
+      "exitRequestorTooltipOther": "Этот участник запросил выход ноды"
+    }
+  },
+  "statusBar": {
+    "network": {
+      "loading": "Загрузка блока...",
+      "unreachable": "Недоступно",
+      "infoTooltip": "Блок {blockNumber}: <text-bold>{blockRelativeTime}</text-bold>",
+      "warningTooltip": "Блок {blockNumber}: <text-bold>{blockRelativeTime}</text-bold>. <clickable-text>Нажмите, чтобы обновить</clickable-text>",
+      "errorTooltip": "Блок {blockNumber}: <text-bold>{blockRelativeTime}</text-bold>. <clickable-text>Нажмите, чтобы обновить</clickable-text>",
+      "unreachableTooltip": "Не удалось связаться с сетью. <clickable-text>Нажмите, чтобы обновить</clickable-text>"
+    },
+    "l2": {
+      "loading": "Загрузка высоты L2...",
+      "infoTooltip": "Высота L2 {height}: <text-bold>{heightRelativeTime}</text-bold>",
+      "warningTooltip": "Высота L2 {height}: <text-bold>{heightRelativeTime}</text-bold>. <clickable-text>Нажмите, чтобы обновить</clickable-text>",
+      "errorTooltip": "Высота L2 {height}: <text-bold>{heightRelativeTime}</text-bold>. <clickable-text>Нажмите, чтобы обновить</clickable-text>",
+      "unreachableTooltip": "Не удалось связаться с Arbitrum. <clickable-text>Нажмите, чтобы обновить</clickable-text>"
+    }
+  },
+  "infoNotice": {
+    "register": "Перед продолжением убедитесь, что вы знакомы с лучшими практиками эксплуатации ноды. Если нода не будет соответствовать требованиям, сеть может проголосовать за её исключение, а также могут применяться штрафы. {linkOut}",
+    "dontShowAgain": "Больше не показывать",
+    "stake": "Перед продолжением убедитесь, что вы знакомы с лучшими практиками стейкинга. Если нода, в которую вы вносите вклад, не будет соответствовать требованиям, сеть может проголосовать за её исключение, а также могут применяться штрафы. {linkOut}",
+    "confirm": "Понятно",
+    "withdrawOperator": {
+      "text": "Если удалить стейк и регистрацию, участники не смогут внести стейк в вашу ноду, а регистрация будет удалена. Существующие стейки будут возвращены участникам.",
+      "confirm": "Удалить стейк и регистрацию",
+      "cancel": "Отмена"
+    },
+    "withdrawContributorTooSoon": "Пока нельзя удалить стейк из этой ноды. Вернитесь <text-bold>{relativeTime}</text-bold>. Если нода будет зарегистрирована в течение <text-bold>{relativeTimeNoSuffix}</text-bold>, для удаления стейка нужно будет подождать {unlockWaitTime}. {linkOut}",
+    "confirmStake": "Вы не сможете удалить стейк из этой ноды в течение 24 часов или до момента её регистрации. После регистрации ноды вы сможете удалить стейк через {unlockWaitTime}. {linkOut}",
+    "stakeSmallWarning": "Участники со стейком меньше {amount} не могут запрашивать выход ноды в течение первых {smallContributorLeaveRequestDelay} её работы. {linkOut}",
+    "smallContributorExitTooSoon": "Участники со стейком меньше {amount} не могут запрашивать выход ноды в течение первых {smallContributorLeaveRequestDelay} её работы. Вернитесь <text-bold>{relativeTime}</text-bold>, чтобы запросить выход. {linkOut}",
+    "exitRejectedRecently": "Ошибка: сеть отклонила запрос выхода. Повторите попытку <text-bold>{relativeTime}</text-bold>.",
+    "cancel": "Отмена",
+    "claimLimitInfo": "Для защиты XPoint Network действует общий лимит на количество {tokenSymbol}, которое можно получить за период {claimCycleTime}. Лимит достигнут. {linkOut}",
+    "claimLimitCountdown": "Вы сможете получить {tokenSymbol} <text-bold>{relativeTime}</text-bold>.",
+    "requestExit2": "После выхода ноды из сети вы сможете вернуть свой стейк через портал стейкинга.",
+    "requestExit1": "Выход вашего стейка приведёт к выходу стейков ВСЕХ участников и оператора, а не только вашего. После подтверждения эта нода будет готова выйти из сети {relativeRequestTime}.<br></br><br></br>После периода ожидания {requestTime} у оператора или участников будет окно {exitTime}, чтобы подтвердить выход. Если выход не будет подтверждён в течение {exitTime}, к оператору может быть применён небольшой штраф. {linkOut}"
+  },
+  "terms": {
+    "title": "Условия портала стейкинга",
+    "description": "Используя портал стейкинга XPoint, вы соглашаетесь соблюдать <link>Условия использования</link>. Пожалуйста, внимательно прочитайте эти условия. Если вы не согласны с ними, вы не должны пользоваться программным обеспечением.",
+    "agree": "Я прочитал(а), понял(а) и принимаю <link>Условия использования</link>, включая дополнительные правила и будущие изменения, описанные в них.",
+    "button": "Продолжить",
+    "mustAccept": "Чтобы участвовать, необходимо принять <link>Условия использования</link>",
+    "accepted": "Вы приняли <link>Условия использования</link>"
+  }
+}

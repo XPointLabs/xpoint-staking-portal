@@ -1,0 +1,1219 @@
+﻿{
+  "general": {
+    "comingSoon": "Coming Soon",
+    "loading": "Loading...",
+    "or": "or",
+    "and": "and",
+    "unknownError": "unknown error",
+    "viewOnExplorer": "View on Explorer",
+    "viewOnExplorerShort": "View",
+    "you": "You",
+    "emptySlot": "Empty Contributor Slot",
+    "notFound": "Not Found",
+    "nodeNotFound": "Node Not Found",
+    "soon": "Soon",
+    "now": "now",
+    "none": "None",
+    "error": {
+      "UserRejectedRequest": "user rejected the request",
+      "InvalidBLSSignature": "invalid BLS signature, try again later",
+      "InvalidBLSProofOfPossession": "BLS proof of possession is invalid",
+      "SignatureExpired": "signature expired, try again later",
+      "InsufficientBalance": "insufficient {tokenSymbol} balance for transaction"
+    },
+    "reserved": "Reserved",
+    "staked": "Staked"
+  },
+  "metadata": {
+    "root": {
+      "title": "XPoint Staking Portal",
+      "description": "Stake and get rewarded for securing the XPoint Network."
+    },
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "Sorry! The page you are looking for could not be found."
+    },
+    "stake": {
+      "title": "Stake Now",
+      "description": "Browse available XPoint Nodes to stake to."
+    },
+    "register": {
+      "title": "Register a XPoint Node",
+      "description": "Register a XPoint Node and stake to it."
+    },
+    "myStakes": {
+      "title": "My Stakes",
+      "description": "View your stakes and claim rewards."
+    },
+    "vestedStakes": {
+      "title": "Vested Stakes",
+      "description": "View your vesting contract stakes."
+    }
+  },
+  "maintenance": {
+    "title": "Maintenance Notice",
+    "description": "Sorry! The Staking Portal is under maintenance. Please check back later."
+  },
+  "fee": {
+    "networkFee": "Network Fee",
+    "networkFeeTooltip": "The estimated amount of {gasTokenSymbol} it will cost to process this transaction on the {mainNetworkChain} network. {linkOut}",
+    "missingFees": "Unable to fetch fee estimates for all transactions. Fee estimate may be inaccurate.",
+    "gasHigh": "The price of gas is higher than usual on {mainNetworkChain} due to high demand. {linkOut}"
+  },
+  "maths": {
+    "outOf": "{count}/{max}"
+  },
+  "clipboard": {
+    "copyToClipboard": "Copy to Clipboard",
+    "copyToClipboardSuccessToast": "Copied to clipboard!"
+  },
+  "navigation": {
+    "home": "Home",
+    "stake": "Stake Now",
+    "myStakes": "My Stakes",
+    "vestedStakes": "Vesting Stakes",
+    "docs": "Docs",
+    "tokenSite": "XPoint",
+    "support": "Support",
+    "register": "Register",
+    "faucet": "Faucet",
+    "explorer": "Appchain Explorer",
+    "leaderboard": "Leaderboard",
+    "hamburgerDropdown": {
+      "ariaLabel": "Open navigation menu",
+      "language": "Change language",
+      "ariaLanguage": "Open language selection",
+      "support": "Support",
+      "ariaSupport": "Go to support page",
+      "faucet": "Faucet",
+      "ariaFaucet": "Go to faucet page",
+      "explorer": "Appchain Explorer",
+      "ariaExplorer": "Go to appchain explorer"
+    },
+    "managedBy": "",
+    "swap": "Migrate",
+    "bridgeArbitrum": "Arbitrum Bridge",
+    "getToken": "Get {tokenSymbol}"
+  },
+  "wallet": {
+    "modalButton": {
+      "connect": "Connect Wallet",
+      "connected": "Open Wallet",
+      "connecting": "Connecting...",
+      "reconnecting": "Reconnecting...",
+      "ariaConnected": "Open wallet account modal",
+      "ariaDisconnected": "Open connect wallet modal",
+      "balance": "Balance",
+      "address": "Address",
+      "fallbackName": "No name"
+    },
+    "watchTokenButton": {
+      "importText": "Import Token",
+      "ariaImport": "Import {tokenSymbol} to your wallet",
+      "changeNetwork": "Change Network",
+      "ariaChangeNetwork": "Switch to a supported network",
+      "pending": "Pending",
+      "ariaPending": "Importing {tokenSymbol} to your wallet",
+      "failError": "Your wallet does not support importing tokens"
+    },
+    "walletInteractionButton": {
+      "connectWallet": "Connect Wallet",
+      "switchNetwork": "Switch Network"
+    },
+    "networkDropdown": {
+      "invalid": "Invalid network",
+      "ariaMainnet": "Switch to {mainnetName}",
+      "ariaTestnet": "Switch to {testnetName}",
+      "ariaDropdown": "Open network dropdown",
+      "errorNotSupported": "It looks like your wallet doesn't support the Arbitrum Sepolia test network. Try connecting with a different wallet."
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "Sorry! The page you are looking for could not be found.",
+    "homeButton": "Return Home"
+  },
+  "home": {
+    "title": "Stake <text-semibold>{tokenSymbol}</text-semibold>",
+    "titleDescription": "Secure the Network",
+    "buttons": {
+      "primary": "Stake Now",
+      "secondary": "How to run a XPoint Node"
+    },
+    "heroImageAlt": "Glass cube with XPoint blue highlights"
+  },
+  "faucet": {
+    "information": {
+      "title": "Getting test {tokenSymbol}",
+      "referralTitle": "Referrals",
+      "referralDescription": "If you received a valid referral code from a XPoint community member, you are eligible to receive test {tokenSymbol}.",
+      "communityTitle": "XPoint Community Members",
+      "communityDescription": "If you were part of the Token Community <session-token-community-snapshot-link></session-token-community-snapshot-link>  taken on {snapshotDate}, you are eligible to receive test {tokenSymbol}. Connect to {connectionOptions}, and then connect your wallet or enter your wallet address manually. If your eligibility is confirmed, test {tokenSymbol} will be sent to this address.",
+      "oxenTitle": "Oxen Service Nodes",
+      "oxenDescription": "If you registered for the <oxen-program-link></oxen-program-link> by {oxenRegistrationDate}, you are also eligible. Connect the wallet that you registered for the program with, or enter the wallet address manually. If your eligibility is confirmed, test {tokenSymbol} will be sent to this address.",
+      "walletRequirementTitle": "Wallet Requirements:",
+      "walletRequirementDescription": "You will need test {gasTokenSymbol} on the {testNetworkChain} network to use as <gas-info-link>gas</gas-info-link> for all test {tokenSymbol} transactions. You can get test {gasTokenSymbol} from an <gas-faucet-link>{testNetworkChain} faucet</gas-faucet-link>.",
+      "notEligible": "Not eligible? {testnetName} and its Incentive Program are currently closed to the public, however we will be inviting new users to join our testnet in the future."
+    },
+    "addTokenInfo": "Make {tokenSymbol} visible in your wallet by manually importing the token.",
+    "transactions": {
+      "tableCaption": "A list of your faucet transactions.",
+      "when": "When",
+      "hash": "Hash",
+      "amount": "Amount"
+    },
+    "form": {
+      "back": "Back",
+      "inputPlaceholder": "Wallet address",
+      "inputAria": "Enter your wallet address to receive test {tokenSymbol} from the faucet.",
+      "connectWalletButtonText": "Connect Wallet",
+      "connectWalletButtonAria": "Connect your wallet to receive test {tokenSymbol} from the faucet.",
+      "disconnectWalletButtonText": "Disconnect",
+      "disconnectWalletButtonAria": "Disconnect your wallet.",
+      "connectedWalletButtonText": "Connected",
+      "connectedWalletButtonAria": "Connected to wallet, click to disconnect.",
+      "telegramConnectButtonAria": "Connect your Telegram account",
+      "discordConnectButtonAria": "Connect your Discord account",
+      "swapToTestnet": "Swap to {testnetName}",
+      "confirm": {
+        "connectedWalletInfo": "Your connected wallet's account <address></address> is being used to fill out this form. You will not be asked to make any transactions.",
+        "discordDisclaimer": "Your connected <tooltip>Discord User ID</tooltip> will be sent with this form.",
+        "discordDisclaimerUserIdTooltip": "Your Discord User ID is the unique identifier for your Discord account.",
+        "telegramDisclaimer": "Your connected <tooltip>Telegram User ID</tooltip> will be sent with this form.",
+        "telegramDisclaimerUserIdTooltip": "Your Telegram User ID is the unique identifier for your Telegram account."
+      },
+      "submit": {
+        "continueText": "Continue",
+        "continueAria": "Continue to receive test {tokenSymbol} from the faucet.",
+        "getTestTokensText": "Get Test {tokenSymbol}",
+        "getTestTokensAria": "Get test {tokenSymbol} from the faucet.",
+        "checkingEligibilityText": "Checking Eligibility...",
+        "checkingEligibilityAria": "Checking if you are eligible to receive test {tokenSymbol} from the faucet.",
+        "sendingTokensText": "Sending Test {tokenSymbol}...",
+        "sendingTokensAria": "Sending test {tokenSymbol} to your wallet address.",
+        "transactionSuccess": "Transaction Successful",
+        "transactionSuccessDescription": "Test {tokenSymbol} has been sent to your wallet address.",
+        "transactionError": "Transaction Failed"
+      },
+      "error": {
+        "invalidAddress": "Wallet address is not valid. It must be a valid {ethTokenSymbol} address: {example}",
+        "insufficientEth": "It looks like you don't have enough test {gasTokenSymbol} on {testNetworkChain}, go to <recommended-gas-faucet-link></recommended-gas-faucet-link> to get some. You have {gasAmount} test {gasTokenSymbol}",
+        "insufficientEthTextOnly": "It looks like you don't have enough test {gasTokenSymbol} on {testNetworkChain}. You have {gasAmount} test {gasTokenSymbol}.",
+        "incorrectChain": "Faucet only works on {testnetName}, switch to {testNetworkChain} network to use the faucet.",
+        "faucetOutOfTokens": "Faucet is out of {tokenSymbol}. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+        "faucetOutOfTokensTextOnly": "Faucet is out of {tokenSymbol}. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+        "invalidService": "The {service} account you connected was not part of the community snapshot on {snapshotDate} and is not eligible for testnet access.",
+        "invalidOxenAddress": "This wallet address was not registered for the {oxenProgram} on {oxenRegistrationDate} and is not eligible for testnet access.",
+        "alreadyUsedService": "The connected {service} account has already been used to claim testnet {tokenSymbol} for another wallet address.",
+        "alreadyUsed": "The connected wallet address has already been used to claim testnet {tokenSymbol}.",
+        "authFailed": "{service} authentication failed. Please refresh the page and try again.",
+        "invalidReferralCode": "Referral code is invalid.",
+        "referralCodeCantBeUsedByCreator": "Referral code can't be used by this wallet, consider sharing it with someone.",
+        "referralCodeOutOfUses": "Referral code is out of uses.",
+        "referralCodeAlreadyUsed": "You have already used this referral code."
+      },
+      "transactionHash": "Transaction Hash: {hash}",
+      "transactionHashDescription": "Transaction hash of the faucet transaction.",
+      "haveSomeMore": "Alright then, you can have some more",
+      "watchSENTInfo": "You may need to manually add {tokenSymbol} to your wallet’s token list to make it show up, click the button below to add it.",
+      "copyTransactionHash": "Copy Transaction Hash",
+      "copyTransactionHashSuccessToast": "Copied Transaction Hash to clipboard!",
+      "referralCodeAdded": "Faucet referral code detected and added."
+    }
+  },
+  "chainBanner": {
+    "unsupportedChain": "You are currently on an unsupported chain. <link>Click here to switch chain</link>",
+    "mainnetNotLive": "{mainnetName} is not live yet. <link>Click here to switch to {testnetName}</link>",
+    "testnet": "You are currently on {testnetName}."
+  },
+  "banner": {
+    "registrationPaused": "Node registration is temporarily disabled. Apologies for any inconvenience, we expect to be able to re-enable registrations soon. For updates, visit the <discord-link>XPoint support</discord-link>.",
+    "claimRewardsDisabled": "Claiming rewards is temporarily disabled. Apologies for the inconvenience, this feature will be re-enabled soon. For updates, visit the <link>XPoint support</link>.",
+    "newTokenContract": "The XPoint contract has been updated. <remove-token-link>Remove the old token</remove-token-link> and <watch-token>add the new token contract</watch-token> to your wallet watch list to continue using the Staking Portal. If you have any questions, visit the <link>XPoint support</link>.",
+    "hardFork": "The XPoint Network is undergoing a hard fork <text-medium>{relativeTime}</text-medium>, all nodes must be upgraded to remain on the network {linkOut}"
+  },
+  "modules": {
+    "title": {
+      "format": "{title}:"
+    },
+    "shared": {
+      "error": "Error"
+    },
+    "nodes": {
+      "title": "XPoint Nodes"
+    },
+    "openNodes": {
+      "title": "Available Nodes",
+      "description": "Nodes that are available for staking.",
+      "noNodesP1": "There are currently no XPoint Nodes available to stake to.",
+      "noNodesP2": "Check out the <link>docs</link> to learn about setting up and registering your own XPoint Node.",
+      "landingP1": "Stake your {tokenSymbol} to multicontributor nodes and help secure the network.",
+      "landingP2": "You can also set up your own multicontributor node for others to stake to.",
+      "landingP1Mainnet": "Click on an available XPoint Node to stake {tokenSymbol} and earn rewards for securing the network.",
+      "landingP2Mainnet": "Want to run your own XPoint Node?",
+      "learnMoreButtonText": "Learn More",
+      "learnMoreButtonAria": "Navigate to the XPoint Node documentation page.",
+      "showHiddenPendingNodesText": "Show Pending Nodes",
+      "error": "An error occurred while fetching available nodes. Please try again. If the problem persists, submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+      "errorButton": "Retry",
+      "stakingDisabled": "Multicontributor node staking is temporarily disabled. Apologies for any inconvenience. For updates, visit the <discord-link>XPoint support</discord-link>."
+    },
+    "nodeRegistrations": {
+      "title": "Your Prepared Registrations",
+      "showHiddenText": "Show Hidden",
+      "landingP1": "Select a node to complete registration and start staking.",
+      "noWalletP1": "Connect your wallet to view XPoint Nodes that you have prepared registrations for.",
+      "noNodesP1": "You have not prepared registrations for any XPoint Nodes.",
+      "noNodesP2": "Learn how to prepare registration for your XPoint Node <link>here</link>.",
+      "learnMoreButtonText": "Learn More",
+      "learnMoreButtonAria": "Navigate to the XPoint Node documentation page.",
+      "error": "An error occurred while fetching your prepared registrations. Please try again. If the problem persists, submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+      "errorButton": "Retry"
+    },
+    "stakedNodes": {
+      "title": "My Stakes",
+      "showHiddenText": "Show Hidden",
+      "noWalletP1": "You currently have no wallet connected.",
+      "noWalletP2": "Click the Connect button to view your staked XPoint node.",
+      "noNodesP1": "You have no staked XPoint Nodes.",
+      "noNodesP2": "Click the <link>Stake Now</link> button to stake to an available node or register a new XPoint node.",
+      "stakeNowButtonText": "Stake Now",
+      "stakeNowButtonAria": "Navigate to the staking page to stake to an available node.",
+      "error": "An error occurred while fetching your stakes. Please try again. If the problem persists, submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+      "errorButton": "Retry",
+      "settings": {
+        "simple": "Simple",
+        "detailed": "Detailed"
+      }
+    },
+    "toast": {
+      "error": "Failed to fetch {module}.",
+      "refetching": "Trying again...",
+      "retryButton": "Retry",
+      "refetchSuccess": "Successfully refetched {module}"
+    },
+    "balance": {
+      "title": "Total Staked",
+      "description": "Total {tokenSymbol} you have staked to nodes."
+    },
+    "totalRewards": {
+      "title": "Total Rewards Earned",
+      "titleShort": "Total Rewards",
+      "description": "The total amount of lifetime rewards earned from staking."
+    },
+    "unlockingStakes": {
+      "title": "Unlocking Stakes",
+      "titleShort": "Unlocking Stakes",
+      "description": "The total amount of unlocking stakes from nodes that have been exited or deregistered."
+    },
+    "unclaimedTokens": {
+      "title": "Unclaimed Tokens",
+      "description": "The total amount of rewards that have not been claimed yet."
+    },
+    "unclaimedStakes": {
+      "title": "Unclaimed Stakes",
+      "description": "The total amount of stakes that have not been claimed yet."
+    },
+    "unclaimedRewards": {
+      "title": "Unclaimed Rewards",
+      "description": "The total amount of rewards that have not been claimed yet."
+    },
+    "totalNodes": {
+      "title": "Total Nodes",
+      "description": "The total number of nodes you are currently staked to."
+    },
+    "claim": {
+      "title": "Claim",
+      "dialog": {
+        "title": "Claim Tokens",
+        "updateBalanceCost": "Update Balance Cost:",
+        "updateBalanceCostExemptionReason": "You have already updated your rewards balance.",
+        "claimRewardsCost": "Claim Cost:",
+        "amountClaimable": "Amount Claimable",
+        "amountClaimableTooltip": "Amount of unlocked {tokenSymbol} able to be claimed.",
+        "buttons": {
+          "submit": "Claim {tokenSymbol}",
+          "submitAria": "Claim {tokenSymbol} with a claim gas fee of {gasAmount} {gasTokenSymbol}"
+        },
+        "alert": {
+          "gasFetchFailedUpdateBalance": "Failed to fetch fee estimate for updating rewards balance. Fee estimate may be inaccurate.",
+          "gasFetchFailedClaimRewards": "Failed to fetch fee estimate for claiming rewards. Fee estimate may be inaccurate.",
+          "highGas": "The price of gas is higher than usual."
+        },
+        "successToast": "Claimed {tokenAmount} on Arbitrum"
+      },
+      "error": "An error occurred while fetching the signature for your unclaimed rewards. Please try again. If the problem persists, submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+      "errorButton": "Retry",
+      "stage": {
+        "balance": {
+          "idle": "Updating claim amount on Arbitrum",
+          "pending": "Updating claim amount on Arbitrum",
+          "success": "Updated claim amount on Arbitrum",
+          "errorTemplate": "Failed to claim rewards amount on Arbitrum, {reason}",
+          "errors": {
+            "NullAddress": "recipient address is invalid",
+            "RecipientRewardsTooLow": "claim amount already updated",
+            "InvalidBLSSignature": "invalid BLS signature, try again later",
+            "InsufficientBLSSignatures": "insufficient BLS signatures, try again later"
+          }
+        },
+        "claim": {
+          "idle": "Claiming {tokenAmount} on Arbitrum",
+          "pending": "Claiming {tokenAmount} on Arbitrum",
+          "success": "Claimed {tokenAmount} on Arbitrum",
+          "errorTemplate": "Failed to claim on Arbitrum, {reason}",
+          "errors": {}
+        }
+      }
+    },
+    "price": {
+      "title": "{tokenSymbol} Price",
+      "description": "Price data from the XPNT/USDC Uniswap V3 pool<br></br>Last updated at {date_time}"
+    },
+    "points": {
+      "title": "Testnet Points",
+      "description": "These points determine your eventual share of XPNT tokens as part of the Testnet Incentive Program. {linkOut}"
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "description": "Coming Soon"
+    },
+    "notice": {
+      "title": "Welcome to the XPoint Network",
+      "description": "The XPoint Network is a decentralized physical infrastructure network, custom-built to support the Deep messenger. By running or staking to a node, you're helping to secure the network and route and store messages. {linkOut}",
+      "description2": "Operators and stakers transitioning to the XPoint Network can migrate remaining tokens for {tokenSymbol} <bridge-link>here</bridge-link>"
+    },
+    "referral": {
+      "title": "Referral Program",
+      "description1": "Grow the {sessionNetwork} by inviting others to join the testnet. Share your unique referral link to invite newcomers to claim test XPNT tokens and stake to multicontributor nodes.",
+      "description2": "Learn more <link>here</link>.",
+      "description3": "By participating in the Testnet Referral Program, you agree to these <link>terms and conditions</link>.",
+      "description4": "This code has been used <text-medium>{uses}</text-medium> times and has <text-medium>{remainingUses}</text-medium> remaining uses. Each use gives <text-medium>{drip}</text-medium>",
+      "showButton": "Show referral link"
+    },
+    "networkDailyRewards": {
+      "title": "Estimated Daily Reward",
+      "titleShort": "Est. Daily Reward",
+      "description": "Estimated reward for one node based on latest information. Actual protocol rewards vary. {linkOut}"
+    },
+    "addressDailyRewards": {
+      "titleShort": "24h Rewards",
+      "title": "24h Rewards",
+      "description": "Rewards earned over the past 24 hours. From {startDate} to {endDate}"
+    }
+  },
+  "sessionNodes": {
+    "general": {
+      "publicKeyShort": "SN Key",
+      "publicKeyLong": "XPoint Node Public Key",
+      "publicKeyDescription": "This node's unique public identifier on the {sessionNetwork}.",
+      "blsKey": "BLS Key",
+      "blsKeyDescription": "This node’s public cryptographic key for interacting with XPoint smart contracts.",
+      "operatorAddress": "Operator Address",
+      "operatorAddressTooltip": "The wallet address of the node operator.",
+      "beneficiaryAddress": "Beneficiary Address",
+      "beneficiaryAddressTooltip": "The wallet address rewards are sent to.",
+      "operatorFee": "Operator Fee",
+      "operatorFeeShort": "Fee",
+      "operatorFeeDescription": "Operators of multicontributor nodes can set an operator fee to help cover operating costs. The operator fee is a percentage of the total node rewards. After this fee is deducted, the remaining rewards are distributed to all contributors, including the operator, based on their respective stake amounts.",
+      "rawData": "Raw Data"
+    },
+    "staking": {
+      "stakedBalance": "Staked Balance",
+      "stakedBalanceDescription": "The total amount of {tokenSymbol} you have staked to this node.",
+      "minimumContribution": "Minimum Contribution",
+      "minimumContributionDescription": "Minimum amount of {tokenSymbol} that can be staked to this node.",
+      "maximumContribution": "Maximum Contribution",
+      "maximumContributionDescription": "Maximum amount of {tokenSymbol} that can be staked to this node.",
+      "stakedAmount": "Staked Amount",
+      "stakedAmountDescription": "Amount of {tokenSymbol} staked to this node.",
+      "stakeAmount": "Stake Amount",
+      "stakeAmountDescription": "Amount of {tokenSymbol} to stake."
+    }
+  },
+  "actionModules": {
+    "shared": {
+      "notEnoughTokensAlert": "You don't have enough {tokenSymbol} to stake to this node. Your wallet has {walletAmount}. Please make sure you have at least {tokenAmount} in your wallet before staking.",
+      "stakeAmount": "Stake Amount",
+      "stakeAmountDescription": "Amount of {tokenSymbol} you are staking to this node.",
+      "totalStaked": "Total Staked",
+      "totalStakedDescription": "The amount of {tokenSymbol} staked to this node, including your stake.",
+      "yourStake": "Your Stake",
+      "yourStakeDescription": "The amount of {tokenSymbol} you have staked to this node.",
+      "operatorAddress": "Operator Address",
+      "operatorAddressTooltip": "The address of the node operator.",
+      "operatorAddressDescription": "The wallet address of the node operator",
+      "autoActivate": "Automatic Activation",
+      "autoActivateDescription": "If enabled, this node will automatically join the network once fully staked.",
+      "rewardsAddress": "Rewards Address",
+      "rewardsAddressDescription": "The wallet address that you will claim rewards to.",
+      "operatorFee": "Operator Fee",
+      "operatorFeeDescription": "Percentage of node rewards taken as a fee by the operator, with remaining rewards distributed to contributors, proportional to stake amount.",
+      "reserveSlots": "Reserved Stakes",
+      "reserveSlotsDescription": "You can reserve stakes for specific contributors to your node.",
+      "buttonEditField": {
+        "aria": "Edit {field}"
+      },
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "progress": "Progress",
+      "retry": "Retry",
+      "proxyApprovalCost": "Proxy Approval Cost:",
+      "proxyApprovalNotNeededTooltip": "Already approved for {amount}, proxy approval not needed for stake amount."
+    },
+    "stakeAmount": {
+      "validation": {
+        "underMinOperator": "Node operators must stake at least {min} (25%)",
+        "underMin": "You must stake at least {min}",
+        "overMax": "You cannot stake more than {max}",
+        "incorrectFormat": "Unable to parse stake amount, please re-enter the value",
+        "reduceForbidden": "You cannot reduce your stake amount, you can only increase it or remove all of it."
+      }
+    },
+    "operatorFee": {
+      "validation": {
+        "underMin": "Operator fee must be at least {min}",
+        "overMax": "Operator fee cannot be more than {max}",
+        "incorrectFormat": "Unable to parse operator fee, please re-enter the value"
+      }
+    },
+    "ethAddress": {
+      "validation": {
+        "invalidAddress": "Invalid Ethereum Address"
+      }
+    },
+    "rewardsAddress": {
+      "validation": {
+        "invalidAddress": "Invalid rewards address. Please re-enter the address.",
+        "bannedSessionContract": "Invalid rewards address. This XPoint smart contract can't receive rewards.",
+        "bannedVestingContract": "Invalid rewards address. Vesting contracts can't receive rewards."
+      }
+    },
+    "staking": {
+      "titleNewStake": "Stake to a Node",
+      "titleManageStake": "Manage Stake",
+      "rewardsAddress": "Add Separate Rewards Address (Optional)",
+      "rewardsAddressDescription": "Rewards will be claimable to the wallet you are registering with, or you can specify a different wallet address.",
+      "rewardsAddressVesting": "Rewards Address",
+      "rewardsAddressVestingDescription": "Rewards will be claimable to the wallet you you specify here.",
+      "manage": {
+        "stakeAmountAdditional": "Additional Stake Amount",
+        "stakeAmountAdditionalDescription": "Additional stake amount to add to the existing stake.",
+        "buttonRemoveStake": {
+          "text": "Remove Stake",
+          "aria": "Remove stake from the node"
+        },
+        "withdrawContribution": {
+          "idle": "Withdrawing {tokenSymbol} from Multicontributor Contract",
+          "pending": "Withdrawing {tokenSymbol} from Multicontributor Contract",
+          "success": "Withdrawing {tokenSymbol} from Multicontributor Contract",
+          "errorTemplate": "Failed to withdraw {tokenSymbol} from Multicontributor Contract, {reason}",
+          "errors": {}
+        },
+        "buttonRemoveStakeAndRegistration": {
+          "text": "Remove Stake and Registration",
+          "aria": "Remove stake from the node and delete the registration"
+        }
+      },
+      "buttonStake": {
+        "text": "Stake",
+        "aria": "Stake to the node"
+      },
+      "error": {
+        "specialTitle": "Something went wrong",
+        "specialDescription": "Something went wrong when trying to stake to the node. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance."
+      },
+      "disabledReason": {
+        "alreadyFinalized": "The node details are already finalized and can't be changed.",
+        "alreadyContributedOperatorFee": "The operator fee can't be changed once another address has contributed to the node.",
+        "alreadyContributedReservedSlots": "The reserved stakes can't be changed once another address has contributed to the node.",
+        "pastTimeLimitStakeAmountRemove": "You can't remove your stake from a node after {timeLimitAmount} from your previous stake to that node."
+      }
+    },
+    "registration": {
+      "shared": {
+        "buttonContinue": {
+          "text": "Continue",
+          "aria": "Continue to the next stage of the registration process"
+        },
+        "buttonConfirm": {
+          "text": "Confirm",
+          "aria": "Confirm the input and continue to the next stage of the registration process"
+        },
+        "buttonBack": {
+          "text": "Back",
+          "aria": "Go back to the previous stage of the registration process"
+        },
+        "buttonConfirmAndStake": {
+          "text": "Confirm and Stake",
+          "aria": "Confirm the registration data and stake to the node"
+        },
+        "buttonEditField": {
+          "aria": "Click to edit the field"
+        },
+        "buttonViewMyStakes": {
+          "text": "View My Stakes",
+          "aria": "View your stakes"
+        },
+        "registerANewNode": "Register a New Node",
+        "singleContributorNode": "Single Contributor Node",
+        "multiContributorNode": "Multicontributor Node",
+        "submit": {
+          "preparedAt": "Registration Prepared",
+          "preparedAtDescription": "Time since this node's registration was prepared"
+        },
+        "error": {
+          "errorMessage": "Error Message",
+          "copyToClipboardButtonAria": "Copy error message to clipboard"
+        },
+        "nodeNotFound": "This node registration could not be found. Please check to make sure you're connected to the right wallet.",
+        "registrationDisabled": "Registration is currently disabled. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance."
+      },
+      "loading": {
+        "title": "Checking for existing registrations",
+        "error": "Something went wrong"
+      },
+      "start": {
+        "title": "Do you want to stake by yourself or with others?",
+        "description": "To stake by yourself, you need to stake {minStakeSolo}.",
+        "description2": "To operate a node and stake with others, you need to stake at least {minStakeMulti}.",
+        "registrationDisabledSolo": "Single contributor node registration is currently disabled. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+        "registrationDisabledMulti": "Multicontributor node registration is currently disabled. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+        "buttonSolo": {
+          "text": "Stake by myself",
+          "aria": "Continue the registration process by staking the full {minStakeSolo} yourself."
+        },
+        "buttonMulti": {
+          "text": "Stake with others",
+          "aria": "Continue the registration process by staking at least {minStakeMulti} yourself."
+        },
+        "chooseMode": {
+          "title": "Choose your setup mode:",
+          "express": {
+            "text": "Express",
+            "tooltip": "Skip detailed setup and use default settings (you can edit specific settings later)."
+          },
+          "guided": {
+            "text": "Guided (recommended for new users)",
+            "tooltip": "Configure your node settings step-by-step."
+          }
+        }
+      },
+      "stakeAmount": {
+        "title": "How much do you want to stake?",
+        "description": "As the node operator, you must stake at least {minStakeMulti}.",
+        "min": "Min: {min}",
+        "max": "Max: {max}",
+        "errorUnderMin": "You cannot stake under the minimum of {min}."
+      },
+      "operatorFee": {
+        "title": "Set your operator fee",
+        "description": "After this fee is deducted, remaining rewards are distributed to you and your contributors, proportional to stake amount."
+      },
+      "rewardsAddress": {
+        "title": "Where do you want your rewards to go?",
+        "description": "Your rewards address can be the wallet you are registering with, or a different address.",
+        "buttonSame": {
+          "text": "Same as the wallet",
+          "aria": "Use the same wallet address as the one you are registering with."
+        },
+        "buttonDifferent": {
+          "text": "Different address",
+          "aria": "Use a different wallet address."
+        }
+      },
+      "rewardsAddressInputSolo": {
+        "title": "Which address do you want your rewards to go to?",
+        "description": "Claimed rewards will be sent to this address.",
+        "errorInvalidAddress": "Invalid Ethereum Address"
+      },
+      "rewardsAddressInputMulti": {
+        "title": "Which address do you want your rewards to go to?",
+        "description": "Claimed rewards will be sent to this address, as well as {tokenSymbol} earned from your operator fee.",
+        "errorInvalidAddress": "Invalid Ethereum Address"
+      },
+      "reserveSlots": {
+        "title": "Do you want to reserve stakes for specific contributors?",
+        "description": "You can reserve up to {remainingStake} for specific contributors to your node.",
+        "buttonSkip": {
+          "text": "Skip",
+          "aria": "Skip reserving stakes for specific contributors"
+        },
+        "buttonReserve": {
+          "text": "Reserve",
+          "aria": "Reserve stakes for specific contributors",
+          "disabledTooltip": "Reserving stakes is currently disabled. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance."
+        }
+      },
+      "reserveSlotsInput": {
+        "title": "Which addresses do you want to reserve stakes for?",
+        "description": "Reserve stakes for 1-9 other contributors.",
+        "address": "Address",
+        "addressDescription": "The wallet address of the contributor you want to reserve a stake for.",
+        "stakeAmount": "Stake Amount",
+        "stakeAmountDescription": "The amount you want to reserve for this contributor.",
+        "percentage": "Percentage",
+        "remainingStake": "Remaining Stake",
+        "remainingStakeNone": "This node is fully reserved",
+        "remainingStakeCreationDescription": "{amount} will be available for anyone to stake. Contributors with reserved stakes will also be able to stake more than their reserved amount.",
+        "remainingStakeViewDescription": "{amount} is available for anyone to stake. Contributors with reserved stakes will also be able to stake more than their reserved amount.",
+        "validation": {
+          "slotInvalid": "Invalid reserved stake, please try again",
+          "addressAlreadyUsed": "You have already reserved a stake for this address",
+          "invalidReservedSlots": "Invalid reserved stakes",
+          "errorUnderMin": "You must reserve more than {min}",
+          "underMin": "You must reserve more than {min}",
+          "overMax": "You must reserve less than {max}"
+        },
+        "buttonAdd": {
+          "text": "Add",
+          "aria": "Add a new address to reserve stakes for"
+        },
+        "buttonRemove": {
+          "text": "Remove",
+          "aria": "Remove an address from reserving stakes for"
+        },
+        "buttonCancel": {
+          "text": "Cancel",
+          "aria": "Cancel adding a new address to reserve stakes for"
+        },
+        "buttonDeleteCancel": {
+          "text": "Delete",
+          "aria": "Delete the address reserved stake information"
+        },
+        "buttonConfirm": {
+          "text": "Add Reserved Stake",
+          "aria": "Confirm adding a new address to reserve stakes for"
+        },
+        "buttonConfirmEdit": {
+          "text": "Confirm Reserved Stake",
+          "aria": "Confirm editing the address and amount of stake to reserve for"
+        }
+      },
+      "autoActivate": {
+        "title": "Do you want your node to activate automatically?",
+        "description": "Automatically activate your node once fully staked, or manually activate when you are ready.",
+        "buttonAutomatic": {
+          "text": "Automatic",
+          "aria": "Automatically activate your node once fully staked"
+        },
+        "buttonManual": {
+          "text": "Manual",
+          "aria": "Manually activate your node when you are ready"
+        }
+      },
+      "submitSolo": {
+        "addBlsPubKeyCost": "Add BLS Public Key Cost:",
+        "approve": {
+          "idle": "Requesting permission to stake {tokenSymbol}",
+          "pending": "Requesting permission to stake {fullStateAmount}. Waiting for user approval.",
+          "success": "Permission to stake {tokenSymbol} granted.",
+          "errorTemplate": "Wallet permission to stake {tokenSymbol} failed, {reason}. Please try again.",
+          "errors": {}
+        },
+        "arbitrum": {
+          "idle": "Registering node and staking {tokenSymbol} on Arbitrum",
+          "pending": "Registering node and staking {tokenSymbol} on Arbitrum",
+          "success": "Registered node and staked {tokenSymbol} on Arbitrum",
+          "errorTemplate": "Arbitrum registration failed, {reason}",
+          "errors": {
+            "MaxContributorsExceeded": "max contributors exceeded",
+            "ContributionTotalMismatch": "stake does not match required amount",
+            "BLSPubkeyAlreadyExists": "node already registered with the same SN Key",
+            "InvalidBLSProofOfPossession": "BLS proof of possession is invalid",
+            "MaxPubkeyAggregationsExceeded": "block registration limit exceeded. Please try again later.",
+            "SafeERC20FailedOperation": "failed to stake {tokenSymbol}. Please try again later."
+          }
+        },
+        "network": {
+          "idle": "Registering node on {sessionNetwork}",
+          "pending": "Registering node on {sessionNetwork} ({progress} confirmations, approximately {remainingTime} remaining)",
+          "success": "Registering node on {sessionNetwork} confirmed",
+          "errors": {
+            "template": "Registering node on {sessionNetwork} failed, {reason}. Please try again later."
+          }
+        }
+      },
+      "errorSolo": {
+        "specialTitle": "Something went wrong",
+        "specialDescription": "Something went wrong when trying to register this single contributor node. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance."
+      },
+      "successSolo": {
+        "specialTitle": "Single Contributor Node Created!",
+        "specialDescription": "Your node is staked and running on the {sessionNetwork}."
+      },
+      "submitMulti": {
+        "deployCost": "Deploy Cost:",
+        "proxyApprovalCost": "Proxy Approval Cost:",
+        "contributeFundsCost": "Contribute Funds Cost:",
+        "continueButton": {
+          "label": "Continue",
+          "aria": "Continue to the next stage of the registration process"
+        },
+        "create": {
+          "idle": "Creating Multicontributor Contract",
+          "pending": "Creating Multicontributor Contract",
+          "success": "Created Multicontributor Contract",
+          "errorTemplate": "Failed to create Multicontributor contract, {reason}",
+          "errors": {}
+        },
+        "address": {
+          "idle": "Finalizing Multicontributor contract address",
+          "pending": "Finalizing Multicontributor contract address",
+          "success": "Finalised Multicontributor contract address. <link>View on Arbiscan</link>.",
+          "errorTemplate": "Failed to finalise Multicontributor contract address, {reason}",
+          "errors": {}
+        },
+        "approve": {
+          "idle": "Requesting permission to stake {tokenSymbol}",
+          "pending": "Requesting permission to stake {tokenSymbol}, waiting for user approval",
+          "success": "Permission to stake {tokenSymbol} granted",
+          "errorTemplate": "Wallet permission to stake {tokenSymbol} failed, {reason}. Please try again.",
+          "errors": {}
+        },
+        "contribute": {
+          "idle": "Contributing {tokenSymbol} to Multicontributor contract",
+          "pending": "Contributing {tokenSymbol} to Multicontributor contract",
+          "success": "Contributed {tokenSymbol} to Multicontributor contract",
+          "errorTemplate": "Failed to contribute {tokenSymbol} to Multicontributor contract, {reason}",
+          "errors": {}
+        }
+      },
+      "errorMulti": {
+        "specialTitle": "Something went wrong",
+        "specialDescription": "Something went wrong when trying to create the multicontributor node. Please submit a ticket in the <discord-link>XPoint support</discord-link> for assistance."
+      },
+      "successMulti": {
+        "specialTitle": "Multicontributor node created!",
+        "specialDescription": "Your multicontributor node is ready for others to stake to."
+      },
+      "alreadyRegisteredMulti": {
+        "specialTitle": "Already Registered!",
+        "specialDescription": "A multicontributor node was found with the same key. You can continue using this registration. If you want to create a new registration, please reset your node's keys."
+      },
+      "alreadyRegisteredRunning": {
+        "specialTitle": "Already Registered!",
+        "specialDescription": "Another node with this key is already registered. Your registration cannot be finalized until the other node exits the network."
+      }
+    },
+    "node": {
+      "title": "Stake to a Node",
+      "contributors": "Contributors",
+      "contributorsTooltip": "The number of contributors to this node",
+      "feeEstimate": "Fee Estimate",
+      "feeEstimateTooltip": "An estimate of the amount of {gasTokenSymbol} this transaction will use. {linkOut}",
+      "button": {
+        "submit": "Stake {amount}",
+        "submitting": "Staking {amount}...",
+        "waitingForWallet": "Waiting for wallet authorization...",
+        "submittingToArbitrum": "Submitting request to Arbitrum...",
+        "success": "Successfully staked {amount} {tokenSymbol}."
+      }
+    }
+  },
+  "nodeCard": {
+    "open": {
+      "min": "Min",
+      "max": "Max",
+      "yourStake": "Your Stake",
+      "remainingStake": "Remaining",
+      "minContribution": "Min Contribution",
+      "viewButton": {
+        "text": "View",
+        "ariaLabel": "View the node details in the side panel"
+      },
+      "youOperatorNotStaked": "You are the operator of this multicontributor node, but haven't staked yet. It won’t be listed as an available node until you stake.",
+      "youReservedNotContributed": "{tokenAmount} has been reserved for you to stake to this node",
+      "stakedTo": "Your Stake",
+      "stakedToTooltip": "You have staked {tokenAmount}",
+      "errorStakedButAlreadyRunningNotification": "Invalid node, withdraw your stake",
+      "errorStakedButAlreadyRunning": "This registration can't be finalized as this node is already running as a single contributor node. You may want to withdraw your stake."
+    },
+    "pending": {
+      "registerButton": {
+        "text": "View",
+        "ariaLabel": "View the node registration details in the side panel"
+      }
+    },
+    "staked": {
+      "operator": "Operator",
+      "operatorTooltip": "You are the operator of this node",
+      "operatorTooltipOther": "This is the operator of this node",
+      "versionLabel": "Node Version: {version}",
+      "versionTooltipOutOfDate": "This node needs to upgrade to the latest version",
+      "versionTooltipPatch": "A patch is available to upgrade this node",
+      "versionTooltipUpToDate": "This node is running the latest version",
+      "versionUpdateAvailableNotification": "A node upgrade is available",
+      "versionUpdateAvailableNotificationDescription": "A new version is available. Click <link>here</link> for upgrade instructions.",
+      "labelExpand": "Detailed",
+      "ariaExpand": "Show detailed node view",
+      "labelCollapse": "Simple",
+      "ariaCollapse": "Show simple node view",
+      "state": {
+        "exited": "Exited",
+        "awaitingExit": "Ready to exit",
+        "exitRequested": "Exit requested",
+        "deregistered": "Deregistered",
+        "running": "Running",
+        "decommissioned": "Decommissioned",
+        "unknown": "Unknown"
+      },
+      "lastUptime": "Last Uptime: {relativeTime}",
+      "lastUptimeDescription": "The last time the node provided a proof of availability. Block {blockNumber} ({date})",
+      "lastReward": "Last Reward: {relativeTime}",
+      "lastRewardDescription": "The last time the node received rewards. Block {blockNumber} ({date})",
+      "exitUnlockTimerProcessing": "Exit request is being processed",
+      "exitUnlockTimerNotification": "Exit available <text-bold>{relativeTime}</text-bold> ({date})",
+      "exitUnlockTimerDescription": "Time left until the node is available for exit. Return <text-bold>{relativeTime}</text-bold> ({date}) to exit the node.",
+      "exitTimerNotification": "Exit available. Exit within <text-bold>{relativeTimeNoSuffix}</text-bold> to avoid penalty.",
+      "exitTimerNotificationNow": "Exit now to avoid penalty.",
+      "exitTimerNotificationReadyDate": "Exit available since <text-bold>{date}</text-bold>",
+      "exitTimerDescription": "Node is ready for exit. If you don't exit within <text-bold>{relativeTimeNoSuffix}</text-bold>, you may be subject to a small penalty. {linkOut}",
+      "exitTimerDescriptionNow": "Node is ready for exit. If you don't exit now, you may be subject to a small penalty. {linkOut}",
+      "deregistrationTimerNotification": "Deregistration <text-bold>{relativeTime}</text-bold>",
+      "deregistrationTimerDescription": "Time left until the node is deregistered and funds are locked for {lockedStakeTime}. Node will be deregistered <text-bold>{relativeTime}</text-bold> ({date}).",
+      "deregisteredProcessing": "Deregistration is being processed",
+      "deregisteredTimerNotification": "Stake will unlock <text-bold>{relativeTime}</text-bold>",
+      "deregisteredTimerDescription": "Time left until the stake is unlocked ({date}).",
+      "liquidationNotification": "Awaiting liquidation",
+      "liquidationDescription": "The node is inactive and waiting to be removed by the network.",
+      "finalize": {
+        "buttonText": "Activate",
+        "buttonAria": "Activate the node on the network",
+        "successToast": "Node activated successfully! Node will be registered in a few minutes."
+      },
+      "exit": {
+        "buttonText": "Exit",
+        "buttonAria": "Exit the node from the network",
+        "disabledButtonTooltipContent": "Return <text-bold>{relativeTime}</text-bold> ({date}) to exit the node.",
+        "disabledInfo": "Node exits are temporarily disabled. Apologies for any inconvenience. For updates, visit the <discord-link>XPoint support</discord-link>.",
+        "dialog": {
+          "title": "Exit Node",
+          "requestFee": "Exit Fee",
+          "requestFeeTooltip": "The amount of {gasTokenSymbol} this transaction will use. {linkOut}",
+          "amountStaked": "Amount Staked",
+          "amountStakedTooltip": "Amount of {tokenSymbol} you are staking to this node.",
+          "buttons": {
+            "submit": "Exit Node",
+            "submitAria": "Exit the node from the network"
+          },
+          "alert": {
+            "gasFetchFailed": "Failed to fetch fee estimate exiting the node. Fee estimate may be inaccurate.",
+            "highGas": "The price of gas is higher than usual."
+          }
+        },
+        "error": "An error occurred while fetching the signature to exit the node. Please try again. If the problem persists, submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+        "errorButton": "Retry",
+        "stage": {
+          "arbitrum": {
+            "idle": "Submitting node exit on Arbitrum",
+            "pending": "Submitting node exit on Arbitrum",
+            "success": "XPoint node exit on Arbitrum submitted",
+            "errorTemplate": "Failed to submit node exit on Arbitrum, {reason}",
+            "errors": {
+              "BLSPubkeyDoesNotMatch": "BLS public key does not match"
+            }
+          },
+          "network": {
+            "idle": "XPoint node network exit confirming",
+            "pending": "XPoint node network exit confirming",
+            "success": "XPoint node network exit confirmed",
+            "errorTemplate": "Failed to confirm the node exit with the {sessionNetwork}, {reason}",
+            "errors": {
+              "UnableToReachNetwork": "unable to reach the {sessionNetwork}."
+            }
+          }
+        }
+      },
+      "requestExit": {
+        "buttonText": "Request Exit",
+        "buttonAria": "Request for the node to be exited",
+        "requestedButtonText": "Exit Requested",
+        "requestedButtonAria": "Node exit has already been requested",
+        "disabledInfo": "Node exit requests are temporarily paused. Apologies for any inconvenience. For updates, visit the <discord-link>XPoint support</discord-link>.",
+        "dialog": {
+          "title": "Request Exit",
+          "submitAria": "Request exit for the node {pubKey}",
+          "description": {
+            "title": "Are you sure?",
+            "content2": "Once the node has exited the network, you can reclaim your stake via the Staking Portal.",
+            "content1": "Your node will be ready to exit the network {request_time}.<br></br><br></br>After the {request_time} waiting period, you'll have a {exit_time} window to confirm the exit and allow reclaiming of your staked funds. If you don't confirm within this {exit_time} window, you may be subject to a small penalty. {linkOut}"
+          },
+          "buttons": {
+            "submit": "Request Exit",
+            "submitAria": "Request exit for {pubKey}",
+            "cancel": "Cancel",
+            "cancelAria": "Cancel exit request"
+          },
+          "write": {
+            "requestFee": "Exit request Fee",
+            "requestFeeTooltip": "The amount of {gasTokenSymbol} this transaction will use. {linkOut}",
+            "amountStaked": "Amount Staked",
+            "amountStakedTooltip": "Amount of {tokenSymbol} staked by you in this node.",
+            "buttons": {
+              "submit": "Request Exit",
+              "submitAria": "Request node exit"
+            },
+            "alert": {
+              "gasFetchFailed": "Failed to fetch fee estimate for requesting node exit. Fee estimate may be inaccurate.",
+              "highGas": "The price of gas is higher than usual."
+            }
+          },
+          "stage": {
+            "arbitrum": {
+              "idle": "Submitting node exit request on Arbitrum",
+              "pending": "Submitting node exit request on Arbitrum",
+              "success": "Submitted node exit request on Arbitrum",
+              "errorTemplate": "Failed to submit node exit request on Arbitrum, {reason}",
+              "errors": {
+                "CallerNotContributor": "caller not a node contributor",
+                "EarlierLeaveRequestMade": "exit request was already made for this node",
+                "SmallContributorLeaveTooEarly": "small contributors can only initiate exit requests after the node has been running for 30 days."
+              }
+            },
+            "network": {
+              "idle": "Confirming node exit request",
+              "pending": "Confirming node exit request",
+              "success": "Confirmed node exit request",
+              "errorTemplate": "Failed to confirm the submission of the node exit request to the {sessionNetwork}, {reason}",
+              "errors": {
+                "UnableToReachNetwork": "unable to reach the {sessionNetwork}"
+              }
+            }
+          }
+        }
+      },
+      "joiningNetworkNotification": "Node joining in ~{relativeTime}",
+      "joiningNetworkDescription": "The node will join the network once its registration has been confirmed by the network. ({confirmations}/{requiredConfirmations} confirmations)",
+      "exitRequestor": "Exit Requestor",
+      "exitRequestorTooltip": "You requested the exit of this node",
+      "exitRequestorTooltipOther": "This contributor requested the exit of this node"
+    }
+  },
+  "statusBar": {
+    "network": {
+      "loading": "Block loading...",
+      "unreachable": "Unreachable",
+      "infoTooltip": "Block {blockNumber} was <text-bold>{blockRelativeTime}</text-bold>",
+      "warningTooltip": "Block {blockNumber} was <text-bold>{blockRelativeTime}</text-bold>. <clickable-text>Click to refresh</clickable-text>",
+      "errorTooltip": "Block {blockNumber} was <text-bold>{blockRelativeTime}</text-bold>. <clickable-text>Click to refresh</clickable-text>",
+      "unreachableTooltip": "Unable to reach the network. <clickable-text>Click to refresh</clickable-text>"
+    },
+    "l2": {
+      "loading": "L2 Height loading...",
+      "infoTooltip": "L2 Height {height} was <text-bold>{heightRelativeTime}</text-bold>",
+      "warningTooltip": "L2 Height {height} was <text-bold>{heightRelativeTime}</text-bold>. <clickable-text>Click to refresh</clickable-text>",
+      "errorTooltip": "L2 Height {height} was <text-bold>{heightRelativeTime}</text-bold>. <clickable-text>Click to refresh</clickable-text>",
+      "unreachableTooltip": "Unable to reach Arbitrum. <clickable-text>Click to refresh</clickable-text>"
+    }
+  },
+  "vesting": {
+    "card": {
+      "balance": "Principal Balance:"
+    },
+    "switch": {
+      "label": "Vesting Mode",
+      "aria": "Toggle vesting mode"
+    },
+    "startDialog": {
+      "title": "Vesting Contract",
+      "description": "We noticed your wallet is connected to one or more vesting contracts. Select one to use, or skip.",
+      "descriptionSheet": "Select a vesting contract to use",
+      "continueButton": {
+        "label": "Continue",
+        "aria": "Use the selected vesting contract"
+      },
+      "skipButton": {
+        "label": "Skip",
+        "aria": "Skip vesting contract and continue using the connected wallet"
+      }
+    },
+    "infoDialog": {
+      "title": "Vesting Contract Info",
+      "address": "Contract Address",
+      "addressDescription": "The Arbitrum contract address for the vesting contract.",
+      "initialBalance": "Initial Balance",
+      "initialBalanceDescription": "The initial amount of time-locked tokens in the contract.",
+      "beneficiary": "Owner",
+      "beneficiaryDescription": "The wallet address that is the owner of the vesting contract",
+      "editBeneficiaryDisabledDescription": "This vesting contract does not allow changing the owner.",
+      "switchButton": {
+        "label": "Switch Contract",
+        "aria": "Switch to another vesting contract"
+      },
+      "disconnectButton": {
+        "label": "Disconnect",
+        "aria": "Disconnect from the vesting contract"
+      },
+      "endTimeEnded": "Unlocked"
+    },
+    "transferBeneficiaryDialog": {
+      "title": "Transfer Ownership",
+      "description": "Transfer the ownership of the vesting contract to another wallet.",
+      "disabledDescription": "This vesting contract does not allow transferring the owner.",
+      "currentBeneficiary": "Current Owner",
+      "currentBeneficiaryDescription": "The wallet address that is currently the owner of the vesting contract.",
+      "newBeneficiary": "New Owner",
+      "newBeneficiaryDescription": "The wallet address that will be the owner of the vesting contract.",
+      "errorCantBeSame": "The new owner cannot be the same as the current owner.",
+      "errorCantBeSelf": "The new owner cannot be the same as the contract address.",
+      "confirmHeading": "Are you sure?",
+      "confirmTextS1": "This will remove the current owner {ethAddress}",
+      "confirmTextS2": "and transfer ownership and control of this vesting contract to the new owner {ethAddress}",
+      "transferButton": {
+        "label": "Transfer Owner",
+        "aria": "Transfer the owner of the vesting contract to another wallet."
+      },
+      "confirmButton": {
+        "label": "Confirm",
+        "aria": "Confirm transferring ownership of this vesting contract to another wallet."
+      },
+      "contractCall": {
+        "idle": "Transferring ownership of the vesting contract to {newBeneficiary}",
+        "pending": "Transferring ownership of the vesting contract to {newBeneficiary}",
+        "success": "Transferred ownership of the vesting contract to {newBeneficiary}",
+        "errorTemplate": "Ownership transfer failed, {reason}. Please try again.",
+        "errors": {}
+      },
+      "successToast": "Ownership of the vesting contract transferred successfully! Now exiting vesting mode.",
+      "confirmTextS4": "<br></br>All funds will belong to the new address. This action is irreversible and cannot be undone.",
+      "confirmTextS3": "<br></br>By proceeding, you confirm that:<br></br> You own the new wallet address<br></br>You are NOT selling, transferring, granting any participation in, or distributing tokens"
+    },
+    "headerSwitch": {
+      "label": "Vesting Mode",
+      "aria": "Disable vesting mode and disconnect from the vesting contract"
+    },
+    "modules": {
+      "stakedBalance": {
+        "title": "Staked Balance",
+        "description": "The portion of your time-locked tokens that are currently staked."
+      },
+      "unstakedBalance": {
+        "title": "Unstaked Balance",
+        "description": "The portion of your time-locked tokens that are currently unstaked."
+      },
+      "withdrawableBalance": {
+        "title": "Withdrawable Balance",
+        "description": "The portion of your time-locked tokens that are currently unstaked and withdrawable."
+      },
+      "endTime": {
+        "title": "Time to Unlock",
+        "description": "The remaining time until your time-locked tokens fully vest and become withdrawable ({date})."
+      },
+      "unclaimedStakes": {
+        "title": "Unclaimed Stakes",
+        "description": "Tokens that were previously staked from your vesting contract, have been unstaked, and need to be claimed to return them to your vesting balance."
+      },
+      "returnStakes": {
+        "title": "Return Stakes",
+        "description": "Return Stakes",
+        "dialog": {
+          "title": "Return Stakes",
+          "updateBalanceCost": "Update Balance Cost:",
+          "updateBalanceCostExemptionReason": "You have already updated your return stake amount.",
+          "claimRewardsCost": "Return Stake Cost:",
+          "amountClaimable": "Amount",
+          "amountClaimableTooltip": "Amount of unstaked {tokenSymbol} able to be returned to your vesting contract.",
+          "buttons": {
+            "submit": "Return {tokenSymbol}",
+            "submitAria": "Return {tokenSymbol} with a gas fee of {gasAmount} {gasTokenSymbol}"
+          },
+          "alert": {
+            "gasFetchFailedUpdateBalance": "Failed to fetch fee estimate for updating returned stakes amount. Fee estimate may be inaccurate.",
+            "gasFetchFailedClaimRewards": "Failed to fetch fee estimate for returning stakes. Fee estimate may be inaccurate.",
+            "highGas": "The price of gas is higher than usual."
+          },
+          "successToast": "Returned {tokenAmount} to your vesting contract on Arbitrum"
+        },
+        "error": "An error occurred while fetching the signature for your unreturned stakes. Please try again. If the problem persists, submit a ticket in the <discord-link>XPoint support</discord-link> for assistance.",
+        "errorButton": "Retry",
+        "stage": {
+          "balance": {
+            "idle": "Updating return stake amount on Arbitrum",
+            "pending": "Updating return stake amount on Arbitrum",
+            "success": "Updated return stake amount on Arbitrum",
+            "errorTemplate": "Failed to return stake amount on Arbitrum, {reason}",
+            "errors": {
+              "NullAddress": "recipient address is invalid",
+              "RecipientRewardsTooLow": "returned stakes amount already updated",
+              "InvalidBLSSignature": "invalid BLS signature, try again later",
+              "InsufficientBLSSignatures": "insufficient BLS signatures, try again later"
+            }
+          },
+          "claim": {
+            "idle": "Returning {tokenAmount} to vesting contract on Arbitrum",
+            "pending": "Returning {tokenAmount} to vesting contract on Arbitrum",
+            "success": "Returned {tokenAmount} to vesting contract on Arbitrum",
+            "errorTemplate": "Failed to return to vesting contract on Arbitrum, {reason}",
+            "errors": {}
+          }
+        }
+      },
+      "claimPrincipal": {
+        "title": "Withdraw Principal",
+        "description": "Withdraw Principal",
+        "claimablePrincipal": {
+          "title": "Withdrawable Principal",
+          "description": "Current unlocked and unstaked principal available to withdraw."
+        },
+        "warningSomeTokensStaked": "Some of your time-locked tokens are currently staked and unclaimed. You will only be able to claim your unstaked principal balance. Your staked principal balance will be withdrawable once those tokens are unstaked and returned to the vesting contract.",
+        "noPrincipalClaimableButtonTooltip": "All of this vesting contract's principal is currenty staked or locked by the network. These tokens need to be exited from their stakes, unlocked, and returned to the vesting contract.",
+        "confirmButton": {
+          "label": "Withdraw Principal",
+          "aria": "Withdraw the principal balance"
+        },
+        "contractCall": {
+          "idle": "Withdrawing {amount} of the principal balance",
+          "pending": "Withdrawing {amount} of the principal balance",
+          "success": "Withdrew {amount} of the principal balance",
+          "errorTemplate": "Failed to withdraw, {reason}",
+          "errors": {}
+        },
+        "successToast": "Successfully claimed {amount} of the principal balance"
+      },
+      "info": {
+        "title": "About Vesting Mode",
+        "description1": "Vesting Mode lets you stake your time-locked {tokenSymbol} to earn rewards while it's still vesting. Use Vesting Mode to stake your <underlined-tooltip>vesting {tokenSymbol}</underlined-tooltip> or unstake it and claim it back to your vesting contract.",
+        "vestingTokensTooltip": "{tokenSymbol} that was allocated to you that is held in a vesting contract",
+        "description2": "To view your rewards (from both vesting and regular {tokenSymbol}), exit Vesting Mode and check the <my-stakes-link>My Stakes</my-stakes-link> page.",
+        "description3": "Once your {tokenSymbol} completes its vesting period, a withdraw option will appear in Vesting Mode."
+      },
+      "stakes": {
+        "title": "Vesting Stakes",
+        "noNodesP1": "You have not staked any time-locked {tokenSymbol} from your vesting contract.",
+        "noNodesP2": "Click the <link>Stake Now</link> button to stake to an available node or register a new XPoint node.",
+        "stakeNowButtonText": "Stake Now",
+        "stakeNowButtonAria": "Navigate to the staking page to stake to an available node."
+      }
+    }
+  },
+  "infoNotice": {
+    "register": "Before you proceed, make sure you're familiar with best practices for node operation. If your node fails to meet requirements, it may be voted off the network and penalties may apply. {linkOut}",
+    "dontShowAgain": "Don’t show this message again",
+    "stake": "Before you proceed, make sure you're familiar with best practices for staking. If the node you’re contributing to fails to meet requirements, it may be voted off the network and penalties may apply. {linkOut}",
+    "confirm": "Okay",
+    "withdrawOperator": {
+      "text": "If you remove your stake and registration, contributors will not be able to stake to your node and your registration will be deleted. Existing stakes will be returned to contributors.",
+      "confirm": "Remove Stake and Registration",
+      "cancel": "Cancel"
+    },
+    "withdrawContributorTooSoon": "You can’t remove your stake from this node yet. Please return <text-bold>{relativeTime}</text-bold>. If this node is registered within <text-bold>{relativeTimeNoSuffix}</text-bold>, you will need to wait {unlockWaitTime} to remove your stake. {linkOut}",
+    "confirmStake": "You won’t be able to remove your stake from this node for 24 hours, or until it is registered. Once the node is registered, you can remove your stake after {unlockWaitTime}. {linkOut}",
+    "stakeSmallWarning": "Contributors staking less than {amount} cannot request to exit a node during the first {smallContributorLeaveRequestDelay} of its operation. {linkOut}",
+    "smallContributorExitTooSoon": "Contributors staking less than {amount} cannot request to exit a node during the first {smallContributorLeaveRequestDelay} of its operation. Please return <text-bold>{relativeTime}</text-bold> to request an exit. {linkOut}",
+    "exitRejectedRecently": "Error: Exit request was rejected by the Network. Please retry <text-bold>{relativeTime}</text-bold>.",
+    "cancel": "Cancel",
+    "claimLimitInfo": "To keep the XPoint Network secure, there is a network-wide limit on how much {tokenSymbol} can be claimed within a {claimCycleTime} period. The limit has been reached. {linkOut}",
+    "claimLimitCountdown": "You can claim your {tokenSymbol} <text-bold>{relativeTime}</text-bold>.",
+    "requestExit2": "Once the node has exited the network, you can reclaim your stake via the Staking Portal.",
+    "requestExit1": "Exiting your stake will cause stakes for ALL contributors and the operator to be exited, not just your own. Once confirmed, this node will be ready to exit the network {relativeRequestTime}.<br></br><br></br>After this {requestTime} waiting period, the operator or contributors have a {exitTime} window to confirm the exit. If the exit is not confirmed within this {exitTime} window, the operator may be subject to a small penalty. {linkOut}"
+  },
+  "terms": {
+    "title": "Staking Portal Terms",
+    "description": "By accessing or using the XPoint Staking Portal, you agree to comply with and be bound by the <link>Terms and Conditions</link>. Please read these Terms carefully. If you do not agree to these terms, you must not use the Software.",
+    "agree": "I have read, understand, and agree to the <link>Terms and Conditions</link>, including any additional guidelines and future modifications outlined therein.",
+    "button": "Continue",
+    "mustAccept": "You must accept the <link>Terms and Conditions</link> to participate",
+    "accepted": "You have accepted the <link>Terms and Conditions</link>"
+  }
+}

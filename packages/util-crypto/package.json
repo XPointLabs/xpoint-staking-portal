@@ -1,0 +1,27 @@
+{
+  "name": "@session/util-crypto",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write",
+    "format": "biome format --write",
+    "check": "biome check",
+    "check:fix": "biome check --write",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@session/testing": "workspace:*",
+    "@session/typescript-config": "workspace:*"
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10",
+    "yarn": "use pnpm",
+    "npm": "use pnpm"
+  }
+}

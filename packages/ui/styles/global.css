@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* XPoint colours */
+    --session-black: #020711;
+    --session-green: #24d8ff;
+    --session-text: #f5f9ff;
+    --session-text-black: #020711;
+    --session-text-black-secondary: #54708c;
+    --session-white: #ffffff;
+    --session-gradient-outline: linear-gradient(
+      135deg,
+      rgba(36, 216, 255, 0.95) 0%,
+      rgba(138, 90, 255, 0.85) 100%
+    );
+    --session-gradient-green: linear-gradient(135deg, #2eefff 0%, #18c8ff 42%, #126dff 100%);
+    --session-gradient-gray: linear-gradient(
+      170deg,
+      rgba(14, 29, 48, 1) 0%,
+      rgba(7, 17, 31, 1) 100%
+    );
+    --session-gradient-white: linear-gradient(
+      163deg,
+      rgba(245, 249, 255, 1) 0%,
+      rgba(157, 177, 199, 1) 100%
+    );
+    --session-gradient-white-mock: #d7e7f6;
+    --session-green-dark: #126dff;
+    --session-green-link: #24d8ff;
+    --session-disabled: #66758a;
+
+    /* Definitions */
+    --background: var(--session-black);
+    --foreground: var(--session-text);
+
+    --session-gray-lightest: #c4d5e8;
+    --session-gray-lighter: #9db1c7;
+    --session-gray-light: #54708c;
+    --session-gray-DEFAULT: #203349;
+    --session-gray-dark: #07111f;
+    --session-gray-darker: #050b17;
+
+    --text-static: #f5f9ff;
+    --text-gradient: linear-gradient(135deg, #ffffff -38.86%, #24d8ff 133.98%);
+    --text-gradient-darker: linear-gradient(
+      90.71deg,
+      rgba(36, 216, 255, 0.88) -0.79%,
+      rgba(138, 90, 255, 0.82) 98.84%
+    );
+
+    --session-module-outline-gradient: linear-gradient(135deg, #24d8ff 0%, #8a5aff 100%);
+
+    --session-module-gradient: linear-gradient(135deg, #07111f 0%, #020711 58%, #0b1730 100%);
+
+    --card: 216 63% 7%;
+    --card-foreground: 0 0% 98%;
+    --popover: 216 63% 7%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 215 44% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 214 40% 18%;
+    --muted-foreground: 210 29% 70%;
+    --accent: 252 100% 68%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 100% 61%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --warning: 32.39 96% 67%;
+    --warning-foreground: 0 0% 98%;
+    --info: 0.56 100% 48%;
+    --info-foreground: 0 0% 98%;
+    --border: 192 100% 57%;
+    --input: 214 40% 18%;
+    --ring: 192 100% 57%;
+
+    --radius: 0.5rem;
+
+    --header-height: 2.5rem;
+    --header-vertical-padding: 2rem;
+    --header-displacement: calc(var(--header-height) + var(--header-vertical-padding) * 2);
+    --screen-without-header: calc(100vh - var(--header-displacement));
+
+    --indicator-black: var(--session-black);
+    --indicator-grey: rgb(55, 74, 96);
+    --indicator-grey-lighter: var(--session-gray-lighter);
+    --indicator-green: var(--session-green);
+    --indicator-blue: rgb(36, 216, 255);
+    --indicator-yellow: rgb(247, 222, 0);
+    --indicator-red: rgb(239 68 68);
+
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+/* Text Gradients */
+.text-gradient-white {
+  background-image: var(--session-gradient-white);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Text Selection */
+::-moz-selection,
+::selection {
+  /* Code for Firefox */
+  @apply bg-session-green text-session-black;
+}
+
+::selection {
+  @apply bg-session-green text-session-black;
+}
+
+/* Glow Effect */
+.glow {
+  @apply drop-shadow-lg filter;
+  filter: drop-shadow(0 0 8px #24d8ffac);
+}
+
+.glow-large {
+  @apply drop-shadow-lg filter;
+  filter: drop-shadow(0 0 16px #24d8ffac);
+}
+
+.glow-red {
+  @apply drop-shadow-lg filter;
+  filter: drop-shadow(0 0 8px #ff0000);
+}
+
+.glow-yellow {
+  @apply drop-shadow-lg filter;
+  filter: drop-shadow(0 0 8px #ffea00);
+}
+
+.fade-to-transparent-b {
+  position: relative;
+}
+
+.fade-to-transparent-b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  mask: linear-gradient(to top, transparent, var(--session-black) 7%);
+  backdrop-filter: blur(8px);
+}

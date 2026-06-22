@@ -1,0 +1,115 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./lib/locale-server.ts');
+
+const isTestnet = process.env.NEXT_PUBLIC_TESTNET === 'true';
+if (isTestnet) console.log('Building staking portal in TESTNET mode!');
+
+const debugEnv = process.env.APP_DEBUG;
+if (debugEnv) console.log('Running staking portal in DEBUG mode! Debug assertions are active!');
+
+if (process.env.NEXT_PUBLIC_ENABLE_FAUCET?.toLowerCase() === 'true') console.log('Faucet Enabled!')
+if (process.env.NEXT_PUBLIC_ENABLE_LEADERBOARD?.toLowerCase() === 'true') console.log('Leaderboard Enabled!');
+
+const getBackendApiUrl = () => {
+  let url = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+  if (!url) throw new Error('NEXT_PUBLIC_BACKEND_API_URL is not set');
+
+  if (url.endsWith('/')) {
+    url = url.substring(0, url.length - 1);
+  }
+
+  console.log('Staking Backend API URL:', url);
+
+  return url;
+};
+
+const getNetworkApiUrl = () => {
+  let url = process.env.NEXT_PUBLIC_NETWORK_API_URL;
+  if (!url) throw new Error('Network API URL is not set');
+  if (url.endsWith('/')) {
+    url = url.substring(0, url.length - 1);
+  }
+
+  console.log('Network API URL:', url);
+
+  return url;
+}
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  env:{
+    APP_DEBUG: debugEnv,
+  },
+  transpilePackages: [
+    '@session/ui',
+    '@session/wallet',
+    '@session/contracts',
+    '@session/util-js',
+    '@session/util-crypto',
+    '@session/util-logger',
+    '@session/feature-flags',
+    'better-sqlite3-multiple-ciphers',
+  ],
+  serverExternalPackages: ['pino', 'pino-pretty'],
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        bufferutil: false,
+        'utf-8-validate': false,
+      };
+    }
+    config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    if (process.env.NO_MINIFY?.toLowerCase() === 'true') {
+      config.optimization = {
+        minimize: false,
+      };
+    }
+    return config;
+  },
+  redirects: async () => {
+    return [
+      {
+        source: '/explorer/arbitrum/:path*',
+        destination: `https://${isTestnet ? 'sepolia.': ''}arbiscan.io/:path*`,
+        permanent: false,
+      },
+      {
+        source: '/support',
+        destination: 'https://discord.gg/sessiontoken',
+        permanent: false,
+      },
+      {
+        source: '/bridge/arbitrum',
+        destination:
+          `https://bridge.arbitrum.io/?destinationChain=arbitrum-${isTestnet ? 'sepolia' : 'one'}&sourceChain=${isTestnet ? 'sepolia' : 'ethereum'}&token=0x10ea9e5303670331bdddfa66a4cea47dae4fcf3b`,
+        permanent: false,
+      },
+      {
+        source: '/bridge/ethereum',
+        destination:
+          `https://bridge.arbitrum.io/?destinationChain=${isTestnet ? 'sepolia':'ethereum'}&sourceChain=arbitrum-${isTestnet ? 'sepolia' : 'one'}&token=0x10ea9e5303670331bdddfa66a4cea47dae4fcf3b`,
+        permanent: false,
+      },
+      {
+        source: '/claim/oxen',
+        destination: 'https://claim.oxen.io',
+        permanent: false,
+      }
+    ];
+  },
+  rewrites: async () => {
+    return [
+      {
+        source: '/api/ssb/:path*',
+        destination: `${getBackendApiUrl()}/:path*`,
+      },
+      {
+        source: '/api/network/:path*',
+        destination: `${getNetworkApiUrl()}/:path*`,
+      },
+    ];
+  },
+};
+
+export default withNextIntl(nextConfig);

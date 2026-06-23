@@ -8,6 +8,8 @@ if (isTestnet) console.log('Building staking portal in TESTNET mode!');
 const debugEnv = process.env.APP_DEBUG;
 if (debugEnv) console.log('Running staking portal in DEBUG mode! Debug assertions are active!');
 
+const XPOINT_SITE_URL = 'https://xpoint.network/';
+
 if (process.env.NEXT_PUBLIC_ENABLE_FAUCET?.toLowerCase() === 'true') console.log('Faucet Enabled!')
 if (process.env.NEXT_PUBLIC_ENABLE_LEADERBOARD?.toLowerCase() === 'true') console.log('Leaderboard Enabled!');
 
@@ -76,24 +78,24 @@ const nextConfig = {
       },
       {
         source: '/support',
-        destination: 'https://discord.gg/sessiontoken',
+        destination: XPOINT_SITE_URL,
         permanent: false,
       },
       {
         source: '/bridge/arbitrum',
         destination:
-          `https://bridge.arbitrum.io/?destinationChain=arbitrum-${isTestnet ? 'sepolia' : 'one'}&sourceChain=${isTestnet ? 'sepolia' : 'ethereum'}&token=0x10ea9e5303670331bdddfa66a4cea47dae4fcf3b`,
+          `https://bridge.arbitrum.io/?destinationChain=arbitrum-${isTestnet ? 'sepolia' : 'one'}&sourceChain=${isTestnet ? 'sepolia' : 'ethereum'}`,
         permanent: false,
       },
       {
         source: '/bridge/ethereum',
         destination:
-          `https://bridge.arbitrum.io/?destinationChain=${isTestnet ? 'sepolia':'ethereum'}&sourceChain=arbitrum-${isTestnet ? 'sepolia' : 'one'}&token=0x10ea9e5303670331bdddfa66a4cea47dae4fcf3b`,
+          `https://bridge.arbitrum.io/?destinationChain=${isTestnet ? 'sepolia':'ethereum'}&sourceChain=arbitrum-${isTestnet ? 'sepolia' : 'one'}`,
         permanent: false,
       },
       {
         source: '/claim/oxen',
-        destination: 'https://claim.oxen.io',
+        destination: XPOINT_SITE_URL,
         permanent: false,
       }
     ];

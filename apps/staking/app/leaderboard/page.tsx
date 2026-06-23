@@ -1,4 +1,5 @@
 'use client';
+import { URL } from '@/lib/constants';
 import { formatNumber, formatPercentage } from '@/lib/locale-client';
 import { useUser } from '@/providers/user-provider';
 import { PubKey } from '@session/ui/components/PubKey';
@@ -62,10 +63,10 @@ export default function PointsPage() {
           Track the top-performing wallets in the{' '}
           <Link
             target="_blank"
-            href="https://token.getsession.org/testnet-incentive-program"
+            href={URL.INCENTIVE_PROGRAM}
             className="text-session-green underline"
           >
-            Session Testnet Incentive Program
+            XPoint Testnet Program
           </Link>
           . Rankings are based on total points earned through running and staking to nodes.
         </Typography>

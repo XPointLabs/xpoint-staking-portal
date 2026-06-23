@@ -181,7 +181,7 @@ async function generateAbiIndex({ abis, outputDir }: { abis: Array<string>; outp
  * This is the main function that generates the ABIs. It runs when the script is called.
  */
 async function index() {
-  const githubUrl = 'https://github.com/oxen-io/eth-sn-contracts/';
+  const githubUrl = 'https://github.com/XPointLabs/xpoint-staking-contracts/';
   const url = githubUrl.split('/').filter((str) => str);
   const repoName = url.pop();
   const destinationPath = `./.cache/${repoName}`;

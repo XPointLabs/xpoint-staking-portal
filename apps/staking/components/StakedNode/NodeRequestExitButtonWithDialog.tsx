@@ -6,7 +6,7 @@ import {
 import { WalletInteractionButtonWithLocales } from '@/components/WalletInteractionButtonWithLocales';
 import { WizardSectionDescription } from '@/components/Wizard';
 import useRequestNodeExit from '@/hooks/useRequestNodeExit';
-import { SESSION_NODE_TIME, SOCIALS } from '@/lib/constants';
+import { SESSION_NODE_TIME, SOCIALS, URL } from '@/lib/constants';
 import { REMOTE_FEATURE_FLAG } from '@/lib/feature-flags';
 import { useRemoteFeatureFlagQuery } from '@/lib/feature-flags-client';
 import { formatEnglishTimeDistance, formatLocalizedTimeFromSeconds } from '@/lib/locale-client';
@@ -166,7 +166,7 @@ function RequestNodeExitDialog({ node, onSubmit }: { node: Stake; onSubmit: () =
           ),
           linkOut: '',
         })}
-        href="https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#liquidation-penalty"
+        href={URL.NODE_LIQUIDATION_LEARN_MORE}
       />
       <br />
       <p>{dictInfoNotice.rich('requestExit2')}</p>

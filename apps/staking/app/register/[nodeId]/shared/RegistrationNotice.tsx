@@ -1,7 +1,7 @@
 import { useRegistrationWizard } from '@/app/register/[nodeId]/Registration';
 import { Notice } from '@/components/Notice';
 import { WizardSectionDescription } from '@/components/Wizard';
-import { PREFERENCE } from '@/lib/constants';
+import { PREFERENCE, URL } from '@/lib/constants';
 import { ButtonDataTestId, CheckboxDataTestId } from '@/testing/data-test-ids';
 import { useTranslations } from 'next-intl';
 
@@ -18,7 +18,7 @@ export function RegistrationNotice() {
     >
       <WizardSectionDescription
         description={dict.rich('register', { linkOut: '' })}
-        href="https://docs.getsession.org/session-network/session-nodes/deregistration"
+        href={URL.NODE_LIQUIDATION_LEARN_MORE}
       />
     </Notice>
   );

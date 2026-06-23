@@ -1,6 +1,7 @@
 'use client';
 
 import { WizardSectionDescription } from '@/components/Wizard';
+import { URL } from '@/lib/constants';
 import { externalLink } from '@/lib/locale-defaults';
 import { Module, ModuleHeader, ModuleText } from '@session/ui/components/Module';
 import { useTranslations } from 'next-intl';
@@ -15,7 +16,7 @@ export default function NoticeModule() {
         <WizardSectionDescription
           className="mt-6 text-base md:text-base"
           description={dict.rich('description', { linkOut: '' })}
-          href="https://docs.getsession.org/session-network"
+          href={URL.NETWORK_DOCS}
         />
         <br />
         {dict.rich('description2', {

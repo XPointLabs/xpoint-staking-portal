@@ -36,6 +36,7 @@ import {
   SESSION_NODE,
   SESSION_NODE_TIME,
   SESSION_NODE_TIME_STATIC,
+  URL,
 } from '@/lib/constants';
 import {
   formatLocalizedTimeFromSeconds,
@@ -654,7 +655,7 @@ function StakeNodeCardButton({
                 ),
                 linkOut: '',
               })}
-              href="https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#unlock-stake-while-operating"
+              href={URL.NODE_LIQUIDATION_LEARN_MORE}
             />
           }
         >

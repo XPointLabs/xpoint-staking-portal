@@ -12,8 +12,12 @@ import { NEXT_PUBLIC_TESTNET } from './env';
 import type { LocaleKey } from './locale-util';
 
 export const XPOINT_SITE_URL = 'https://xpoint.network/' as const;
+export const XPOINT_DOCS_URL = 'https://docs.xpoint.network' as const;
 export const XPOINT_GITHUB_URL = 'https://github.com/XPointLabs' as const;
 export const SUPPORT_URL = XPOINT_SITE_URL;
+export const XPOINT_ARBITRUM_EXPLORER_URL = NEXT_PUBLIC_TESTNET
+  ? 'https://sepolia.arbiscan.io/token/0x992E6EA54d74e79cd2CEC8D9fBD101a9a105ace5'
+  : 'https://arbiscan.io/token/0x63B2cdb8B0d8774F1Fdca91D24803698582a079F';
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -22,28 +26,29 @@ export const BASE_URL =
 export enum URL {
   ARB_SEP_FAUCET = 'https://faucet.quicknode.com/arbitrum/sepolia',
   GAS_INFO = 'https://ethereum.org/en/developers/docs/gas',
-  SESSION_NODE_DOCS = 'https://docs.getsession.org/session-nodes',
-  INCENTIVE_PROGRAM = 'https://token.getsession.org/testnet-incentive-program',
-  LEARN_MORE_DAILY_REWARDS = 'https://docs.getsession.org/staking-reward-pool#network-reward-rate',
-  LEARN_MORE_TOTAL_REWARDS = 'https://docs.getsession.org/staking-reward-pool#network-reward-rate',
-  LEARN_MORE_UNCLAIMED_REWARDS = 'https://docs.getsession.org/staking-reward-pool#claiming-rewards',
-  OXEN_SERVICE_NODE_BONUS_PROGRAM = 'https://swap.oxen.io/',
-  SESSION_TOKEN_COMMUNITY_SNAPSHOT = 'https://token.getsession.org/testnet-incentive-program',
-  TERMS_AND_CONDITIONS = 'https://token.getsession.org/staking-terms-conditions',
-  BUG_BOUNTY_PROGRAM = 'https://token.getsession.org/bug-bounty-program',
-  TESTNET_REFERRALS = 'https://token.getsession.org/blog/testnet-referrals',
-  TESTNET_REFERRALS_TOS = 'https://token.getsession.org/referral-program-terms',
-  BUG_BOUNTY_TOS = 'https://token.getsession.org/bug-bounty-terms',
-  DOCS = 'https://docs.getsession.org/',
-  SESSION_NODE_SOLO_SETUP_DOCS = 'https://docs.getsession.org/contribute-to-the-session-network/running-a-session-node',
+  SESSION_NODE_DOCS = 'https://docs.xpoint.network/xpoint-nodes',
+  INCENTIVE_PROGRAM = 'https://docs.xpoint.network/developers/local-uat',
+  LEARN_MORE_DAILY_REWARDS = 'https://docs.xpoint.network/xpoint-token/staking-and-rewards',
+  LEARN_MORE_TOTAL_REWARDS = 'https://docs.xpoint.network/xpoint-token/staking-and-rewards',
+  LEARN_MORE_UNCLAIMED_REWARDS = 'https://docs.xpoint.network/xpoint-token/staking-and-rewards',
+  OXEN_SERVICE_NODE_BONUS_PROGRAM = 'https://docs.xpoint.network/xpoint-token/staking-and-rewards',
+  SESSION_TOKEN_COMMUNITY_SNAPSHOT = 'https://docs.xpoint.network/developers/local-uat',
+  TERMS_AND_CONDITIONS = 'https://docs.xpoint.network/xpoint-token/staking-and-rewards',
+  BUG_BOUNTY_PROGRAM = 'https://xpoint.network/',
+  TESTNET_REFERRALS = 'https://docs.xpoint.network/developers/local-uat',
+  TESTNET_REFERRALS_TOS = 'https://docs.xpoint.network/developers/local-uat',
+  BUG_BOUNTY_TOS = 'https://xpoint.network/',
+  DOCS = 'https://docs.xpoint.network/',
+  NETWORK_DOCS = 'https://docs.xpoint.network/xpoint-network',
+  SESSION_NODE_SOLO_SETUP_DOCS = 'https://docs.xpoint.network/xpoint-nodes/setup-production-node',
   REMOVE_TOKEN_FROM_WATCH_LIST = 'https://support.metamask.io/managing-my-tokens/custom-tokens/how-to-remove-a-token/',
-  NODE_LIQUIDATION_LEARN_MORE = 'https://docs.getsession.org/class-is-in-session/session-stagenet-single-contributor-node-setup#unlocking-your-stake',
-  SESSION_NODE_UPDATE_DOCS = 'https://docs.getsession.org/contribute-to-the-session-network/running-a-session-node#keeping-your-binaries-up-to-date',
+  NODE_LIQUIDATION_LEARN_MORE = 'https://docs.xpoint.network/xpoint-token/staking-and-rewards',
+  SESSION_NODE_UPDATE_DOCS = 'https://docs.xpoint.network/xpoint-nodes/upgrade-and-backup',
 }
 
 export const LANDING_BUTTON_URL = {
   PRIMARY: '/stake',
-  SECONDARY: 'https://docs.getsession.org/contribute-to-the-session-network/running-a-session-node',
+  SECONDARY: URL.SESSION_NODE_SOLO_SETUP_DOCS,
 };
 
 // These paths are restricted by the TOS
@@ -120,10 +125,10 @@ export const DYNAMIC_LINKS = {
 export const EXTERNAL_ROUTES: LinkItem[] = [
   { dictionaryKey: 'tokenSite', href: 'https://xpoint.network', linkType: 'external' },
   { dictionaryKey: 'support', href: '/support', linkType: 'external' },
-  { dictionaryKey: 'docs', href: 'https://docs.getsession.org', linkType: 'external' },
-  { dictionaryKey: 'explorer', href: 'https://session.observer', linkType: 'external' },
+  { dictionaryKey: 'docs', href: URL.DOCS, linkType: 'external' },
+  { dictionaryKey: 'explorer', href: XPOINT_ARBITRUM_EXPLORER_URL, linkType: 'external' },
   { dictionaryKey: 'bridgeArbitrum', href: '/bridge/arbitrum', linkType: 'external' },
-  { dictionaryKey: 'swap', href: 'https://claim.oxen.io', linkType: 'external' },
+  { dictionaryKey: 'swap', href: XPOINT_SITE_URL, linkType: 'external' },
 ] as const;
 
 export enum QUERY {
@@ -329,24 +334,15 @@ export enum VOLATILE_STORAGE {
 }
 
 export const REGISTRATION_LINKS: Partial<Record<REG_TAB, string>> = {
-  [REG_TAB.START]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#what-is-the-minimum-and-maximum-i-can-stake-to-a-session-node-as-an-operator',
-  [REG_TAB.STAKE_AMOUNT]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#if-i-am-running-a-multicontributor-node-do-i-also-have-to-stake-sesh',
-  [REG_TAB.OPERATOR_FEE]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#what-is-the-multicontributor-operator-fee',
-  [REG_TAB.REWARDS_ADDRESS]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#can-i-specify-a-separate-rewards-address-from-the-wallet-i-am-registering-my-node-with-or-staking-fr',
-  [REG_TAB.REWARDS_ADDRESS_INPUT_MULTI]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#how-do-staking-rewards-and-operator-fees-get-sent-to-my-wallet-address',
-  [REG_TAB.REWARDS_ADDRESS_INPUT_SOLO]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#how-do-staking-rewards-and-operator-fees-get-sent-to-my-wallet-address',
-  [REG_TAB.RESERVE_SLOTS]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#how-do-i-reserve-a-stake-for-specific-contributors-to-my-multicontributor-node',
-  [REG_TAB.RESERVE_SLOTS_INPUT]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#how-many-contributors-can-i-reserve-stakes-for-on-my-multicontributor-node',
-  [REG_TAB.AUTO_ACTIVATE]:
-    'https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#how-do-i-activate-my-node-once-it-is-fully-staked',
+  [REG_TAB.START]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.STAKE_AMOUNT]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.OPERATOR_FEE]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.REWARDS_ADDRESS]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.REWARDS_ADDRESS_INPUT_MULTI]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.REWARDS_ADDRESS_INPUT_SOLO]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.RESERVE_SLOTS]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.RESERVE_SLOTS_INPUT]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
+  [REG_TAB.AUTO_ACTIVATE]: URL.SESSION_NODE_SOLO_SETUP_DOCS,
 } as const;
 
 export enum BACKEND {

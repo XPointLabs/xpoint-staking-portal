@@ -1,8 +1,7 @@
 # @session/staking-api-js
 
-This package is a js library for interacting with the Session Token staking
-backend. The backend can be found in
-the [Session Token Staking Backend](https://github.com/oxen-io/sent-staking-backend/) repository.
+This package is a JS library for interacting with the XPoint staking backend.
+The backend lives in the [XPoint staking backend](https://github.com/XPointLabs/xpoint-staking-backend) repository.
 
 ## Getting Started
 

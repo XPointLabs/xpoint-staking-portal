@@ -1,6 +1,6 @@
 # @session/wallet
 
-This package is a wallet library for interacting with the Session Token.
+This package is a wallet library for interacting with XPNT and the XPoint staking portal.
 
 ## Getting Started
 

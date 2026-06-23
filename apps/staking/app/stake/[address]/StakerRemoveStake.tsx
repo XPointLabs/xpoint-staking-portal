@@ -8,6 +8,7 @@ import {
   SESSION_NODE_SMALL_CONTRIBUTOR_AMOUNT,
   SESSION_NODE_TIME,
   SESSION_NODE_TIME_STATIC,
+  URL,
 } from '@/lib/constants';
 import { NEXT_PUBLIC_TESTNET } from '@/lib/env';
 import { formatLocalizedTimeFromSeconds } from '@/lib/locale-client';
@@ -147,7 +148,7 @@ export function StakerRemoveStake({
             ),
             linkOut: '',
           })}
-          href="https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#unlock-stake-before-registration"
+          href={URL.NODE_LIQUIDATION_LEARN_MORE}
         />
       }
     >

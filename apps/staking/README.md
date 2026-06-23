@@ -1,53 +1,33 @@
-# Session Staking
+# XPoint Staking Portal
 
-Session Staking is a [Next.js](https://nextjs.org/) app for managing and staking
-to [Session Nodes](https://github.com/oxen-io/oxen-core).
+XPoint Staking Portal is a [Next.js](https://nextjs.org/) app for registering XPoint nodes, staking XPNT, claiming rewards, and managing node exits.
 
 ## Getting Started
 
-You can follow the generic instructions in the root [README.md](../../README.md#getting-started) to get started.
+Follow the generic instructions in the root [README.md](../../README.md#getting-started) to install dependencies and run workspace commands.
 
 ## Development
 
-Running the app requires several environment variables to be set. See the [.env.local.template](.env.local.template)
-file for a list
-of required variables.
+Running the app requires several environment variables. See [.env.local.template](.env.local.template) for the local variable list.
 
-We recommend running the [Session Token Staking Backend](https://github.com/oxen-io/sent-staking-backend/) and
-a [Session Node](https://github.com/oxen-io/oxen-core) yourself to ensure any changes you make will work
-with the latest changes.
+For local end-to-end work, run the XPoint UAT stack from `deep-devops`:
 
-### Session Node
-
-You'll need a [Session Node](https://github.com/oxen-io/oxen-core) to make RPC calls to, this node
-does not need to be staked to and does not need to join the network as a participating node. You'll need to run the
-following to start the node:
-
-```shell
-oxend --stagenet --lmq-public tcp://127.0.0.1:<PORT> --l2-provider https://sepolia-rollup.arbitrum.io/rpc
+```powershell
+docker compose --env-file ..\deep-devops\.env.uat -f ..\deep-devops\docker-compose.uat.yml up -d --build --wait
 ```
 
-You can then set the `NEXT_PUBLIC_SENT_EXPLORER_API_URL` environment variable in your `.env.local` file to point to
-the Session Node's RPC endpoint (`tcp://127.0.0.1:<PORT>` in the example above).
+The portal talks to:
 
-**Note:** You can use any available port for the node RPC endpoint, just make sure it's consistent in all places.
+- XPoint staking backend: `NEXT_PUBLIC_BACKEND_API_URL`
+- XPoint network API/RPC proxy: `NEXT_PUBLIC_NETWORK_API_URL`
+- browser-safe Arbitrum RPC proxy: `NEXT_PUBLIC_RPC_URL_ARB=/api/network/rpc/arbitrum`
 
-### Session Token Staking Backend
+Do not put private RPC provider URLs in `NEXT_PUBLIC_*` variables. Private Arbitrum RPC providers belong behind the staking backend proxy.
 
-Set up the [Session Token Staking Backend](https://github.com/oxen-io/sent-staking-backend/) by following the
-instructions in the [README.md](https://github.com/oxen-io/sent-staking-backend/blob/main/README.md).
+## Operator docs
 
-Make sure the `config.py` file in the backend directory has the following values:
+Node setup and staking flow are documented in the XPoint docs portal:
 
-```python
-stagenet_rpc = 'tcp://127.0.0.1:<PORT>'
-```
-
-You can then run the backend with the following command:
-
-```shell
-uwsgi --http 127.0.0.1:5000 --master -p 4 -w sent --callable app --fs-reload sent.py 
-```
-
-You can then set the `NEXT_PUBLIC_SENT_STAKING_BACKEND_URL` environment variable in your `.env.local` file to point to
-the Session Token Staking Backend's RPC endpoint (`http://127.0.0.1:5000` in the example above).
+- [Production node setup](https://docs.xpoint.network/xpoint-nodes/setup-production-node)
+- [Register and stake a node](https://docs.xpoint.network/xpoint-nodes/register-node)
+- [Staking, rewards, exits, and liquidation](https://docs.xpoint.network/xpoint-token/staking-and-rewards)

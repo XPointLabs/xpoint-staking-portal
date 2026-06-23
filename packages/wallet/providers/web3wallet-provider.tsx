@@ -104,10 +104,10 @@ function TokenActionButton({ href, children }: { href: string; children: ReactNo
   );
 }
 
-const sessionTokenOptions = {
+const xpntArbitrumOneTokenOptions = {
   name: 'XPNT',
   iconSrc: '/images/xpoint-logo-256.png',
-  tokenAddress: '0x10Ea9E5303670331Bdddfa66A4cEA47dae4fcF3b',
+  tokenAddress: '0x63B2cdb8B0d8774F1Fdca91D24803698582a079F',
   showAddTokenButton: true,
 } as const;
 
@@ -119,24 +119,13 @@ const xpntTokenOptions = {
 } as const;
 
 const tokenDetailsArbitrum: DynamicTokenRowProps = {
-  ...sessionTokenOptions,
+  ...xpntArbitrumOneTokenOptions,
   network: {
     id: arbitrum.id,
     name: 'Arbitrum One',
     iconSrc: '/images/arbitrum.svg',
   },
   children: <TokenActionButton href="/stake">Stake</TokenActionButton>,
-};
-
-const tokenDetailsEthereum: DynamicTokenRowProps = {
-  ...sessionTokenOptions,
-  network: {
-    id: mainnet.id,
-    name: 'Ethereum',
-    iconSrc: '/images/eth.svg',
-    className: 'bg-session-white',
-  },
-  children: <TokenActionButton href="/bridge/arbitrum">Bridge</TokenActionButton>,
 };
 
 const tokenDetailsArbitrumSepolia: DynamicTokenRowProps = {
@@ -147,20 +136,6 @@ const tokenDetailsArbitrumSepolia: DynamicTokenRowProps = {
     iconSrc: '/images/arbitrum.svg',
   },
   children: <TokenActionButton href="/stake">Stake</TokenActionButton>,
-};
-
-const tokenDetailsWOXENEthereum: DynamicTokenRowProps = {
-  tokenAddress: '0xd1e2d5085b39B80C9948AeB1b9aA83AF6756bcc5',
-  name: 'Wrapped OXEN',
-  iconSrc: '/images/woxen.svg',
-  network: {
-    id: mainnet.id,
-    name: 'Ethereum',
-    iconSrc: '/images/eth.svg',
-    className: 'bg-session-white',
-  },
-  hideIfZero: true,
-  children: <TokenActionButton href="https://claim.oxen.io">Migrate</TokenActionButton>,
 };
 
 export type ConfigParams = {
@@ -214,9 +189,7 @@ const createConfig = ({
 
   config.componentLibrary = componentLibrary;
 
-  config.tokens = testnet
-    ? [tokenDetailsArbitrumSepolia]
-    : [tokenDetailsArbitrum, tokenDetailsEthereum, tokenDetailsWOXENEthereum];
+  config.tokens = testnet ? [tokenDetailsArbitrumSepolia] : [tokenDetailsArbitrum];
 
   return config;
 };

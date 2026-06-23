@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
 import useRelativeTime from '@/hooks/useRelativeTime';
+import { URL } from '@/lib/constants';
 import { useFormatDate } from '@/lib/locale-client';
 import { isDateSoonOrPast } from '@/lib/maths';
 
@@ -48,7 +49,7 @@ export const NodeReadyForExitNotification = ({
               linkOut: '',
             }
           )}
-          href="https://docs.getsession.org/contribute-to-the-session-network/frequently-asked-questions-faq#liquidation-penalty "
+          href={URL.NODE_LIQUIDATION_LEARN_MORE}
         />
       }
     >
